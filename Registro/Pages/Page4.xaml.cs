@@ -23,11 +23,21 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             InfoList.ItemsSource = GetItems();
 
-            MenuGrid.HeightRequest = App.ScreenHeight * 0.1;
-            Head.HeightRequest = App.ScreenHeight * 0.1;
-            Body.HeightRequest = App.ScreenHeight * 0.9;
+            MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
+            Head.HeightRequest = App.ScreenHeight * 0.08;
+            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+            InfoList.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-            Title = "4 - Full animation with touch listner";
+            if (Device.RuntimePlatform == Device.iOS)
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+
+            InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
+            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
+
+            var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            tgr.Tapped += (sender, args) => { settings(); };
+            Setting.GestureRecognizers.Add(tgr);
         }
 
 
@@ -38,7 +48,33 @@ namespace Registro.Pages
             //PrepareAnimate();
         }
 
+        public void settings()
+        {
+            //Navigation.PushAsync(new HomePage());
+        }
 
+        private void ItemTapped(ItemTappedEventArgs e)
+        {
+
+        }
+
+        private async Task RefreshAsync(ListView list)
+        {
+            await Task.Delay(2000);
+            list.IsRefreshing = false;
+        }
+
+
+
+
+
+
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------Animations--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------------------------------
 
 
         #region MoveList
@@ -130,7 +166,7 @@ namespace Registro.Pages
         {
             var list = new List<Item>();
 
-            for (int i = 1; i < 20; i++)
+            for (int i = 1; i < 7; i++)
             {
                 list.Add(new Item("item " + i, i));
             }

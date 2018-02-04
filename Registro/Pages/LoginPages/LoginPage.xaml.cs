@@ -50,7 +50,7 @@ namespace Registro.Pages
             User user = new User("gen220", "2006stella", school);
 
             HttpRequest myReq = new HttpRequest(user);
-            myReq.extractAllAsync();
+            await myReq.extractAllAsync();
 
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;

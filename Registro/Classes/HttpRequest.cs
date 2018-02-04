@@ -27,12 +27,12 @@ namespace Registro
             this.User = user;
         }
 
-        public async void extractAllAsync()
+        public async Task<String> extractAllAsync()
         {
-            LoginAsync();
+            await LoginAsync();
 
             String marksPage = await getMarksPageAsync();
-            extratMarks(marksPage);
+            return "Done";
         }
 
 

@@ -94,6 +94,7 @@
     <Compile Include="Pages\Page4.xaml.cs">
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\MenuOption.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

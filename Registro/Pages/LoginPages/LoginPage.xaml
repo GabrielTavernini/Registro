@@ -15,8 +15,8 @@
     
     <xfg:ContentPageGloss.BackgroundGradient>
         <xfg:Gradient Rotation="150">
-           <xfg:GradientStep StepColor="#512DA8" StepPercentage="0" />
-           <xfg:GradientStep StepColor="#7B1FA2" StepPercentage="1" />
+           <xfg:GradientStep StepColor="#FFC4FF" StepPercentage="0" />
+           <xfg:GradientStep StepColor="#EA00EA" StepPercentage="1" />
       </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
 

@@ -52,7 +52,7 @@ namespace App3.iOS.Renders
             UITouch touch = touches.AnyObject as UITouch;
             if (touch != null)
             {
-                MainElement.DoTouchEvent((difference / 10));
+                MainElement.DoTouchEvent((difference / 5));
             }
             // reset our tracking flags
             touchStartedInside = false;
