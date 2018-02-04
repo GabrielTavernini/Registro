@@ -17,6 +17,9 @@ namespace Registro.iOS
             App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
             App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
 
+            // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
+            XFGloss.iOS.Library.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
