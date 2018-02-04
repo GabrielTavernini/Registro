@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Registro.Pages
 {
-    public partial class HomePage : ContentPage
+    public partial class MarksPage : ContentPage
     {
-        public HomePage()
+        public MarksPage()
         {
             InitializeComponent();
         }

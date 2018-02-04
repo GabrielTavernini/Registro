@@ -44,6 +44,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\MarksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\AveragesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -70,6 +78,15 @@
     <Compile Include="Pages\Menu\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MarksPages\MarksPage.xaml.cs">
+      <DependentUpon>MarksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MarksPages\AveragesPage.xaml.cs">
+      <DependentUpon>AveragesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LayoutTouchListner.cs" />
+    <Compile Include="Controls\SearchPageViewCellWithId.cs" />
+    <Compile Include="Models\Item.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
@@ -99,7 +116,8 @@
     <Folder Include="Pages\LoginPages\" />
     <Folder Include="Controls\" />
     <Folder Include="Pages\Menu\" />
-    <Folder Include="Pages\Marks\" />
+    <Folder Include="Pages\MarksPages\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
