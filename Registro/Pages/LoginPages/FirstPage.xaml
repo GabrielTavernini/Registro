@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:local="clr-namespace:Registro.Controls"
+    xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+    x:Class="Registro.Pages.FirstPage">
+
+    <local:XamarinFormsPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
+        </ResourceDictionary>
+    </local:XamarinFormsPage.Resources>
+
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="150">
+            <xfg:GradientStep StepColor="#03A9F4" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#303F9F" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+    
+    <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
+            <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center">
+                <Label AutomationId="label1" Text="Benvenuti nell'app registro, questa applicazione consente di accedere al registo OpenSource, Lampschool!"
+                    FontSize="Medium" XAlign="Center" />
+            </StackLayout>
+
+            <StackLayout x:Name="label2" Grid.Row="1" Padding="24,0" VerticalOptions="Center">
+                <Label AutomationId="label2" Text="Prima di tutto, procedi ad inserire le tue credenziali d'acesso." FontSize="Medium" XAlign="Center" />
+            </StackLayout>
+
+        
+            <StackLayout x:Name="buttonStack" Spacing="0" Grid.Row="2" VerticalOptions="End">
+                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="CONTINUA"
+                    VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
+                    Clicked="AuthButtonClicked" />
+            </StackLayout>
+        
+        </Grid>
+    
+</ContentPage>

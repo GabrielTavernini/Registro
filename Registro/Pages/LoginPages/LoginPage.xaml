@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Registro.Controls"
+    xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+    x:Class="Registro.Pages.LoginPage">
+
+    <local:LoginPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
+        </ResourceDictionary>
+    </local:LoginPage.Resources>
+    
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="150">
+           <xfg:GradientStep StepColor="#512DA8" StepPercentage="0" />
+           <xfg:GradientStep StepColor="#7B1FA2" StepPercentage="1" />
+      </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" >
+            
+            <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center" Grid.Row="0">
+                <Label AutomationId="label1" Text="Inserisci le credenziali per l'acceso al registro elettronico della scuola selezionata!"
+                    FontSize="Medium" XAlign="Center" />
+            </StackLayout>
+        
+            <StackLayout x:Name="LoginStack" Spacing="0" Padding="24,0" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+                <Entry x:Name="UserEntry" Placeholder="Username" FontSize="Medium" WidthRequest="250" 
+                        TextColor="White" PlaceholderColor="Silver"/>
+                <Entry x:Name="PassEntry" Placeholder="Password" FontSize="Medium" IsPassword="true" 
+                        WidthRequest="250" TextColor="White" PlaceholderColor="Silver"/>
+            </StackLayout>
+        
+            <StackLayout x:Name="buttonStack" Spacing="0" Grid.Row="2" VerticalOptions="End">
+                <ActivityIndicator x:Name="LoadingIndicator" IsVisible="false" IsRunning="false" Color="White" HorizontalOptions="Center"
+                    VerticalOptions="EndAndExpand" />
+
+                <Label x:Name="LodingLabel" Text="Loading..." IsVisible="false"  FontSize="Medium"
+                    XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
+                
+                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="LOGIN"
+                    VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
+                    Clicked="AuthButtonClicked" />
+            </StackLayout>
+            
+        </Grid>
+
+    </AbsoluteLayout>
+
+</ContentPage>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:local="clr-namespace:Registro.Controls"
+    xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+    x:Class="Registro.Pages.SchoolPage">
+  
+    <local:SchoolPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
+        </ResourceDictionary>
+    </local:SchoolPage.Resources>
+    
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="150">
+           <xfg:GradientStep StepColor="#18CE27" StepPercentage="0" />
+           <xfg:GradientStep StepColor="#267515" StepPercentage="1" />
+      </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+
+    <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
+        <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center" Grid.Row="0">
+            <Label AutomationId="label1" Text="Slezionare la scuola al quale registro si desidera accedere!"
+                FontSize="Medium" XAlign="Center"/>
+        </StackLayout>
+    
+        <StackLayout x:Name="PickerStack" Spacing="0" Padding="24,0" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <Picker x:Name="SchoolPicker" HorizontalOptions="Center" HeightRequest="40" WidthRequest="250" Title="Seleziona scuola" TextColor="White">
+                <Picker.Items>
+                    <x:String>SSPG Campiglio</x:String> 
+                    <x:String>IC Valle di Ledro - medie</x:String> 
+                    <x:String>IC Valle di Ledro - Primarie di Molina, Concei, Tiarno di Sotto</x:String> 
+                    <x:String>I.C. Isera-Rovereto</x:String> 
+                    <x:String>IC Valle dei Laghi Dro - SSPG Cavedine</x:String> 
+                    <x:String>IC Valle dei Laghi Dro - SSPG Dro</x:String> 
+                    <x:String>IC Valle dei Laghi Dro - SSPG Vezzano</x:String>
+                </Picker.Items>
+            </Picker>         
+        </StackLayout>
+    
+        <StackLayout x:Name="buttonStack" Spacing="0" Grid.Row="2" VerticalOptions="End">
+            <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="CONTINUA"
+                VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
+                Clicked="AuthButtonClicked" />
+        </StackLayout>
+    </Grid>
+    
+</ContentPage>
