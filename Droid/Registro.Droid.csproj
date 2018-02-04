@@ -154,6 +154,8 @@
     <AndroidResource Include="Resources\drawable\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable\LaunchView.xml" />
     <AndroidResource Include="Resources\values\color.xml" />
+    <AndroidResource Include="Resources\drawable\settings_icon.png" />
+    <AndroidResource Include="Resources\drawable\HomeHead.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />
