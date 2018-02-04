@@ -26,7 +26,7 @@ namespace Registro.Pages
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
-            InfoList.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+            InfoList.HeightRequest = 200;
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0);
@@ -166,7 +166,7 @@ namespace Registro.Pages
         {
             var list = new List<Item>();
 
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < 20; i++)
             {
                 list.Add(new Item("item " + i, i));
             }
