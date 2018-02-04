@@ -20,7 +20,7 @@ namespace Registro
         public App()
         {
             InitializeComponent();
-
+            //Lol
             MainPage = new NavigationPage(new FirstPage());
         }
 
