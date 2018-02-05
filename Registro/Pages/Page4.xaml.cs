@@ -34,6 +34,7 @@ namespace Registro.Pages
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
+
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             tgr.Tapped += (sender, args) => { settings(); };
             Setting.GestureRecognizers.Add(tgr);
@@ -54,7 +55,7 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-
+            
         }
 
         private async Task RefreshAsync(ListView list)
@@ -91,6 +92,8 @@ namespace Registro.Pages
 
             LayoutTouchListnerCtrl.IsEnebleScroll = true;
 
+            System.Diagnostics.Debug.WriteLine(IsUpper);
+            System.Diagnostics.Debug.WriteLine("Val: " + a.Val);
             // ignore the weak touch
             if (a.Val > 10 || a.Val < -10)
             {
@@ -115,7 +118,6 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstApper(object sender, EventArgs e)
         {
-            IsUpper = true;
             MoveDown();
         }
 
@@ -126,12 +128,14 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstDisapp(object sender, EventArgs e)
         {
-            IsUpper = false;
             MoveUp();
         }
 
         private void MoveDown()
         {
+            IsUpper = false;
+            System.Diagnostics.Debug.WriteLine("Down" + Body.Height);
+
             Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
@@ -139,6 +143,9 @@ namespace Registro.Pages
 
         private void MoveUp()
         {
+            IsUpper = true;
+            System.Diagnostics.Debug.WriteLine("Up");
+
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);

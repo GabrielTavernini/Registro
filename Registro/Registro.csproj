@@ -95,6 +95,7 @@
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuOption.cs" />
+    <Compile Include="Controls\SwipwListner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

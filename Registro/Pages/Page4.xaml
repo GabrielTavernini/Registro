@@ -20,7 +20,7 @@
 
 
     <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="0">
-        <ListView x:Name="InfoList"  ItemAppearing="SearchPageViewCellWithId_OnFirstDisapp" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+        <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
             <ListView.ItemTemplate>
                 <DataTemplate>
 

@@ -24,6 +24,7 @@ namespace Registro.Controls
         public event EventHandler TouchEvent;
         public void DoTouchEvent(float? ytouch)
         {
+            System.Diagnostics.Debug.WriteLine("DoTouchEvent");
             YTouch = ytouch;
             EventHandler eh = TouchEvent;
             if (eh != null)
