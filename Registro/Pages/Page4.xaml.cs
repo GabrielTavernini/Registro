@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App3.Models;
 using Registro.Controls;
+using Registro.Models;
 using SwipeLib;
 using Xamarin.Forms;
 
@@ -28,8 +28,7 @@ namespace Registro.Pages
             Head.HeightRequest = App.ScreenHeight * 0.08;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-            if (Device.RuntimePlatform == Device.iOS)
-                Setting.Margin = new Thickness(0, 20, 0, 0);
+
 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
@@ -40,9 +39,9 @@ namespace Registro.Pages
             tgr.Tapped += (sender, args) => { settings(); };
             Setting.GestureRecognizers.Add(tgr);
 
-            SwipeListener sl = new SwipeListener(Body);
-            sl.SwipeUp += (sender, e) => { MoveUp(); };
-            sl.SwipeDown += (sender, e) => { MoveDown(); };
+            if (Device.RuntimePlatform == Device.iOS)
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+            
         }
 
 
@@ -97,8 +96,6 @@ namespace Registro.Pages
 
             LayoutTouchListnerCtrl.IsEnebleScroll = true;
 
-            System.Diagnostics.Debug.WriteLine(IsUpper);
-            System.Diagnostics.Debug.WriteLine("Val: " + a.Val);
             // ignore the weak touch
             if (a.Val > 10 || a.Val < -10)
             {
@@ -123,6 +120,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstApper(object sender, EventArgs e)
         {
+            IsUpper = true;
             MoveDown();
         }
 
@@ -133,14 +131,12 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstDisapp(object sender, EventArgs e)
         {
+            IsUpper = false;
             MoveUp();
         }
 
         private void MoveDown()
         {
-            IsUpper = false;
-            System.Diagnostics.Debug.WriteLine("Down" + Body.Height);
-
             Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
@@ -148,21 +144,9 @@ namespace Registro.Pages
 
         private void MoveUp()
         {
-            IsUpper = true;
-            System.Diagnostics.Debug.WriteLine("Up");
-
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
-        }
-
-
-        private async void PrepareAnimate()
-        {
-            await MainImage.ScaleTo(3, 250, Easing.Linear);
-            await Body.TranslateTo(0, 200, 50, Easing.Linear);
-            await MenuGrid.TranslateTo(0, 100, 50, Easing.Linear);
-            await TitleLabel.ScaleTo(2, 50, Easing.Linear);
         }
 
         #endregion
@@ -173,13 +157,13 @@ namespace Registro.Pages
         /// Fake items for listView
         /// </summary>
         /// <returns></returns>
-        private List<Item> GetItems()
+        private List<MenuOption> GetItems()
         {
-            var list = new List<Item>();
+            var list = new List<MenuOption>();
 
-            for (int i = 1; i < 8; i++)
+            for (int i = 1; i < 21; i++)
             {
-                list.Add(new Item("item " + i, i));
+                list.Add(new MenuOption("Voti", ImageSource.FromFile("HomeIcon.png"), Color.Orange, i));
             }
             return list;
         }

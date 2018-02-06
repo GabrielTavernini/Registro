@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro"
+             xmlns:models="clr-namespace:Registro.Models;assembly=Registro"
              x:Class="Registro.Pages.Page4">
 
   <controls:LayoutTouchListner x:Name="LayoutTouchListnerCtrl" Orientation="Vertical" TouchEvent="LayoutTouchListner_OnTouchEvent" Spacing="0">
@@ -18,29 +19,19 @@
         </Grid>
     </Grid>
 
+        <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="10, 0, 10, 0">
+            <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
 
-    <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="0">
-        <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
-            <ListView.ItemTemplate>
-                <DataTemplate>
+                        <models:MenuCell 
+                            FirstApper="SearchPageViewCellWithId_OnFirstApper"
+                            FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp">
+                        </models:MenuCell>
 
-                    <controls:SearchPageViewCellWithId FirstApper="SearchPageViewCellWithId_OnFirstApper" FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp" ItemId="{Binding Id}">
-                      <StackLayout BackgroundColor="Transparent" Padding="5">
-                        <Frame Padding="5" BackgroundColor="White">
-                          <StackLayout Padding="5" Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">
-                            <Image Source="icon.png" Aspect="AspectFit" HeightRequest="50"  BackgroundColor="Transparent" HorizontalOptions="StartAndExpand"  />
-                            <StackLayout Padding="20,0,0,0" HorizontalOptions="EndAndExpand">
-                              <Label Text="{Binding Text}" TextColor="Black" FontSize="20" VerticalOptions="CenterAndExpand" />
-                            </StackLayout>
-                          </StackLayout>
-                        </Frame>
-                      </StackLayout>
-                    </controls:SearchPageViewCellWithId>
-
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
   </controls:LayoutTouchListner>
 </ContentPage>
