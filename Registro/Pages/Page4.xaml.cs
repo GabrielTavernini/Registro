@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
-using SwipeLib;
 using Xamarin.Forms;
 
 namespace Registro.Pages
