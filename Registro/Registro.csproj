@@ -74,7 +74,6 @@
     <Compile Include="Classes\Grade.cs" />
     <Compile Include="Classes\HttpRequest.cs" />
     <Compile Include="Classes\MD5.cs" />
-    <Compile Include="Classes\MenuOption.cs" />
     <Compile Include="Classes\Subject.cs" />
     <Compile Include="Classes\School.cs" />
     <Compile Include="Classes\User.cs" />
@@ -95,6 +94,8 @@
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuOption.cs" />
+    <Compile Include="Models\MenuCell.cs" />
+    <Compile Include="Models\MarkCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
@@ -114,6 +115,9 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="XFShapeView">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\portable-net45+wp80+win8+wpa81\XFShapeView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -121,6 +121,12 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="XFShapeView">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.dll</HintPath>
+    </Reference>
+    <Reference Include="XFShapeView.Droid">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.Droid.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Registro\Registro.csproj">
@@ -156,6 +162,11 @@
     <AndroidResource Include="Resources\values\color.xml" />
     <AndroidResource Include="Resources\drawable\settings_icon.png" />
     <AndroidResource Include="Resources\drawable\HomeHead.png" />
+    <AndroidResource Include="Resources\drawable\ArgomentiIcon.png" />
+    <AndroidResource Include="Resources\drawable\AssenzeIcon.png" />
+    <AndroidResource Include="Resources\drawable\HomeIcon.png" />
+    <AndroidResource Include="Resources\drawable\MedieIcon.png" />
+    <AndroidResource Include="Resources\drawable\NoteIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />

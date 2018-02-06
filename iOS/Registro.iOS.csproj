@@ -106,6 +106,12 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="XFShapeView">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\Xamarin.iOS10\XFShapeView.dll</HintPath>
+    </Reference>
+    <Reference Include="XFShapeView.iOS">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\Xamarin.iOS10\XFShapeView.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Registro\Registro.csproj">
@@ -139,6 +145,13 @@
     <BundleResource Include="Resources\icon_transparent.png" />
     <BundleResource Include="Resources\icon.png" />
     <BundleResource Include="Resources\HomeHead.png" />
+    <BundleResource Include="Resources\ArgomentiIcon.png" />
+    <BundleResource Include="Resources\AssenzeIcon.png" />
+    <BundleResource Include="Resources\HomeIcon.png" />
+    <BundleResource Include="Resources\LaunchView.xml" />
+    <BundleResource Include="Resources\MedieIcon.png" />
+    <BundleResource Include="Resources\NoteIcon.png" />
+    <BundleResource Include="Resources\settings_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />
