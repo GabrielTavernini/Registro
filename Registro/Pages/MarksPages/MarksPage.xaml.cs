@@ -31,6 +31,7 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0);
+            
         }
 
         protected override void OnAppearing()
@@ -146,7 +147,11 @@ namespace Registro.Pages
             foreach(Grade g in App.Grades)
             {
                 dictionary.Add(g.dateTime, g);
+                System.Diagnostics.Debug.WriteLine(g.gradeString);
             }
+
+            System.Diagnostics.Debug.WriteLine(App.Grades.Count);
+
 
             List<Grade> list = new List<Grade>(dictionary.Values);
             list.Reverse();

@@ -46,6 +46,9 @@ namespace Registro.Models
 
             mainG.Children.Add(dateL, 2, 0);
             Grid.SetRowSpan(dateL, 2);
+
+
+            View = mainG;
             //-----------------Bindings-----------------
 
             this.SetBinding(ItemIdProperty, nameof(Grade.Id));
