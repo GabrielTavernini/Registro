@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using XFShapeView;
 
 namespace Registro.Models
 {
@@ -7,12 +8,51 @@ namespace Registro.Models
     {
         public MarkCell()
         {
+            Label subjectL = new Label() { TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
+            Label dateL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.End, TextColor = Color.DimGray, FontSize = 12, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.End };
+            Label typeL = new Label() { TextColor = Color.DimGray, FontSize = 12, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
+            Label gradeL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Center };
 
+            var gradeF = new ShapeView()
+            {
+                BackgroundColor = Color.DarkBlue,
+                ShapeType = ShapeType.Circle,
+                HeightRequest = 50,
+                WidthRequest = 50,
+                Content = gradeL
+            };
 
+            Grid mainG = new Grid()
+            {
+                BackgroundColor = Color.Transparent,
+                ColumnDefinitions = {
+                    new ColumnDefinition{Width = GridLength.Auto},
+                    new ColumnDefinition{Width = GridLength.Auto},
+                    new ColumnDefinition{Width = GridLength.Auto},
+                },
+
+                RowDefinitions = {
+                    new RowDefinition{Height = GridLength.Auto},
+                    new RowDefinition{Height = GridLength.Auto}
+                }
+            };
+
+            mainG.Children.Add(gradeF, 0, 0);
+            Grid.SetRowSpan(gradeF, 2);
+
+            mainG.Children.Add(subjectL, 1, 0);
+
+            mainG.Children.Add(typeL, 1, 1);
+
+            mainG.Children.Add(dateL, 2, 0);
+            Grid.SetRowSpan(dateL, 2);
             //-----------------Bindings-----------------
 
-            this.SetBinding(ItemIdProperty, nameof(MenuOption.Id));
-
+            this.SetBinding(ItemIdProperty, nameof(Grade.Id));
+            gradeL.SetBinding(Label.TextProperty, nameof(Grade.gradeString));
+            subjectL.SetBinding(Label.TextProperty, nameof(Grade.subjectName));
+            typeL.SetBinding(Label.TextProperty, nameof(Grade.type));
+            dateL.SetBinding(Label.TextProperty, nameof(Grade.date));
         }
 
         protected override void OnAppearing()

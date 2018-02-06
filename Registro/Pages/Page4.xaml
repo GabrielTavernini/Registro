@@ -21,19 +21,6 @@
         <Image x:Name="DoubleUp" Source="double_up.png" Aspect="Fill" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="15" WidthRequest="20"/>
     </Grid>
 
-        <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="10,0,10,0">
-            <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
 
-                        <models:MenuCell 
-                            FirstApper="SearchPageViewCellWithId_OnFirstApper"
-                            FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp">
-                        </models:MenuCell>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
   </controls:LayoutTouchListner>
 </ContentPage>

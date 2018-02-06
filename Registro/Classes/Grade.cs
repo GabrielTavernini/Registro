@@ -14,6 +14,7 @@ namespace Registro
         public String type { get; set; }
         public float grade { get; set; }
         public Subject subject { get; set; }
+        public String subjectName { get => this.subject.name; }
         public String gradeString { get; set; }
         public DateTime dateTime { get; set; }
         public int Id { get; set; }

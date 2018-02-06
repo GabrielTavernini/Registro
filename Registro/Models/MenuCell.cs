@@ -8,56 +8,56 @@ namespace Registro.Models
         public MenuCell()
         {
             Frame mainF;
-            RelativeLayout rl = new RelativeLayout() { BackgroundColor = Color.Transparent, Margin = new Thickness(0, 10, 0, 0)};
+            RelativeLayout rl = new RelativeLayout() { BackgroundColor = Color.Transparent};
 
             if (Device.RuntimePlatform == Device.Android)
             {
-                Frame shadow = new Frame() { CornerRadius = 8, BackgroundColor = Color.LightGray };
-                rl.Children.Add(shadow, Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.X + 4;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Y + 4;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Width - 4;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Height - 4;
-                }));
+                Frame shadow = new Frame() { CornerRadius = 8, BackgroundColor = Color.Gray };
+                    rl.Children.Add(shadow, Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.X + 4;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Y + 14;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Width - 4;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Height - 14;
+                    }));
 
-                mainF = new Frame() { CornerRadius = 8, BackgroundColor = Color.LightGray };
-                rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.X;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Y;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Width - 4;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Height - 4;
-                }));
+                mainF = new Frame() { CornerRadius = 8};
+                    rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.X;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Y + 10;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Width - 4;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Height - 14;
+                    }));
             }
             else
             {
-                mainF = new Frame() { CornerRadius = 8, BackgroundColor = Color.LightGray };
-                rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.X;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Y;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Width;
-                }), Constraint.RelativeToParent((parent) =>
-                {
-                    return parent.Height;
-                }));
+                mainF = new Frame() { CornerRadius = 8 };
+                    rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.X;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Y + 10;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Width;
+                    }), Constraint.RelativeToParent((parent) =>
+                    {
+                        return parent.Height - 10;
+                    }));
             }
 
             Label title = new Label() 

@@ -21,15 +21,9 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            InfoList.ItemsSource = GetItems();
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
-            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
-
-            InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
-            InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
 
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -133,7 +127,6 @@ namespace Registro.Pages
         private void MoveDown()
         {
             DoubleUp.IsVisible = true;
-            Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
@@ -141,7 +134,6 @@ namespace Registro.Pages
 
         private void MoveUp()
         {
-            Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);

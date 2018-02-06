@@ -20,8 +20,8 @@ namespace Registro.Droid
 
             base.OnCreate(savedInstanceState);
 
-            App.ScreenWidth = (int)((int)Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density); // real pixels
-            App.ScreenHeight = (int)((int)Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density); // real pixels
+            App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density); // real pixels
+            App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density); // real pixels
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

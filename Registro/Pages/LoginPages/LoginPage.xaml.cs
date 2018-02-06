@@ -47,7 +47,7 @@ namespace Registro.Pages
                 "Dro"
             );
 
-            User user = new User("", "", school);
+            User user = new User("gen220", "2006stella", school);
 
             HttpRequest myReq = new HttpRequest(user);
             await myReq.extractAllAsync();
@@ -60,7 +60,7 @@ namespace Registro.Pages
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            await Navigation.PushAsync(new Page4());
+            await Navigation.PushAsync(new MarksPage());
         }
 
         protected async override void OnAppearing()

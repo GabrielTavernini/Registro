@@ -20,8 +20,8 @@ namespace Registro
         public App()
         {
             InitializeComponent();
-            //Lol
-            MainPage = new NavigationPage(new HomePage());
+
+            MainPage = new NavigationPage(new FirstPage());
         }
 
         protected override void OnStart()
