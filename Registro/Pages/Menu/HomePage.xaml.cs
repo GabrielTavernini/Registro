@@ -163,22 +163,23 @@ namespace Registro.Pages
             list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#4cdbc4"), 5));
             list.Add(new MenuOption("Cambia Password", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#84dbff"), 6));
 
-            System.Diagnostics.Debug.WriteLine(((150 * list.Count) - (235)));
-
-            if(((150 * list.Count) - (235)) < App.ScreenHeight)
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                double nd = (double) ((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
-                int n = (int) Math.Ceiling(nd);
-                System.Diagnostics.Debug.WriteLine(nd);
-                System.Diagnostics.Debug.WriteLine(n);
+                if (((150 * list.Count) - (235)) < App.ScreenHeight)
+                {
+                    double nd = (double)((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
+                    int n = (int)Math.Ceiling(nd);
+                    System.Diagnostics.Debug.WriteLine(nd);
+                    System.Diagnostics.Debug.WriteLine(n);
 
-                for (int i = 0; i < n; i++){
-                    MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
-                    mo.Height = 1;
-                    list.Add(mo);
+                    for (int i = 0; i < n; i++)
+                    {
+                        MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
+                        mo.Height = 1;
+                        list.Add(mo);
+                    }
                 }
             }
-
 
             return list;
         }
