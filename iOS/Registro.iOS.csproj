@@ -133,7 +133,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renders\LayoutTouchListnerRender.cs" />
-    <Compile Include="Renders\ListViewListnerRender.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\gradient_launch.jpg" />
