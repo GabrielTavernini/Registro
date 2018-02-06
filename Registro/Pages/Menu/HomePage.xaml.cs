@@ -20,8 +20,6 @@ namespace Registro.Pages
             Head.HeightRequest = App.ScreenHeight * 0.08;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-
-
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
@@ -86,6 +84,7 @@ namespace Registro.Pages
             var a = eventArgs as EvArg;
 
             LayoutTouchListnerCtrl.IsEnebleScroll = true;
+            System.Diagnostics.Debug.WriteLine("ddddddddddd ---> " + App.ScreenHeight);
 
             // ignore the weak touch
             if (a.Val > 10 || a.Val < -10)
@@ -142,6 +141,7 @@ namespace Registro.Pages
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
             DoubleUp.IsVisible = false;
+
         }
 
         #endregion
@@ -162,7 +162,22 @@ namespace Registro.Pages
             list.Add(new MenuOption("Note", ImageSource.FromFile("NoteIcon.png"), Color.FromHex("#ffd05b"), 4));
             list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#4cdbc4"), 5));
             list.Add(new MenuOption("Cambia Password", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#84dbff"), 6));
-            list.Add(new MenuOption("", ImageSource.FromFile(""), Color.Transparent, 7));
+
+            System.Diagnostics.Debug.WriteLine(((150 * list.Count) - (235)));
+
+            if(((150 * list.Count) - (235)) < App.ScreenHeight)
+            {
+                double nd = (double) ((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
+                int n = (int) Math.Ceiling(nd);
+                System.Diagnostics.Debug.WriteLine(nd);
+                System.Diagnostics.Debug.WriteLine(n);
+
+                for (int i = 0; i < n; i++){
+                    MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
+                    mo.Height = 1;
+                    list.Add(mo);
+                }
+            }
 
 
             return list;

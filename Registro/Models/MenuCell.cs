@@ -8,7 +8,7 @@ namespace Registro.Models
         public MenuCell()
         {
             Frame mainF;
-            RelativeLayout rl = new RelativeLayout() { BackgroundColor = Color.Transparent, HeightRequest = 140, Margin = new Thickness(0, 10, 0, 0)};
+            RelativeLayout rl = new RelativeLayout() { BackgroundColor = Color.Transparent, Margin = new Thickness(0, 10, 0, 0)};
 
             if (Device.RuntimePlatform == Device.Android)
             {
@@ -63,7 +63,8 @@ namespace Registro.Models
             Label title = new Label() 
             { 
                 TextColor = Color.White, 
-                FontSize = 42, 
+                FontSize = 32,
+                FontAttributes = FontAttributes.Bold,
                 VerticalOptions = LayoutOptions.Center, 
                 HorizontalOptions = LayoutOptions.Center, 
                 VerticalTextAlignment = TextAlignment.Center, 
@@ -92,7 +93,6 @@ namespace Registro.Models
             mainF.Content = mainG;
 
 
-
             View = rl;
 
             //-----------------Bindings-----------------
@@ -101,6 +101,7 @@ namespace Registro.Models
             mainF.SetBinding(Frame.BackgroundColorProperty, nameof(MenuOption.color));
             title.SetBinding(Label.TextProperty, nameof(MenuOption.title));
             icon.SetBinding(Image.SourceProperty, nameof(MenuOption.image));
+            rl.SetBinding(RelativeLayout.HeightRequestProperty, nameof(MenuOption.Height));
         }
 
         protected override void OnAppearing()
