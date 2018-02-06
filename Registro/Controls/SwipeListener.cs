@@ -5,12 +5,12 @@ namespace SwipeLib
 {
 	public class SwipeListener : PanGestureRecognizer
 	{
-		private ISwipeCallBack mISwipeCallback;
+		//private ISwipeCallBack mISwipeCallback;
 		private double translatedX = 0, translatedY = 0;
 
-		public SwipeListener(View view, ISwipeCallBack iSwipeCallBack)
+		public SwipeListener(View view) //, ISwipeCallBack iSwipeCallBack)
 		{
-			mISwipeCallback = iSwipeCallBack;
+			//mISwipeCallback = iSwipeCallBack;
 			var panGesture = new PanGestureRecognizer();
 			panGesture.PanUpdated += OnPanUpdated;
 			view.GestureRecognizers.Add(panGesture);
