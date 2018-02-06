@@ -39,20 +39,39 @@ namespace SwipeLib
 					System.Diagnostics.Debug.WriteLine("translatedY : " + translatedY);
 
 					if (translatedX < 0 && Math.Abs(translatedX) > Math.Abs(translatedY)) {
-						mISwipeCallback.onLeftSwipe(Content);
+						//mISwipeCallback.onLeftSwipe(Content);
 					} else if (translatedX > 0 && translatedX > Math.Abs(translatedY)) {
-						mISwipeCallback.onRightSwipe(Content);
+						//mISwipeCallback.onRightSwipe(Content);
 					} else if (translatedY < 0 && Math.Abs(translatedY) > Math.Abs(translatedX)) {
-						mISwipeCallback.onTopSwipe(Content);
+						//mISwipeCallback.onTopSwipe(Content);
+						DoSwipeUp();
 					} else if (translatedY > 0 && translatedY > Math.Abs(translatedX)) {
-						mISwipeCallback.onBottomSwipe(Content);
+						//mISwipeCallback.onBottomSwipe(Content);
+						DoSwipeDown();
 					} else {
-						mISwipeCallback.onNothingSwiped(Content);
+						//mISwipeCallback.onNothingSwiped(Content);
 					}
 
 					break;
 
 			}
+		}
+		
+		public event EventHandler SwipeUp;
+		public void DoSwipeUp()
+		{
+		    EventHandler eh = SwipeUp;
+		    if (eh != null)
+			eh(this, EventArgs.Empty);
+		}
+
+
+		public event EventHandler SwipeDown;
+		public void DoSwipeDown()
+		{
+		    EventHandler eh = SwipeDown;
+		    if (eh != null)
+			eh(this, EventArgs.Empty);
 		}
 
 	}
