@@ -38,6 +38,7 @@ namespace Registro.Pages
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             tgr.Tapped += (sender, args) => { settings(); };
             Setting.GestureRecognizers.Add(tgr);
+
         }
 
 
@@ -136,6 +137,7 @@ namespace Registro.Pages
             IsUpper = false;
             System.Diagnostics.Debug.WriteLine("Down" + Body.Height);
 
+            DoubleUp.IsVisible = true;
             Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
@@ -146,6 +148,7 @@ namespace Registro.Pages
             IsUpper = true;
             System.Diagnostics.Debug.WriteLine("Up");
 
+            DoubleUp.IsVisible = false;
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
