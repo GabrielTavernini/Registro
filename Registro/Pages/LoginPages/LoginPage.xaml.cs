@@ -47,7 +47,7 @@ namespace Registro.Pages
                 "Dro"
             );
 
-            User user = new User("gen220", "2006stella", school);
+            User user = new User("", "", school);
 
             HttpRequest myReq = new HttpRequest(user);
             await myReq.extractAllAsync();
