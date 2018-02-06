@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using App3.Models;
 using Registro.Controls;
+using SwipeLib;
 using Xamarin.Forms;
 
 namespace Registro.Pages
@@ -38,6 +39,10 @@ namespace Registro.Pages
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             tgr.Tapped += (sender, args) => { settings(); };
             Setting.GestureRecognizers.Add(tgr);
+
+            SwipeListener sl = new SwipeListener(Body);
+            sl.SwipeUp += (sender, e) => { MoveUp(); };
+            sl.SwipeDown += (sender, e) => { MoveDown(); };
         }
 
 
