@@ -21,7 +21,7 @@ namespace Registro
         {
             InitializeComponent();
             //Lol
-            MainPage = new NavigationPage(new Page4());
+            MainPage = new NavigationPage(new HomePage());
         }
 
         protected override void OnStart()

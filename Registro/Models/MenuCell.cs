@@ -36,10 +36,10 @@ namespace Registro.Models
                     return parent.Y;
                 }), Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width;
+                    return parent.Width - 4;
                 }), Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Height;
+                    return parent.Height - 4;
                 }));
             }
             else
@@ -53,10 +53,10 @@ namespace Registro.Models
                     return parent.Y;
                 }), Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width - 4;
+                    return parent.Width;
                 }), Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Height - 4;
+                    return parent.Height;
                 }));
             }
 
@@ -71,8 +71,8 @@ namespace Registro.Models
             };
             Image icon = new Image() 
             { 
-                HeightRequest = 50, 
-                WidthRequest = 50, 
+                HeightRequest = 75, 
+                WidthRequest = 75, 
                 VerticalOptions = LayoutOptions.Center, 
                 HorizontalOptions = LayoutOptions.Center 
             };

@@ -135,8 +135,10 @@ namespace Registro.Pages
 
         private void MoveDown()
         {
+            DoubleUp.IsVisible = true;
             Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
         }
 
@@ -144,7 +146,9 @@ namespace Registro.Pages
         {
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
+            DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
+            DoubleUp.IsVisible = false;
         }
 
         #endregion
@@ -159,10 +163,15 @@ namespace Registro.Pages
         {
             var list = new List<MenuOption>();
 
-            for (int i = 1; i < 21; i++)
-            {
-                list.Add(new MenuOption("Voti", ImageSource.FromFile("HomeIcon.png"), Color.Orange, i));
-            }
+            list.Add(new MenuOption("Voti", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#fd8469"), 1));
+            list.Add(new MenuOption("Medie", ImageSource.FromFile("MedieIcon.png"), Color.FromHex("#324a5e"), 2));
+            list.Add(new MenuOption("Argomenti", ImageSource.FromFile("ArgomentiIcon.png"), Color.FromHex("#90dfaa"), 3));
+            list.Add(new MenuOption("Note", ImageSource.FromFile("NoteIcon.png"), Color.FromHex("#ffd05b"), 4));
+            list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#4cdbc4"), 5));
+            list.Add(new MenuOption("Cambia Password", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#84dbff"), 6));
+            list.Add(new MenuOption("", ImageSource.FromFile(""), Color.Transparent, 7));
+
+
             return list;
         }
     }

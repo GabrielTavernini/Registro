@@ -164,7 +164,7 @@
     <AndroidResource Include="Resources\drawable\HomeHead.png" />
     <AndroidResource Include="Resources\drawable\ArgomentiIcon.png" />
     <AndroidResource Include="Resources\drawable\AssenzeIcon.png" />
-    <AndroidResource Include="Resources\drawable\HomeIcon.png" />
+    <AndroidResource Include="Resources\drawable\VotiIcon.png" />
     <AndroidResource Include="Resources\drawable\MedieIcon.png" />
     <AndroidResource Include="Resources\drawable\NoteIcon.png" />
   </ItemGroup>

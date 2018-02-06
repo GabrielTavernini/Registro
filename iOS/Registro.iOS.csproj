@@ -147,7 +147,7 @@
     <BundleResource Include="Resources\HomeHead.png" />
     <BundleResource Include="Resources\ArgomentiIcon.png" />
     <BundleResource Include="Resources\AssenzeIcon.png" />
-    <BundleResource Include="Resources\HomeIcon.png" />
+    <BundleResource Include="Resources\VotiIcon.png" />
     <BundleResource Include="Resources\LaunchView.xml" />
     <BundleResource Include="Resources\MedieIcon.png" />
     <BundleResource Include="Resources\NoteIcon.png" />
