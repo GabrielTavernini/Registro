@@ -27,8 +27,6 @@ namespace Registro.Pages
             Head.HeightRequest = App.ScreenHeight * 0.08;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-
-
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
@@ -57,7 +55,6 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-            
         }
 
         private async Task RefreshAsync(ListView list)
@@ -170,7 +167,6 @@ namespace Registro.Pages
             list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#4cdbc4"), 5));
             list.Add(new MenuOption("Cambia Password", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#84dbff"), 6));
             list.Add(new MenuOption("", ImageSource.FromFile(""), Color.Transparent, 7));
-
 
             return list;
         }
