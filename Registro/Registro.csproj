@@ -94,7 +94,6 @@
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuOption.cs" />
-    <Compile Include="Controls\SwipeListener.cs" />
     <Compile Include="Models\MenuCell.cs" />
     <Compile Include="Models\MarkCell.cs" />
   </ItemGroup>

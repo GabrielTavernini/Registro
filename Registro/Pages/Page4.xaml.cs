@@ -41,7 +41,6 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-            
         }
 
 
