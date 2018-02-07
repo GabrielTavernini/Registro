@@ -25,6 +25,7 @@ namespace Registro
         public Subject(String name, Boolean save)
         {
             this.name = name;
+            this.grades = new List<Grade>();
             if (save) App.Subjects.Add(this.name, this);
         }
 

@@ -146,6 +146,9 @@ namespace Registro.Pages
 
             foreach(Grade g in App.Grades)
             {
+                if (dictionary.ContainsKey(g.dateTime))
+                    g.dateTime = g.dateTime.AddMilliseconds(dictionary.Count);
+                
                 dictionary.Add(g.dateTime, g);
                 System.Diagnostics.Debug.WriteLine(g.gradeString);
             }

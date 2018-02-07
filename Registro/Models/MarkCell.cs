@@ -8,10 +8,10 @@ namespace Registro.Models
     {
         public MarkCell()
         {
-            Label subjectL = new Label() { TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
+            Label subjectL = new Label() { TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 24, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
             Label dateL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.End, TextColor = Color.DimGray, FontSize = 12, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.End };
-            Label typeL = new Label() { TextColor = Color.DimGray, FontSize = 12, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
-            Label gradeL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Center };
+            Label typeL = new Label() { TextColor = Color.DimGray, FontSize = 16, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
+            Label gradeL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, TextColor = Color.White, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Center };
 
             var gradeF = new ShapeView()
             {
@@ -19,6 +19,8 @@ namespace Registro.Models
                 ShapeType = ShapeType.Circle,
                 HeightRequest = 50,
                 WidthRequest = 50,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
                 Content = gradeL
             };
 

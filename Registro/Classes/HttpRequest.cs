@@ -32,6 +32,7 @@ namespace Registro
             await LoginAsync();
 
             String marksPage = await getMarksPageAsync();
+            extratMarks(marksPage);
             return "Done";
         }
 
@@ -145,6 +146,7 @@ namespace Registro
 
         public void extratMarks(String html)
         {
+            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Subject currentSubject = new Subject("", false);
