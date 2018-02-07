@@ -15,7 +15,7 @@ namespace Registro.Models
 
             var gradeF = new ShapeView()
             {
-                BackgroundColor = Color.DarkBlue,
+                Color = Color.DarkBlue,
                 ShapeType = ShapeType.Circle,
                 HeightRequest = 50,
                 WidthRequest = 50,
