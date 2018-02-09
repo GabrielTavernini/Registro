@@ -18,37 +18,39 @@ namespace Registro.Pages
             GC.Collect();
             InitializeComponent();
 
-            InfoList.ItemsSource = GetItems();
-            //Body.Children.Add(GetListView());
             NavigationPage.SetHasNavigationBar(this, false);
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
-            Body.HeightRequest = App.ScreenHeight * 0.9;
-
-            if (Device.RuntimePlatform == Device.iOS)
-                Setting.Margin = new Thickness(0, 20, 0, 0);
+            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
+
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             tgr.Tapped += (sender, args) => { settings(); };
             Setting.GestureRecognizers.Add(tgr);
-        }
 
+            if (Device.RuntimePlatform == Device.iOS)
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+
+            MoveUp();
+
+        }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
+            InfoList.ItemsSource = GetItems();
             //PrepareAnimate();
         }
 
         public void settings()
         {
-            Navigation.PushAsync(new HomePage());
+            //Navigation.PushAsync(new HomePage());
         }
 
         private void ItemTapped(ItemTappedEventArgs e)
@@ -64,16 +66,6 @@ namespace Registro.Pages
 
 
 
-
-
-
-
-        //--------------------------------------------------------------------------------------------------------------------------------------------
-        //--------------------------------------------------------------------------------------------------------------------------------------------
-        //--------------------------------------------------------Animations--------------------------------------------------------------------------
-        //--------------------------------------------------------------------------------------------------------------------------------------------
-        //--------------------------------------------------------------------------------------------------------------------------------------------
-
         #region MoveList
 
         private bool IsUpper = false;
@@ -88,6 +80,7 @@ namespace Registro.Pages
             var a = eventArgs as EvArg;
 
             LayoutTouchListnerCtrl.IsEnebleScroll = true;
+            System.Diagnostics.Debug.WriteLine("ddddddddddd ---> " + App.ScreenHeight);
 
             // ignore the weak touch
             if (a.Val > 10 || a.Val < -10)
@@ -113,7 +106,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstApper(object sender, EventArgs e)
         {
-            IsUpper = true;
+            IsUpper = false;
             MoveDown();
         }
 
@@ -124,39 +117,31 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstDisapp(object sender, EventArgs e)
         {
-            IsUpper = false;
+            IsUpper = true;
             MoveUp();
         }
 
         private void MoveDown()
         {
+            DoubleUp.IsVisible = true;
             Body.TranslateTo(0, 200, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
-            //ico.ScaleTo(1.5, 500, Easing.Linear);
         }
 
         private void MoveUp()
         {
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
+            DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
-            //ico.ScaleTo(1, 500, Easing.Linear);
-        }
+            DoubleUp.IsVisible = false;
 
-
-        private async void PrepareAnimate()
-        {
-            await MainImage.ScaleTo(3, 500, Easing.Linear);
-            await Body.TranslateTo(0, 200, 50, Easing.Linear);
-            await MenuGrid.TranslateTo(0, 100, 50, Easing.Linear);
-            await TitleLabel.ScaleTo(2, 50, Easing.Linear);
-            //await ico.ScaleTo(1.5, 50, Easing.Linear);
-
-            //FlyImg();
         }
 
         #endregion
+
 
 
 
@@ -168,6 +153,16 @@ namespace Registro.Pages
         {
             List<Grade> list = new List<Grade>();
             int i = 1;
+
+            float sum = 0;
+            foreach(Grade g in App.Grades)
+            {
+                sum += g.grade;
+            }
+
+            Grade globalAverage = new Grade("", "", (sum / App.Grades.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
+            list.Add(globalAverage);
+
             foreach (Subject s in App.Subjects.Values.ToList())
             {
                 Grade g = s.getMedia();

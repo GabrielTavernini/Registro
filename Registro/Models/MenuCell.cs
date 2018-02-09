@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Registro.Models
@@ -8,11 +9,11 @@ namespace Registro.Models
         public MenuCell()
         {
             Frame mainF;
-            RelativeLayout rl = new RelativeLayout() { BackgroundColor = Color.Transparent};
+            RelativeLayout rl = new RelativeLayout() { Scale = 0, BackgroundColor = Color.Transparent};
 
             if (Device.RuntimePlatform == Device.Android)
             {
-                Frame shadow = new Frame() { CornerRadius = 8, BackgroundColor = Color.Gray };
+                Frame shadow = new Frame() { CornerRadius = 8, BackgroundColor = Color.Gray, Margin = new Thickness(10,0,10,0) };
                     rl.Children.Add(shadow, Constraint.RelativeToParent((parent) =>
                     {
                         return parent.X + 4;
@@ -27,7 +28,7 @@ namespace Registro.Models
                         return parent.Height - 14;
                     }));
 
-                mainF = new Frame() { CornerRadius = 8};
+                mainF = new Frame() { CornerRadius = 8, Margin = new Thickness(10, 0, 10, 0) };
                     rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
                     {
                         return parent.X;
@@ -44,7 +45,7 @@ namespace Registro.Models
             }
             else
             {
-                mainF = new Frame() { CornerRadius = 8 };
+                mainF = new Frame() { CornerRadius = 8, Margin = new Thickness(10, 0, 10, 0) };
                     rl.Children.Add(mainF, Constraint.RelativeToParent((parent) =>
                     {
                         return parent.X;
@@ -104,14 +105,25 @@ namespace Registro.Models
             rl.SetBinding(RelativeLayout.HeightRequestProperty, nameof(MenuOption.Height));
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            await Task.Delay(100);
+            await View.ScaleTo(1, 125, Easing.SpringOut);
 
             if (ItemId == 1)
             {
                 DoFirstApper();
             }
+        }
+
+        protected override async void OnTapped()
+        {
+            base.OnTapped();
+
+            await View.ScaleTo(1.04, 50, Easing.SpringOut);
+            await View.ScaleTo(1, 50);
         }
 
         protected override void OnDisappearing()

@@ -14,15 +14,14 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            InfoList.ItemsSource = GetItems();
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-            InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
+            InfoList.ItemSelected += async (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
-            InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
+            InfoList.ItemTapped += async (sender, e) => { ItemTapped(e); };
 
 
             var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -38,7 +37,7 @@ namespace Registro.Pages
         {
             base.OnAppearing();
 
-            //PrepareAnimate();
+            InfoList.ItemsSource = GetItems();
         }
 
         public void settings()
@@ -46,9 +45,17 @@ namespace Registro.Pages
             //Navigation.PushAsync(new HomePage());
         }
 
-        private void ItemTapped(ItemTappedEventArgs e)
+        private async void ItemTapped(ItemTappedEventArgs e)
         {
+            MenuOption mo = e.Item as MenuOption;
 
+            await Task.Delay(100);
+            if (mo.title == "Voti")
+                await Navigation.PushAsync(new MarksPage());
+            
+            if (mo.title == "Medie")
+                await Navigation.PushAsync(new AveragesPage());
+            
         }
 
         private async Task RefreshAsync(ListView list)
@@ -110,7 +117,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstApper(object sender, EventArgs e)
         {
-            IsUpper = true;
+            IsUpper = false;
             MoveDown();
         }
 
@@ -121,7 +128,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstDisapp(object sender, EventArgs e)
         {
-            IsUpper = false;
+            IsUpper = true;
             MoveUp();
         }
 

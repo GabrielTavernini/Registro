@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Registro.Pages;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Registro
 {
     public partial class App : Application
@@ -21,7 +23,7 @@ namespace Registro
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new FirstPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()

@@ -11,10 +11,10 @@ namespace Registro.Pages
     {
         public MarksPage()
         {
+            GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            InfoList.ItemsSource = GetItems();
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -31,6 +31,8 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0);
+
+            MoveUp();
             
         }
 
@@ -38,6 +40,7 @@ namespace Registro.Pages
         {
             base.OnAppearing();
 
+            InfoList.ItemsSource = GetItems();
             //PrepareAnimate();
         }
 
@@ -99,7 +102,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstApper(object sender, EventArgs e)
         {
-            IsUpper = true;
+            IsUpper = false;
             MoveDown();
         }
 
@@ -110,7 +113,7 @@ namespace Registro.Pages
         /// <param name="e"></param>
         private void SearchPageViewCellWithId_OnFirstDisapp(object sender, EventArgs e)
         {
-            IsUpper = false;
+            IsUpper = true;
             MoveUp();
         }
 
@@ -159,6 +162,12 @@ namespace Registro.Pages
             List<Grade> list = new List<Grade>(dictionary.Values);
             list.Reverse();
 
+            int j = 0;
+            foreach(Grade g in list)
+            {
+                g.Id = j;
+                j++;    
+            }
 
             if (Device.RuntimePlatform == Device.iOS)
             {

@@ -59,8 +59,14 @@ namespace Registro
 
             HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
             resp.Dispose();
+            req.Dispose();
         }
 
+        public void clearLists()
+        {
+            App.Subjects.Clear();
+            App.Grades.Clear();
+        }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getSeed-----------------------------------------------------------
@@ -78,6 +84,7 @@ namespace Registro
                     {
                         var page = await content.ReadAsStringAsync();
                         seed = page.Split(new[] { "seme='" }, StringSplitOptions.None)[1].Substring(0, 32);
+                        response.Dispose();
                     }
                 }
             }
@@ -112,6 +119,7 @@ namespace Registro
             String[] temp = cookieHeader.Split(';');
             cookies = temp[0];
 
+            req.Dispose();
             resp.Dispose();
             System.Diagnostics.Debug.WriteLine("<--------------------------------Cookies--------------------------------->");
             System.Diagnostics.Debug.WriteLine(cookies);
@@ -136,6 +144,8 @@ namespace Registro
             HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
             pageSource = await getResponse.Content.ReadAsStringAsync();
+            getRequest.Dispose();
+            getResponse.Dispose();
             return pageSource;
         }
 

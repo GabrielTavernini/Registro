@@ -9,19 +9,19 @@
 
     <Grid Padding="0">
         <StackLayout x:Name="Head" VerticalOptions="StartAndExpand" BackgroundColor="White">
-            <Image x:Name="MainImage" Source="HomeHead.png" Aspect="AspectFit" />
+            <Image x:Name="MainImage" Source="VotiHead.png" Aspect="AspectFit" />
         </StackLayout>
 
         <Image x:Name="Setting" Source="settings_icon.png" Aspect="AspectFit" HorizontalOptions="End" VerticalOptions="Start" HeightRequest="30" WidthRequest="30" Margin="0, 10, 10, 0"/>
 
         <Grid x:Name="MenuGrid" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="50, 0, 50, 0">
-            <Label x:Name="TitleLabel" Text="Medie" FontSize="28" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" VerticalOptions="Center" />
+            <Label x:Name="TitleLabel" Text="Voti" FontSize="28" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" VerticalOptions="Center" />
         </Grid>
             
         <Image x:Name="DoubleUp" Source="double_up.png" Aspect="Fill" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="15" WidthRequest="20"/>
     </Grid>
 
-        <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="10,0,10,0">
+        <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White">
             <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>

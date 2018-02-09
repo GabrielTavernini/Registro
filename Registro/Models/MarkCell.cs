@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using XFShapeView;
 
@@ -8,33 +9,71 @@ namespace Registro.Models
     {
         public MarkCell()
         {
-            Label subjectL = new Label() { TextColor = Color.DimGray, FontAttributes = FontAttributes.Bold, FontSize = 24, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
-            Label dateL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.End, TextColor = Color.DimGray, FontSize = 12, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.End };
-            Label typeL = new Label() { TextColor = Color.DimGray, FontSize = 16, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Start };
-            Label gradeL = new Label() { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center, TextColor = Color.White, FontAttributes = FontAttributes.Bold, FontSize = 32, VerticalTextAlignment = TextAlignment.Center, HorizontalTextAlignment = TextAlignment.Center };
+            Label subjectL = new Label() 
+            { 
+                TextColor = Color.DimGray, 
+                FontAttributes = FontAttributes.Bold, 
+                FontSize = 20, 
+                VerticalTextAlignment = TextAlignment.End, 
+                HorizontalTextAlignment = TextAlignment.Start, 
+                VerticalOptions = LayoutOptions.End, 
+                Margin = new Thickness( 10, 10, 0, -5)
+            };
+            Label dateL = new Label() 
+            { 
+                VerticalOptions = LayoutOptions.Center, 
+                HorizontalOptions = LayoutOptions.End, 
+                TextColor = Color.DimGray, 
+                FontSize = 14, 
+                VerticalTextAlignment = TextAlignment.Center, 
+                HorizontalTextAlignment = TextAlignment.End,
+                Margin = new Thickness(0,0,10,0)
+            };
+            Label typeL = new Label() 
+            { 
+                Margin = new Thickness(10, -5, 0, 10),
+                TextColor = Color.DimGray, 
+                FontSize = 16, 
+                VerticalTextAlignment = TextAlignment.Start, 
+                HorizontalTextAlignment = TextAlignment.Start, 
+                VerticalOptions = LayoutOptions.Start 
+            };
+            Label gradeL = new Label() 
+            { 
+                VerticalOptions = LayoutOptions.Center, 
+                HorizontalOptions = LayoutOptions.Center, 
+                TextColor = Color.White, 
+                FontSize = 18, 
+                VerticalTextAlignment = TextAlignment.Center, 
+                HorizontalTextAlignment = TextAlignment.Center 
+            };
+
+
 
             var gradeF = new ShapeView()
             {
                 Color = Color.DarkBlue,
                 ShapeType = ShapeType.Circle,
-                HeightRequest = 50,
-                WidthRequest = 50,
+                HeightRequest = 40,
+                WidthRequest = 40,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                Content = gradeL
+                Content = gradeL,
+                Margin = new Thickness(10,0,0,0)
             };
 
             Grid mainG = new Grid()
             {
+                Scale = 0,
                 BackgroundColor = Color.Transparent,
                 ColumnDefinitions = {
                     new ColumnDefinition{Width = GridLength.Auto},
-                    new ColumnDefinition{Width = GridLength.Auto},
-                    new ColumnDefinition{Width = GridLength.Auto},
+                    new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)},
+                    new ColumnDefinition{Width = GridLength.Auto}
                 },
 
                 RowDefinitions = {
-                    new RowDefinition{Height = GridLength.Auto},
+                    new RowDefinition{Height = new GridLength(1, GridUnitType.Star)},
                     new RowDefinition{Height = GridLength.Auto}
                 }
             };
@@ -60,9 +99,12 @@ namespace Registro.Models
             dateL.SetBinding(Label.TextProperty, nameof(Grade.date));
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            await Task.Delay(75);
+            await View.ScaleTo(1, 75, Easing.SpringOut);
 
             if (ItemId == 1)
             {
@@ -78,6 +120,14 @@ namespace Registro.Models
             {
                 DoFirstDisapp();
             }
+        }
+
+        protected override async void OnTapped()
+        {
+            base.OnTapped();
+
+            await View.ScaleTo(1.2, 175);
+            await View.ScaleTo(1, 175);
         }
 
         public event EventHandler FirstDisapp;

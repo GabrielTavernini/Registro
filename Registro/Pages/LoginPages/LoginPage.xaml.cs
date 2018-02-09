@@ -60,7 +60,7 @@ namespace Registro.Pages
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            await Navigation.PushAsync(new MarksPage());
+            await Navigation.PushAsync(new HomePage());
         }
 
         protected async override void OnAppearing()

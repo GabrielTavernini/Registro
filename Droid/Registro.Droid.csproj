@@ -168,6 +168,7 @@
     <AndroidResource Include="Resources\drawable\MedieIcon.png" />
     <AndroidResource Include="Resources\drawable\NoteIcon.png" />
     <AndroidResource Include="Resources\drawable\double_up.png" />
+    <AndroidResource Include="Resources\drawable\VotiHead.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />
