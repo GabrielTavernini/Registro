@@ -42,6 +42,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -153,9 +154,9 @@
     <BundleResource Include="Resources\NoteIcon.png" />
     <BundleResource Include="Resources\settings_icon.png" />
     <BundleResource Include="Resources\double_up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\VotiHead.png" />
+    <BundleResource Include="Resources\VotiHead.png" />
+    <BundleResource Include="Resources\back_arrow.png" />
+    <BundleResource Include="Resources\PasswordIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />

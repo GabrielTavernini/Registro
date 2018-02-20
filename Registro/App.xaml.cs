@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Registro.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,13 +23,34 @@ namespace Registro
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+
+            if (Application.Current.Properties.ContainsKey("username") &&
+                Application.Current.Properties.ContainsKey("password") &&
+                Application.Current.Properties.ContainsKey("school"))
+            {
+
+                School school = new School(
+                     "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
+                     "Dro"
+                 );
+
+                string username = Application.Current.Properties["username"] as string;
+                string password = Application.Current.Properties["password"] as string;
+
+                User user = new User(username, password, school);
+
+                MainPage = new NavigationPage(new HomePage(user));//new MainPage(user));//new HomePage(user));
+            }
+            else
+            {
+                MainPage = new NavigationPage(new FirstPage());//new HomePage());
+            }
+
         }
 
         protected override void OnSleep()

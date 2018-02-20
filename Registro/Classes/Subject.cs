@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Registro
 {
-    class Subject
+    public class Subject
     {
         public String name { get; set; }
         public List<Grade> grades { get; set; }

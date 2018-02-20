@@ -7,59 +7,68 @@ namespace Registro.Models
 {
     public class MarkCell : ViewCell
     {
+        public static readonly BindableProperty VoidProperty =
+            BindableProperty.Create("Void", typeof(Boolean),
+            typeof(MarkCell), false, BindingMode.TwoWay, null, null);
+
+        public Boolean Void
+        {
+            get { return (Boolean)GetValue(VoidProperty); }
+            set { SetValue(VoidProperty, value); }
+        }
+
         public MarkCell()
         {
-            Label subjectL = new Label() 
-            { 
-                TextColor = Color.DimGray, 
-                FontAttributes = FontAttributes.Bold, 
-                FontSize = 20, 
-                VerticalTextAlignment = TextAlignment.End, 
-                HorizontalTextAlignment = TextAlignment.Start, 
-                VerticalOptions = LayoutOptions.End, 
-                Margin = new Thickness( 10, 10, 0, -5)
+            Label subjectL = new Label()
+            {
+                TextColor = Color.DimGray,
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 20,
+                VerticalTextAlignment = TextAlignment.End,
+                HorizontalTextAlignment = TextAlignment.Start,
+                VerticalOptions = LayoutOptions.End,
+                Margin = new Thickness(10, 10, 0, -5)
             };
-            Label dateL = new Label() 
-            { 
-                VerticalOptions = LayoutOptions.Center, 
-                HorizontalOptions = LayoutOptions.End, 
-                TextColor = Color.DimGray, 
-                FontSize = 14, 
-                VerticalTextAlignment = TextAlignment.Center, 
+            Label dateL = new Label()
+            {
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.End,
+                TextColor = Color.DimGray,
+                FontSize = 14,
+                VerticalTextAlignment = TextAlignment.Center,
                 HorizontalTextAlignment = TextAlignment.End,
-                Margin = new Thickness(0,0,10,0)
+                Margin = new Thickness(0, 0, 10, 0)
             };
-            Label typeL = new Label() 
-            { 
+            Label typeL = new Label()
+            {
                 Margin = new Thickness(10, -5, 0, 10),
-                TextColor = Color.DimGray, 
-                FontSize = 16, 
-                VerticalTextAlignment = TextAlignment.Start, 
-                HorizontalTextAlignment = TextAlignment.Start, 
-                VerticalOptions = LayoutOptions.Start 
+                TextColor = Color.DimGray,
+                FontSize = 16,
+                VerticalTextAlignment = TextAlignment.Start,
+                HorizontalTextAlignment = TextAlignment.Start,
+                VerticalOptions = LayoutOptions.Start
             };
-            Label gradeL = new Label() 
-            { 
-                VerticalOptions = LayoutOptions.Center, 
-                HorizontalOptions = LayoutOptions.Center, 
-                TextColor = Color.White, 
-                FontSize = 18, 
-                VerticalTextAlignment = TextAlignment.Center, 
-                HorizontalTextAlignment = TextAlignment.Center 
+            Label gradeL = new Label()
+            {
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center,
+                TextColor = Color.White,
+                FontSize = 18,
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Center
             };
 
 
 
             var gradeF = new ShapeView()
             {
-                Color = Color.DarkBlue,
                 ShapeType = ShapeType.Circle,
                 HeightRequest = 40,
                 WidthRequest = 40,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 Content = gradeL,
-                Margin = new Thickness(10,0,0,0)
+                Margin = new Thickness(10, 0, 0, 0)
             };
 
             Grid mainG = new Grid()
@@ -89,22 +98,31 @@ namespace Registro.Models
             Grid.SetRowSpan(dateL, 2);
 
 
-            View = mainG;
-            //-----------------Bindings-----------------
 
-            this.SetBinding(ItemIdProperty, nameof(Grade.Id));
-            gradeL.SetBinding(Label.TextProperty, nameof(Grade.gradeString));
-            subjectL.SetBinding(Label.TextProperty, nameof(Grade.subjectName));
-            typeL.SetBinding(Label.TextProperty, nameof(Grade.type));
-            dateL.SetBinding(Label.TextProperty, nameof(Grade.date));
+            View = mainG;
+            View.BackgroundColor = Color.White;
+
+            //-----------------Bindings-----------------
+            this.SetBinding(VoidProperty, nameof(GradeModel.Void));
+            this.SetBinding(ItemIdProperty, nameof(GradeModel.Id));
+            gradeF.SetBinding(ShapeView.ColorProperty, nameof(GradeModel.color));
+            gradeL.SetBinding(Label.TextProperty, nameof(GradeModel.gradeString));
+            subjectL.SetBinding(Label.TextProperty, nameof(GradeModel.subject));
+            typeL.SetBinding(Label.TextProperty, nameof(GradeModel.type));
+            dateL.SetBinding(Label.TextProperty, nameof(GradeModel.date));
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+                
+            try
+            {
+                await Task.Delay(75);
+                await View.ScaleTo(1, 75, Easing.SpringOut);               
+            }
+            catch{}
 
-            await Task.Delay(75);
-            await View.ScaleTo(1, 75, Easing.SpringOut);
 
             if (ItemId == 1)
             {
@@ -126,8 +144,13 @@ namespace Registro.Models
         {
             base.OnTapped();
 
-            await View.ScaleTo(1.2, 175);
-            await View.ScaleTo(1, 175);
+            try
+            {
+                await View.ScaleTo(1.2, 175);
+                await View.ScaleTo(1, 175);               
+            }
+            catch{}
+
         }
 
         public event EventHandler FirstDisapp;

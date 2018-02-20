@@ -15,9 +15,11 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            InfoList.ItemsSource = GetItems();
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
@@ -25,28 +27,25 @@ namespace Registro.Pages
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
 
-            var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            tgr.Tapped += (sender, args) => { settings(); };
-            Setting.GestureRecognizers.Add(tgr);
+            var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            settingTapGesture.Tapped += (sender, args) => { };
+            Setting.GestureRecognizers.Add(settingTapGesture);
+
+            var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
+            Back.GestureRecognizers.Add(backTapGesture);
+
 
             if (Device.RuntimePlatform == Device.iOS)
+            {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-
-            MoveUp();
-            
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            InfoList.ItemsSource = GetItems();
-            //PrepareAnimate();
+                Back.Margin = new Thickness(0, 20, 0, 0);
+            }
         }
 
         public void settings()
         {
-            //Navigation.PushAsync(new HomePage());
+            Navigation.PopAsync();
         }
 
         private void ItemTapped(ItemTappedEventArgs e)
@@ -143,51 +142,45 @@ namespace Registro.Pages
         /// Fake items for listView
         /// </summary>
         /// <returns></returns>
-        private List<Grade> GetItems()
+        private List<GradeModel> GetItems()
         {
-            SortedDictionary<DateTime, Grade> dictionary = new SortedDictionary<DateTime, Grade>();
+            /*SortedDictionary<DateTime, Grade> dictionary = new SortedDictionary<DateTime, Grade>();
 
-            foreach(Grade g in App.Grades)
+            foreach (Grade g in App.Grades)
             {
                 if (dictionary.ContainsKey(g.dateTime))
                     g.dateTime = g.dateTime.AddMilliseconds(dictionary.Count);
-                
+
                 dictionary.Add(g.dateTime, g);
                 System.Diagnostics.Debug.WriteLine(g.gradeString);
-            }
+            }*/
 
-            System.Diagnostics.Debug.WriteLine(App.Grades.Count);
+            List<GradeModel> list = new List<GradeModel>();
 
-
-            List<Grade> list = new List<Grade>(dictionary.Values);
-            list.Reverse();
-
-            int j = 0;
-            foreach(Grade g in list)
+            foreach(Grade g in App.Grades)
             {
-                g.Id = j;
-                j++;    
+                list.Add(new GradeModel(g, 1));
             }
+            list.Sort(new CustomDataTimeComparer());
 
-            if (Device.RuntimePlatform == Device.iOS)
+            int i = 1;
+            foreach(GradeModel g in list)
             {
-                if (((60 * list.Count) - (100)) < App.ScreenHeight)
-                {
-                    double nd = (double)((App.ScreenHeight - ((60.0 * list.Count) - (100.0))) + 20.0) / 1.0;
-                    int n = (int)Math.Ceiling(nd);
-                    System.Diagnostics.Debug.WriteLine(nd);
-                    System.Diagnostics.Debug.WriteLine(n);
-
-                    for (int i = 0; i < n; i++)
-                    {
-                        MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
-                        mo.Height = 1;
-                        //list.Add(mo);
-                    }
-                }
+                g.Id = i;
+                g.color = Color.FromHex("#00B1D4");
+                i++;
             }
 
             return list;
+        }
+    }
+
+
+    public class CustomDataTimeComparer : IComparer<GradeModel>
+    {
+        public int Compare(GradeModel x, GradeModel y)
+        {
+            return -DateTime.Compare(x.dateTime, y.dateTime);
         }
     }
 }

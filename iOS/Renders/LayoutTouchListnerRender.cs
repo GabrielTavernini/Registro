@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using App3.iOS.Renders;
 using Foundation;
+using Registro;
 using Registro.Controls;
+using Registro.iOS.Renders;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(LayoutTouchListner), typeof(LayoutTouchListnerRender))]
-namespace App3.iOS.Renders
+namespace Registro.iOS.Renders
 {
     [Preserve(AllMembers = true)]
     public class LayoutTouchListnerRender : ViewRenderer

@@ -15,7 +15,7 @@ namespace Registro.Droid
         {
             base.OnCreate(savedInstanceState);
             //Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-            ActionBar?.Hide();
+            //ActionBar?.Hide();
         }
 
         protected override void OnResume()

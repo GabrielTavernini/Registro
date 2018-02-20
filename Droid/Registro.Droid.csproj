@@ -169,6 +169,8 @@
     <AndroidResource Include="Resources\drawable\NoteIcon.png" />
     <AndroidResource Include="Resources\drawable\double_up.png" />
     <AndroidResource Include="Resources\drawable\VotiHead.png" />
+    <AndroidResource Include="Resources\drawable\back_arrow.png" />
+    <AndroidResource Include="Resources\drawable\PasswordIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />

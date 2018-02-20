@@ -35,7 +35,7 @@ namespace Registro.Pages
             await SchoolPicker.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            await Navigation.PushAsync(new LoginPage());
+            await Navigation.PushAsync(new LoginPage((string) SchoolPicker.SelectedItem));
         }
 
         protected async override void OnAppearing()

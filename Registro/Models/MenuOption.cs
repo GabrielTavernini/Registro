@@ -19,6 +19,20 @@ namespace Registro.Models
             this.color = color;
             this.Id = Id;
         }
+
+        public static MenuOption VoidCell(int Id)
+        {
+            MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, Id);
+            mo.Height = 10;
+            return mo;
+        }
+
+        public static MenuOption VoidCell2(int Id)
+        {
+            MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, Id);
+            mo.Height = 1;
+            return mo;
+        }
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using XFShapeView.iOS;
+using Registro;
 
 using Foundation;
 using UIKit;
@@ -19,8 +21,14 @@ namespace Registro.iOS
 
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.iOS.Library.Init();
+            ShapeRenderer.Init();
 
-            LoadApplication(new App());
+            try{
+                LoadApplication(new App()); 
+            }catch(Exception e){
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+
 
             return base.FinishedLaunching(app, options);
         }

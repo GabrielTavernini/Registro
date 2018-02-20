@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Registro.Controls;
+using Registro.Models;
 using Xamarin.Forms;
 
 namespace Registro.Pages
@@ -19,9 +20,11 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            InfoList.ItemsSource = GetItems();
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
@@ -29,28 +32,29 @@ namespace Registro.Pages
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
 
-            var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            tgr.Tapped += (sender, args) => { settings(); };
-            Setting.GestureRecognizers.Add(tgr);
+            var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            settingTapGesture.Tapped += (sender, args) => { settings(); };
+            Setting.GestureRecognizers.Add(settingTapGesture);
+
+            var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
+            Back.GestureRecognizers.Add(backTapGesture);
+
 
             if (Device.RuntimePlatform == Device.iOS)
+            {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(0, 20, 0, 0);
+            }
 
-            MoveUp();
+            if (Device.RuntimePlatform == Device.Android)
+                MoveUp();
 
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            InfoList.ItemsSource = GetItems();
-            //PrepareAnimate();
         }
 
         public void settings()
         {
-            //Navigation.PushAsync(new HomePage());
+            Navigation.PopAsync();
         }
 
         private void ItemTapped(ItemTappedEventArgs e)
@@ -149,10 +153,9 @@ namespace Registro.Pages
         /// Fake items for listView
         /// </summary>
         /// <returns></returns>
-        private List<Grade> GetItems()
+        private List<GradeModel> GetItems()
         {
-            List<Grade> list = new List<Grade>();
-            int i = 1;
+            List<GradeModel> list = new List<GradeModel>();
 
             float sum = 0;
             foreach(Grade g in App.Grades)
@@ -160,15 +163,14 @@ namespace Registro.Pages
                 sum += g.grade;
             }
 
-            Grade globalAverage = new Grade("", "", (sum / App.Grades.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
-            list.Add(globalAverage);
+            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / App.Grades.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
+            list.Add(new GradeModel(globalAverage, list.Count() + 1,  Color.FromHex("#61DDDD")));
 
             foreach (Subject s in App.Subjects.Values.ToList())
             {
                 Grade g = s.getMedia();
-                g.Id = i;
-                i+=2;
-                list.Add(g);
+                g.type = "Media della materia";
+                list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));
             }
 
             return list;

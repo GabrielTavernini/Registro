@@ -7,9 +7,18 @@ namespace Registro.Pages
 {
     public partial class LoginPage : ContentPage
     {
-        public LoginPage()
+        School school;
+
+        public LoginPage(String schoolString)
         {
             Initialize();
+            if(schoolString == "IC Valle dei Laghi Dro - SSPG Dro")
+            {
+                school = new School(
+                     "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
+                     "Dro"
+                 ); 
+            }
         }
 
         protected void Initialize()
@@ -40,17 +49,14 @@ namespace Registro.Pages
             LoadingIndicator.IsRunning = true;
             LodingLabel.IsVisible = true;
 
-            School school = new School(
-                "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
-                "https://www.lampschool.it/hosting_trentino_17_18/login/ele_ges.php",
-                "https://www.lampschool.it/hosting_trentino_17_18/valutazioni/visvaltut.php",
-                "Dro"
-            );
+            User user = new User(UserEntry.Text, PassEntry.Text, school);
 
-            User user = new User("gen220", "2006stella", school);
-
-            HttpRequest myReq = new HttpRequest(user);
-            await myReq.extractAllAsync();
+            HttpRequest.User = user;
+            if(!await HttpRequest.extractAllAsync())
+            {
+                System.Diagnostics.Debug.WriteLine("Connection Error!");
+                return;
+            }
 
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
@@ -59,6 +65,10 @@ namespace Registro.Pages
             await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+
+            Application.Current.Properties["username"] = UserEntry.Text;
+            Application.Current.Properties["password"] = PassEntry.Text;
+            Application.Current.Properties["school"] = school.name;
 
             await Navigation.PushAsync(new HomePage());
         }

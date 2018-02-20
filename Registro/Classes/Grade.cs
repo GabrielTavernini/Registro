@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Registro
 {
-    class Grade
+    public class Grade
     {
-        public String date { get; set; }
-        public String Description { get; set; }
-        public String type { get; set; }
-        public float grade { get; set; }
-        public Subject subject { get; set; }
-        public String subjectName { get => this.subject.name; }
-        public String gradeString { get; set; }
+        public String date { get; set; } = "";
+        public String Description { get; set; } = "";
+        public String type { get; set; } = "";
+        public float grade { get; set; } = 0.0f;
+        public Subject subject { get; set; } = new Subject("", false);
+        //public String subjectName { get => this.subject.name; }
+        public String gradeString { get; set; } = "";
         public DateTime dateTime { get; set; }
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public Grade(String date, String type, String grade, String Description, Subject subject, Boolean save)
         {
@@ -30,6 +31,8 @@ namespace Registro
             if(date != "") this.dateTime = ConvertDate(date);
             if (save) App.Grades.Add(this);
         }
+
+        public Grade(){}
 
         public void setGrade(String grade)
         {
@@ -65,7 +68,7 @@ namespace Registro
 
         private DateTime ConvertDate(String date)
         {
-            try { return DateTime.Parse(date); } 
+            try { return DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture); } 
             catch { return new DateTime(); }
         }
 

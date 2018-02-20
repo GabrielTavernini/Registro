@@ -6,6 +6,7 @@ namespace Registro.Models
 {
     public class MenuCell : ViewCell
     {
+
         public MenuCell()
         {
             Frame mainF;
@@ -19,7 +20,7 @@ namespace Registro.Models
                         return parent.X + 4;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y + 14;
+                        return parent.Y + 4;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width - 4;
@@ -34,7 +35,7 @@ namespace Registro.Models
                         return parent.X;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y + 10;
+                        return parent.Y;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width - 4;
@@ -51,7 +52,7 @@ namespace Registro.Models
                         return parent.X;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y + 10;
+                        return parent.Y;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width;
@@ -93,7 +94,7 @@ namespace Registro.Models
 
             mainF.Content = mainG;
 
-
+            //View.BackgroundColor = Color.Transparent;
             View = rl;
 
             //-----------------Bindings-----------------
@@ -109,10 +110,16 @@ namespace Registro.Models
         {
             base.OnAppearing();
 
-            await Task.Delay(100);
-            await View.ScaleTo(1, 125, Easing.SpringOut);
+            try
+            {
+                await Task.Delay(100);
+                await View.ScaleTo(1, 125, Easing.SpringOut);
+            }
+            catch { } 
 
-            if (ItemId == 1)
+            System.Diagnostics.Debug.WriteLine("Appear " + ItemId);
+
+            if (ItemId == 1 || ItemId == 2 || ItemId == 3)
             {
                 DoFirstApper();
             }
@@ -122,13 +129,19 @@ namespace Registro.Models
         {
             base.OnTapped();
 
-            await View.ScaleTo(1.04, 50, Easing.SpringOut);
-            await View.ScaleTo(1, 50);
+            try
+            {
+                await View.ScaleTo(1.04, 50, Easing.SpringOut);
+                await View.ScaleTo(1, 50);                
+            }
+            catch{}
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+
+            System.Diagnostics.Debug.WriteLine("Disappear " + ItemId);
 
             if (ItemId == 1)
             {
@@ -156,7 +169,7 @@ namespace Registro.Models
 
         public static readonly BindableProperty ItemIdProperty =
             BindableProperty.Create("ItemId", typeof(Int32),
-                                    typeof(MarkCell), 0, BindingMode.TwoWay, null, null);
+                                    typeof(MenuCell), 0, BindingMode.TwoWay, null, null);
 
         public int ItemId
         {

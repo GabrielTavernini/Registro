@@ -9,35 +9,48 @@ namespace Registro.Pages
 {
     public partial class HomePage : ContentPage
     {
+        public HomePage(User user)
+        {
+            initialize();
+
+            Task task = new Task(async () => { HttpRequest.User = user; await HttpRequest.extractAllAsync(); });
+            task.Start();
+        }
+
         public HomePage()
+        {
+            initialize();
+        }
+
+        public void initialize()
         {
             InitializeComponent();
 
+            InfoList.ItemsSource = GetItems();
             NavigationPage.SetHasNavigationBar(this, false);
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
-            InfoList.ItemSelected += async (sender, e) => { ((ListView)sender).SelectedItem = null; };
+            InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
-            InfoList.ItemTapped += async (sender, e) => { ItemTapped(e); };
+            InfoList.ItemTapped += async (sender, e) => { await ItemTappedAsync(e); };
 
-
-            var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            tgr.Tapped += (sender, args) => { settings(); };
-            Setting.GestureRecognizers.Add(tgr);
+            /*var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            settingTapGesture.Tapped += (sender, args) => { settings(); };
+            Setting.GestureRecognizers.Add(settingTapGesture);
 
             if (Device.RuntimePlatform == Device.iOS)
-                Setting.Margin = new Thickness(0, 20, 0, 0);
+                Setting.Margin = new Thickness(0, 20, 0, 0); */
         }
-
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            InfoList.ItemsSource = GetItems();
+            //MoveDown();
         }
 
         public void settings()
@@ -45,30 +58,41 @@ namespace Registro.Pages
             //Navigation.PushAsync(new HomePage());
         }
 
-        private async void ItemTapped(ItemTappedEventArgs e)
+        private async Task ItemTappedAsync(ItemTappedEventArgs e)
         {
             MenuOption mo = e.Item as MenuOption;
 
             await Task.Delay(100);
             if (mo.title == "Voti")
                 await Navigation.PushAsync(new MarksPage());
-            
+
             if (mo.title == "Medie")
                 await Navigation.PushAsync(new AveragesPage());
-            
+
+            if (mo.title == "Argomenti")
+                await Navigation.PushAsync(new MainPage());
+
         }
 
         private async Task RefreshAsync(ListView list)
         {
-            await Task.Delay(2000);
+            if(await HttpRequest.RefreshAsync())
+                System.Diagnostics.Debug.WriteLine("Connection Error!");
+
             list.IsRefreshing = false;
+         }
+
+        private async Task loadMarksAsync(User user)
+        {
+            HttpRequest.User = user;
+            if (!await HttpRequest.extractAllAsync())
+            {
+                System.Diagnostics.Debug.WriteLine("Connection Error!");
+                return;
+            }
+
+            return;
         }
-
-
-
-
-
-
 
         //--------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -90,7 +114,7 @@ namespace Registro.Pages
         {
             var a = eventArgs as EvArg;
 
-            LayoutTouchListnerCtrl.IsEnebleScroll = true;
+            //LayoutTouchListnerCtrl.IsEnebleScroll = true;
             System.Diagnostics.Debug.WriteLine("ddddddddddd ---> " + App.ScreenHeight);
 
             // ignore the weak touch
@@ -135,24 +159,23 @@ namespace Registro.Pages
         private void MoveDown()
         {
             DoubleUp.IsVisible = true;
-            Body.TranslateTo(0, 200, 250, Easing.Linear);
-            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
-            DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
-            TitleLabel.ScaleTo(2, 250, Easing.Linear);
+            Body.TranslateTo(0, 200, 200, Easing.Linear);
+            MenuGrid.TranslateTo(0, 100, 200, Easing.Linear);
+            DoubleUp.TranslateTo(0, 180, 200, Easing.Linear);
+            TitleLabel.ScaleTo(2, 125, Easing.Linear);
         }
 
         private void MoveUp()
         {
-            Body.TranslateTo(0, 0, 250, Easing.Linear);
-            MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
-            DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
-            TitleLabel.ScaleTo(1, 250, Easing.Linear);
+            Body.TranslateTo(0, 0, 200, Easing.Linear);
+            MenuGrid.TranslateTo(0, 0, 200, Easing.Linear);
+            DoubleUp.TranslateTo(0, 0, 200, Easing.Linear);
+            TitleLabel.ScaleTo(1, 200, Easing.Linear);
             DoubleUp.IsVisible = false;
 
         }
 
         #endregion
-
 
 
         /// <summary>
@@ -163,32 +186,39 @@ namespace Registro.Pages
         {
             var list = new List<MenuOption>();
 
-            list.Add(new MenuOption("Voti", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#fd8469"), 1));
-            list.Add(new MenuOption("Medie", ImageSource.FromFile("MedieIcon.png"), Color.FromHex("#324a5e"), 2));
-            list.Add(new MenuOption("Argomenti", ImageSource.FromFile("ArgomentiIcon.png"), Color.FromHex("#90dfaa"), 3));
-            list.Add(new MenuOption("Note", ImageSource.FromFile("NoteIcon.png"), Color.FromHex("#ffd05b"), 4));
-            list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#4cdbc4"), 5));
-            list.Add(new MenuOption("Cambia Password", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#84dbff"), 6));
 
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                if (((150 * list.Count) - (235)) < App.ScreenHeight)
-                {
-                    double nd = (double)((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
-                    int n = (int)Math.Ceiling(nd);
-                    System.Diagnostics.Debug.WriteLine(nd);
-                    System.Diagnostics.Debug.WriteLine(n);
+            list.Add(MenuOption.VoidCell(list.Count + 1));
 
-                    for (int i = 0; i < n; i++)
-                    {
-                        MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
-                        mo.Height = 1;
-                        list.Add(mo);
-                    }
-                }
-            }
+            list.Add(new MenuOption("Voti", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#00B1D4"), list.Count + 1));
+            list.Add(new MenuOption("Medie", ImageSource.FromFile("MedieIcon.png"), Color.FromHex("#61DDDD"), list.Count + 1));
+            list.Add(new MenuOption("Argomenti", ImageSource.FromFile("ArgomentiIcon.png"), Color.FromHex("#B2D235"), list.Count + 1));
+            list.Add(new MenuOption("Note", ImageSource.FromFile("NoteIcon.png"), Color.FromHex("#F2AA52"), list.Count + 1));
+            list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#E15B5C"), list.Count + 1));
+            list.Add(new MenuOption("Impostazioni", ImageSource.FromFile("PasswordIcon.png"), Color.FromHex("#E15BBB"), list.Count + 1));
+
 
             return list;
         }
     }
 }
+
+
+
+/*
+if (Device.RuntimePlatform == Device.iOS)
+{
+    if (((150 * list.Count) - (235)) < App.ScreenHeight)
+    {
+        double nd = (double)((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
+        int n = (int)Math.Ceiling(nd);
+        System.Diagnostics.Debug.WriteLine(nd);
+        System.Diagnostics.Debug.WriteLine(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
+            mo.Height = 1;
+            list.Add(mo);
+        }
+    }
+}*/

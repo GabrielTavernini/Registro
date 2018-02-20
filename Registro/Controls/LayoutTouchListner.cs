@@ -17,7 +17,7 @@ namespace Registro.Controls
 
         public static readonly BindableProperty IsEnebleScrollProperty =
             BindableProperty.Create("IsEnebleScroll", typeof(bool),
-                typeof(LayoutTouchListner), false);
+                typeof(LayoutTouchListner), true);
         
         public float? YTouch { get; set; }
 

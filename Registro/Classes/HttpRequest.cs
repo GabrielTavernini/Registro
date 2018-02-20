@@ -15,31 +15,28 @@ using System.Net.Http.Headers;
 
 namespace Registro
 {
-    class HttpRequest
+    static class HttpRequest
     {
-        User User;
+        static public User User;
 
-        String seed;
-        String cookies;
+        static public String seed;
+        static public String cookies;
 
-        public HttpRequest(User user)
+        static public async Task<Boolean> extractAllAsync()
         {
-            this.User = user;
-        }
-
-        public async Task<String> extractAllAsync()
-        {
-            await LoginAsync();
+            if (!await LoginAsync())
+                return false;
 
             String marksPage = await getMarksPageAsync();
+            System.Diagnostics.Debug.WriteLine(marksPage);
             extratMarks(marksPage);
-            return "Done";
+            return true;
         }
 
-
-        public async Task LoginAsync()
+        static public async Task<Boolean> LoginAsync()
         {
-            await getCookiesAsync();
+            if(cookies == null)
+                await getCookiesAsync();
 
             string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + await cryptPasswordAsync(User.password);
 
@@ -57,22 +54,39 @@ namespace Registro
             req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
             req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-            resp.Dispose();
-            req.Dispose();
+            try{
+                HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+                resp.Dispose();
+                req.Dispose();
+                return true;
+            }catch{
+                req.Dispose();
+                return false; 
+            }
         }
 
-        public void clearLists()
+        static public void clearLists()
         {
-            App.Subjects.Clear();
-            App.Grades.Clear();
+            App.Subjects = new Dictionary<string, Subject>();
+            App.Grades = new List<Grade>();
+        }
+
+        static public async Task<Boolean> RefreshAsync()
+        {
+            if (!await LoginAsync())
+                return false;
+
+            clearLists();
+            String marksPage = await getMarksPageAsync();
+            extratMarks(marksPage);
+            return true;
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getSeed-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        async Task<string> getSeedAsync()
+        static public async Task<string> getSeedAsync()
         {
             HttpClient client = new HttpClient(new NativeMessageHandler());
 
@@ -91,13 +105,11 @@ namespace Registro
             return seed;
         }
 
-
-
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getCookies-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task<string> getCookiesAsync()
+        static public async Task<string> getCookiesAsync()
         {
             string cookieHeader = "";
             string url = "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27";
@@ -126,13 +138,11 @@ namespace Registro
             return cookies;
         }
 
-
-
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task<string> getMarksPageAsync()
+        static public async Task<string> getMarksPageAsync()
         {
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
@@ -144,17 +154,18 @@ namespace Registro
             HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
             pageSource = await getResponse.Content.ReadAsStringAsync();
+
             getRequest.Dispose();
             getResponse.Dispose();
+
             return pageSource;
         }
-
 
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------extratMarks-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        public void extratMarks(String html)
+        static public void extratMarks(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
@@ -205,21 +216,17 @@ namespace Registro
             }
         }
 
-
-
-
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------password-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-
-        public async Task<string> cryptPasswordAsync(String password)
+        static public async Task<string> cryptPasswordAsync(String password)
         {
             await getSeedAsync();
             return hex_md5(hex_md5(hex_md5(password)) + seed);
         }
 
-        public string hex_md5(string input)
+        static public string hex_md5(string input)
 
         {
 
