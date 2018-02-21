@@ -9,23 +9,57 @@ namespace Registro.Pages
 {
     public partial class MarksPage : ContentPage
     {
+        
         public MarksPage()
         {
             GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            InfoList.ItemsSource = GetItems();
+            if (DateTime.Now.Month >= 7)
+            {
+                InfoList.Scale = 1;
+                InfoList2.Scale = 0;
+                InfoList2.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
+            {
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
+                InfoList.Scale = 0;
+                InfoList2.Scale = 1;
+                InfoList.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
             MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
+            gesturesSetup();
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(0, 20, 0, 0);
+            }
+        }
+
+
+        #region setup
+        public void gesturesSetup()
+        { 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
+            InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
+            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             settingTapGesture.Tapped += (sender, args) => { };
@@ -35,12 +69,29 @@ namespace Registro.Pages
             backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
             Back.GestureRecognizers.Add(backTapGesture);
 
-
-            if (Device.RuntimePlatform == Device.iOS)
+            var secondPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            secondPeriodGesture.Tapped += (sender, args) =>
             {
-                Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(0, 20, 0, 0);
-            }
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
+                InfoList.Scale = 0;
+                InfoList.IsVisible = false;
+                InfoList2.Scale = 1;
+                InfoList2.IsVisible = true;
+            };
+            Selector2.GestureRecognizers.Add(secondPeriodGesture);
+
+            var firstPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            firstPeriodGesture.Tapped += (sender, args) =>
+            {
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
+                InfoList.Scale = 1;
+                InfoList.IsVisible = true;
+                InfoList2.Scale = 0;
+                InfoList2.IsVisible = false;
+            };
+            Selector1.GestureRecognizers.Add(firstPeriodGesture);
         }
 
         public void settings()
@@ -50,7 +101,11 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-
+            GradeModel g = e.Item as GradeModel;
+            if (g.Description == null || g.Description == "")
+                DisplayAlert("Descrizione Voto", "Nessuna Descrizione", "Ok");
+            else
+                DisplayAlert("Descrizione Voto", g.Description, "Ok");
         }
 
         private async Task RefreshAsync(ListView list)
@@ -58,8 +113,7 @@ namespace Registro.Pages
             await Task.Delay(2000);
             list.IsRefreshing = false;
         }
-
-
+        #endregion
 
         #region MoveList
 
@@ -137,43 +191,56 @@ namespace Registro.Pages
 
         #endregion
 
+        #region items
 
-        /// <summary>
-        /// Fake items for listView
-        /// </summary>
-        /// <returns></returns>
-        private List<GradeModel> GetItems()
+        private List<GradeModel> GetItems1()
         {
-            /*SortedDictionary<DateTime, Grade> dictionary = new SortedDictionary<DateTime, Grade>();
-
-            foreach (Grade g in App.Grades)
-            {
-                if (dictionary.ContainsKey(g.dateTime))
-                    g.dateTime = g.dateTime.AddMilliseconds(dictionary.Count);
-
-                dictionary.Add(g.dateTime, g);
-                System.Diagnostics.Debug.WriteLine(g.gradeString);
-            }*/
 
             List<GradeModel> list = new List<GradeModel>();
 
-            foreach(Grade g in App.Grades)
+            foreach (Grade g in App.Grades)
             {
-                list.Add(new GradeModel(g, 1));
+                if (g.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new GradeModel(g, 1));
             }
             list.Sort(new CustomDataTimeComparer());
 
-            int i = 1;
-            foreach(GradeModel g in list)
+
+            int j = 1;
+            foreach (GradeModel g in list)
             {
-                g.Id = i;
+                g.Id = j;
                 g.color = Color.FromHex("#00B1D4");
-                i++;
+                j++;
             }
 
             return list;
         }
+
+        private List<GradeModel> GetItems2()
+        {
+            List<GradeModel> list = new List<GradeModel>();
+
+            foreach (Grade g in App.Grades)
+            {
+                if (g.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new GradeModel(g, 1));
+            }
+            list.Sort(new CustomDataTimeComparer());
+
+            int j = 1;
+            foreach (GradeModel g in list)
+            {
+                g.Id = j;
+                g.color = Color.FromHex("#00B1D4");
+                j++;
+            }
+
+            return list;
+        }
+        #endregion
     }
+
 
 
     public class CustomDataTimeComparer : IComparer<GradeModel>

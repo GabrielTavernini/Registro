@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
@@ -9,35 +7,32 @@ using Xamarin.Forms;
 
 namespace Registro.Pages
 {
-    /// <summary>
-    /// working on ios and android
-    /// </summary>
-    public partial class AveragesPage : ContentPage
+    public partial class ArgumentsPage : ContentPage
     {
-        public AveragesPage()
+        public ArgumentsPage()
         {
             GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (DateTime.Now.Month >= 7)
+            if(DateTime.Now.Month >= 7)
             {
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
-                InfoList2.ItemsSource = GetItems2();
-            }
-            else
+                InfoList2.ItemsSource = GetItems2();                
+            }else
             {
-                Selector1.BackgroundColor = Color.FromHex("#61DDDD");
-                Selector2.BackgroundColor = Color.FromHex("#009bd4");
+                Selector1.BackgroundColor = Color.FromHex("#B2D235");
+                Selector2.BackgroundColor = Color.FromHex("#51d134");
                 InfoList.Scale = 0;
                 InfoList2.Scale = 1;
                 InfoList.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
                 InfoList2.ItemsSource = GetItems2();
             }
+
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -51,12 +46,7 @@ namespace Registro.Pages
                 Setting.Margin = new Thickness(0, 20, 0, 0);
                 Back.Margin = new Thickness(0, 20, 0, 0);
             }
-
-            if (Device.RuntimePlatform == Device.Android)
-                MoveUp();
-
         }
-
 
 
 
@@ -82,8 +72,8 @@ namespace Registro.Pages
             var secondPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             secondPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#61DDDD");
-                Selector2.BackgroundColor = Color.FromHex("#009bd4");
+                Selector1.BackgroundColor = Color.FromHex("#B2D235");
+                Selector2.BackgroundColor = Color.FromHex("#51d134");
                 InfoList.Scale = 0;
                 InfoList.IsVisible = false;
                 InfoList2.Scale = 1;
@@ -94,8 +84,8 @@ namespace Registro.Pages
             var firstPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             firstPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#009bd4");
-                Selector2.BackgroundColor = Color.FromHex("#61DDDD");
+                Selector1.BackgroundColor = Color.FromHex("#51d134");
+                Selector2.BackgroundColor = Color.FromHex("#B2D235");
                 InfoList.Scale = 1;
                 InfoList.IsVisible = true;
                 InfoList2.Scale = 0;
@@ -111,11 +101,11 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-            GradeModel g = e.Item as GradeModel;
-            if (g.Description == null || g.Description == "")
-                DisplayAlert("Descrizione Voto", "Nessuna Descrizione", "Ok");
+            ArgsModel g = e.Item as ArgsModel;
+            if (g.Argument == null || g.Argument == "")
+                DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
             else
-                DisplayAlert("Descrizione Voto", g.Description, "Ok");
+                DisplayAlert("Argomento", g.Argument, "Ok");
         }
 
         private async Task RefreshAsync(ListView list)
@@ -201,104 +191,52 @@ namespace Registro.Pages
 
         #endregion
 
-
-
-
-        /// <summary>
-        /// Fake items for listView
-        /// </summary>
-        /// <returns></returns>
-        private List<GradeModel> GetItems1()
+        private List<ArgsModel> GetItems1()
         {
-            List<GradeModel> baseList = new List<GradeModel>();
-            List<GradeModel> list = new List<GradeModel>();
-
-            foreach (Grade g in App.Grades)
+            List<ArgsModel> list = new List<ArgsModel>();
+            foreach (Arguments a in App.Arguments)
             {
-                if (g.dateTime.CompareTo(App.periodChange) <= 0)
-                    baseList.Add(new GradeModel(g, 1));
+                if (a.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new ArgsModel(a, 0));
             }
-            baseList.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparerArgs());
 
             int j = 1;
-            foreach (GradeModel g in baseList)
+            foreach (ArgsModel g in list)
             {
                 g.Id = j;
-                g.color = Color.FromHex("#00B1D4");
+                g.color = Color.FromHex("#B2D235");
                 j++;
-            }
-
-
-            float sum = 0;
-            foreach(GradeModel g in baseList)
-            {
-                sum += g.grade;
-            }
-
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
-            list.Add(new GradeModel(globalAverage, list.Count() + 1,  Color.FromHex("#61DDDD")));
-
-            foreach (Subject s in App.Subjects.Values.ToList())
-            {
-                Grade g = s.getMedia1();
-                if(g.grade > 0)
-                {
-                    g.type = "Media della materia";
-                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));   
-                }
             }
 
             return list;
         }
 
-        private List<GradeModel> GetItems2()
+        private List<ArgsModel> GetItems2()
         {
-            List<GradeModel> baseList = new List<GradeModel>();
-            List<GradeModel> list = new List<GradeModel>();
-
-            foreach (Grade g in App.Grades)
+            List<ArgsModel> list = new List<ArgsModel>();
+            foreach (Arguments a in App.Arguments)
             {
-                if (g.dateTime.CompareTo(App.periodChange) > 0)
-                    baseList.Add(new GradeModel(g, 1));
+                if (a.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new ArgsModel(a, 0));
             }
-            baseList.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparerArgs());
 
             int j = 1;
-            foreach (GradeModel g in baseList)
+            foreach (ArgsModel g in list)
             {
                 g.Id = j;
-                g.color = Color.FromHex("#00B1D4");
+                g.color = Color.FromHex("#B2D235");
                 j++;
-            }
-
-
-            float sum = 0;
-            foreach (GradeModel g in baseList)
-            {
-                sum += g.grade;
-            }
-
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
-            list.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#61DDDD")));
-
-            foreach (Subject s in App.Subjects.Values.ToList())
-            {
-                Grade g = s.getMedia2();
-                if (g.grade > 0)
-                {
-                    g.type = "Media della materia";
-                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));
-                }
             }
 
             return list;
         }
     }
 
-
-    public class CustomDataTimeComparerGrade : IComparer<Grade>
+    public class CustomDataTimeComparerArgs : IComparer<ArgsModel>
     {
-        public int Compare(Grade x, Grade y)
+        public int Compare(ArgsModel x, ArgsModel y)
         {
             return -DateTime.Compare(x.dateTime, y.dateTime);
         }

@@ -47,6 +47,50 @@ namespace Registro
             return media;
         }
 
+
+        public Grade getMedia1()
+        {
+            Grade media = new Grade("", "", "", "Media", this, false);
+            float sum = (float)0.0;
+            int i = 0;
+
+            foreach (Grade grade in this.grades)
+            {
+                if (grade.dateTime.CompareTo(App.periodChange) <= 0)
+                {
+                    sum += grade.grade;
+                    i++;
+                }
+            }
+
+            float mediaFloat = sum / i;
+            media.setGrade(mediaFloat.ToString("0.00"));
+
+            return media;
+        }
+
+        public Grade getMedia2()
+        {
+            Grade media = new Grade("", "", "", "Media", this, false);
+            float sum = (float)0.0;
+            int i = 0;
+
+            foreach (Grade grade in this.grades)
+            {
+                if (grade.dateTime.CompareTo(App.periodChange) > 0)
+                {
+                    sum += grade.grade;
+                    i++;   
+                }
+                    
+            }
+
+            float mediaFloat = sum / i;
+            media.setGrade(mediaFloat.ToString("0.00"));
+
+            return media;
+        }
+
         static Subject getSubjectByString(String s)
         {
             Subject sub;

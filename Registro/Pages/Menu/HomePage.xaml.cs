@@ -9,12 +9,14 @@ namespace Registro.Pages
 {
     public partial class HomePage : ContentPage
     {
+        User user;
+        bool isFirstTime = false;
+
         public HomePage(User user)
         {
+            this.user = user;
+            this.isFirstTime = true;
             initialize();
-
-            Task task = new Task(async () => { HttpRequest.User = user; await HttpRequest.extractAllAsync(); });
-            task.Start();
         }
 
         public HomePage()
@@ -50,7 +52,15 @@ namespace Registro.Pages
         {
             base.OnAppearing();
 
-            //MoveDown();
+            if(isFirstTime)
+            {
+                isFirstTime = false;
+                HttpRequest.User = user;
+
+                Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
+                t.Start();
+
+            }
         }
 
         public void settings()
@@ -70,7 +80,7 @@ namespace Registro.Pages
                 await Navigation.PushAsync(new AveragesPage());
 
             if (mo.title == "Argomenti")
-                await Navigation.PushAsync(new MainPage());
+                await Navigation.PushAsync(new ArgumentsPage());
 
         }
 

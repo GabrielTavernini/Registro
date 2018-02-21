@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro"
              xmlns:models="clr-namespace:Registro.Models;assembly=Registro"
+             xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              x:Class="Registro.Pages.MarksPage">
 
   <controls:LayoutTouchListner x:Name="LayoutTouchListnerCtrl" Orientation="Vertical" TouchEvent="LayoutTouchListner_OnTouchEvent" Spacing="0">
@@ -23,19 +24,44 @@
         <Image x:Name="DoubleUp" Source="double_up.png" Aspect="Fill" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="15" WidthRequest="20"/>
     </Grid>
 
-        <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White">
-            <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
+       
+    <StackLayout x:Name="Body" VerticalOptions="EndAndExpand" BackgroundColor="White" Spacing="0">
 
-                        <models:MarkCell 
-                            FirstApper="SearchPageViewCellWithId_OnFirstApper"
-                            FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp">
-                        </models:MarkCell>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <StackLayout x:Name="PeriodSelector" Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="30" Padding="0" Spacing="0" >
+            <Label x:Name="Selector1" Text="1° Periodo" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#0082D4"/>
+            <Label x:Name="Selector2" Text="2° Periodo" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#00B1D4"/>
         </StackLayout>
+
+
+
+            
+        <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+
+                    <models:MarkCell 
+                        FirstApper="SearchPageViewCellWithId_OnFirstApper"
+                        FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp">
+                    </models:MarkCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView x:Name="InfoList2" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+
+                    <models:MarkCell 
+                        FirstApper="SearchPageViewCellWithId_OnFirstApper"
+                        FirstDisapp="SearchPageViewCellWithId_OnFirstDisapp">
+                    </models:MarkCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+            
+    </StackLayout>
+        
   </controls:LayoutTouchListner>
 </ContentPage>

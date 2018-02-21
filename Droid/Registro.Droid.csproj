@@ -127,6 +127,9 @@
     <Reference Include="XFShapeView.Droid">
       <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Forms.CarouselView">
+      <HintPath>..\packages\Xamarin.Forms.CarouselView.2.3.0-pre2\lib\MonoAndroid10\Xamarin.Forms.CarouselView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Registro\Registro.csproj">

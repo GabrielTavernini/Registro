@@ -11,6 +11,7 @@ namespace Registro.Models
         public String type { get; set; }
         public String subject { get; set; }
         public String gradeString { get; set; }
+        public float grade { get; set; }
         public Boolean Void { get; set; } = false;
         public int Id { get; set; }
         public Color color { get; set; } = Color.DarkBlue;
@@ -23,6 +24,7 @@ namespace Registro.Models
             this.subject = g.subject.name;
             this.gradeString = g.gradeString;
             this.dateTime = g.dateTime;
+            this.grade = g.grade;
             this.Id = Id;
         }
 
@@ -34,6 +36,7 @@ namespace Registro.Models
             this.subject = g.subject.name;
             this.gradeString = g.gradeString;
             this.dateTime = g.dateTime;
+            this.grade = g.grade;
             this.Id = Id;
             this.color = color;
         }

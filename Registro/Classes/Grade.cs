@@ -15,10 +15,8 @@ namespace Registro
         public String type { get; set; } = "";
         public float grade { get; set; } = 0.0f;
         public Subject subject { get; set; } = new Subject("", false);
-        //public String subjectName { get => this.subject.name; }
         public String gradeString { get; set; } = "";
         public DateTime dateTime { get; set; }
-        //public int Id { get; set; }
 
         public Grade(String date, String type, String grade, String Description, Subject subject, Boolean save)
         {
