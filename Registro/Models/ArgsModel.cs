@@ -7,6 +7,7 @@ namespace Registro.Models
     {
         public String date { get; set; } = "";
         public String Argument { get; set; } = "";
+        public string Activity { get; set; } = "";
         public String Preview { get; set; } = "";
         public String FirstLetter { get; set; } = "";
         public String subject { get; set; } = "";
@@ -20,6 +21,7 @@ namespace Registro.Models
             this.date = a.date;
             this.subject = a.subject;
             this.Argument = a.Argument;
+            this.Activity = a.Activity;
             if (Argument.Length >= 23)
                 this.Preview = Argument.Substring(0, 22) + "...";
             else
@@ -34,6 +36,7 @@ namespace Registro.Models
             this.date = a.date;
             this.subject = a.subject;
             this.Argument = a.Argument;
+            this.Activity = a.Activity;
             if (Argument.Length >= 23)
                 this.Preview = Argument.Substring(0, 22) + "...";
             else

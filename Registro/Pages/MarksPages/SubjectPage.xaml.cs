@@ -12,10 +12,13 @@ namespace Registro.Pages
     /// <summary>
     /// working on ios and android
     /// </summary>
-    public partial class AveragesPage : ContentPage
+    public partial class SubjectPage : ContentPage
     {
-        public AveragesPage()
+        Subject sub;
+
+        public SubjectPage(Subject sub)
         {
+            this.sub = sub;
             GC.Collect();
             InitializeComponent();
 
@@ -30,14 +33,16 @@ namespace Registro.Pages
             }
             else
             {
-                Selector1.BackgroundColor = Color.FromHex("#61DDDD");
-                Selector2.BackgroundColor = Color.FromHex("#009bd4");
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 0;
                 InfoList2.Scale = 1;
                 InfoList.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
                 InfoList2.ItemsSource = GetItems2();
             }
+
+            TitleLabel.Text = sub.name;
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -80,8 +85,8 @@ namespace Registro.Pages
             var secondPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             secondPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#61DDDD");
-                Selector2.BackgroundColor = Color.FromHex("#009bd4");
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 0;
                 InfoList.IsVisible = false;
                 InfoList2.Scale = 1;
@@ -92,8 +97,8 @@ namespace Registro.Pages
             var firstPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             firstPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#009bd4");
-                Selector2.BackgroundColor = Color.FromHex("#61DDDD");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
                 InfoList.Scale = 1;
                 InfoList.IsVisible = true;
                 InfoList2.Scale = 0;
@@ -110,8 +115,10 @@ namespace Registro.Pages
         private void ItemTapped(ItemTappedEventArgs e)
         {
             GradeModel g = e.Item as GradeModel;
-            if (g.subject != "MEDIA GLOBALE")
-                Navigation.PushAsync(new SubjectPage(Subject.getSubjectByString(g.subject)));
+            if (g.Description == null || g.Description == "")
+                DisplayAlert("Descrizione Voto", "Nessuna Descrizione", "Ok");
+            else
+                DisplayAlert("Descrizione Voto", g.Description, "Ok");
         }
 
         private async Task RefreshAsync(ListView list)
@@ -206,97 +213,54 @@ namespace Registro.Pages
         /// <returns></returns>
         private List<GradeModel> GetItems1()
         {
-            List<GradeModel> baseList = new List<GradeModel>();
             List<GradeModel> list = new List<GradeModel>();
+            List<GradeModel> returnList = new List<GradeModel>();
 
-            foreach (Grade g in App.Grades)
+            Grade globalAverage = new Grade("", "Media della materia", sub.getMedia1().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
+            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+
+            foreach (Grade g in sub.grades)
             {
                 if (g.dateTime.CompareTo(App.periodChange) <= 0)
-                    baseList.Add(new GradeModel(g, 1));
+                    list.Add(new GradeModel(g, 1));
             }
-            baseList.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparer());
 
-            int j = 1;
-            foreach (GradeModel g in baseList)
+            foreach (GradeModel g in list)
             {
-                g.Id = j;
+                g.Id = list.Count() + 1;
                 g.color = Color.FromHex("#00B1D4");
-                j++;
+
+                returnList.Add(g);
             }
 
-
-            float sum = 0;
-            foreach(GradeModel g in baseList)
-            {
-                sum += g.grade;
-            }
-
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
-            list.Add(new GradeModel(globalAverage, list.Count() + 1,  Color.FromHex("#61DDDD")));
-
-            foreach (Subject s in App.Subjects.Values.ToList())
-            {
-                Grade g = s.getMedia1();
-                if(g.grade > 0)
-                {
-                    g.type = "Media della materia";
-                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));   
-                }
-            }
-
-            return list;
+            return returnList;
         }
 
         private List<GradeModel> GetItems2()
         {
-            List<GradeModel> baseList = new List<GradeModel>();
             List<GradeModel> list = new List<GradeModel>();
+            List<GradeModel> returnList = new List<GradeModel>();
 
-            foreach (Grade g in App.Grades)
+            Grade globalAverage = new Grade("", "Media della meteria", sub.getMedia2().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
+            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+
+            foreach (Grade g in sub.grades)
             {
                 if (g.dateTime.CompareTo(App.periodChange) > 0)
-                    baseList.Add(new GradeModel(g, 1));
+                    list.Add(new GradeModel(g, 1));
             }
-            baseList.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparer());
 
-            int j = 1;
-            foreach (GradeModel g in baseList)
+            foreach (GradeModel g in list)
             {
-                g.Id = j;
+                g.Id = list.Count() + 1;
                 g.color = Color.FromHex("#00B1D4");
-                j++;
+
+                returnList.Add(g);
             }
 
-
-            float sum = 0;
-            foreach (GradeModel g in baseList)
-            {
-                sum += g.grade;
-            }
-
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
-            list.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#61DDDD")));
-
-            foreach (Subject s in App.Subjects.Values.ToList())
-            {
-                Grade g = s.getMedia2();
-                if (g.grade > 0)
-                {
-                    g.type = "Media della materia";
-                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));
-                }
-            }
-
-            return list;
-        }
-    }
-
-
-    public class CustomDataTimeComparerGrade : IComparer<Grade>
-    {
-        public int Compare(Grade x, Grade y)
-        {
-            return -DateTime.Compare(x.dateTime, y.dateTime);
+            return returnList;
         }
     }
 }

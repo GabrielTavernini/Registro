@@ -44,8 +44,9 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
             {
-                Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(0, 20, 0, 0);
+                Setting.Margin = new Thickness(0, 25, 10, 0);
+                Back.Margin = new Thickness(10, 25, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
         }
 

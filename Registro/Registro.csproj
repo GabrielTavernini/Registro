@@ -64,6 +64,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\SubjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -118,6 +122,9 @@
     <Compile Include="Classes\HttpRequests\ArgumentsRequests.cs" />
     <Compile Include="Classes\HttpRequests\MarksRequests.cs" />
     <Compile Include="Models\CarouselListModel.cs" />
+    <Compile Include="Pages\MarksPages\SubjectPage.xaml.cs">
+      <DependentUpon>SubjectPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
@@ -45,6 +46,7 @@ namespace Registro.Pages
             {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
                 Back.Margin = new Thickness(0, 20, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
         }
 
@@ -105,7 +107,20 @@ namespace Registro.Pages
             if (g.Argument == null || g.Argument == "")
                 DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
             else
-                DisplayAlert("Argomento", g.Argument, "Ok");
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(g.Argument);
+                if(g.Activity != null && g.Activity != "")
+                {
+                    sb.AppendLine(" ");
+                    sb.AppendLine(" ");
+                    sb.AppendLine("Attività:");
+                    sb.Append(g.Activity);
+                }
+
+                DisplayAlert("Argomento", sb.ToString(), "Ok");  
+            }
+                
         }
 
         private async Task RefreshAsync(ListView list)

@@ -164,14 +164,12 @@
     <AndroidResource Include="Resources\drawable\LaunchView.xml" />
     <AndroidResource Include="Resources\values\color.xml" />
     <AndroidResource Include="Resources\drawable\settings_icon.png" />
-    <AndroidResource Include="Resources\drawable\HomeHead.png" />
     <AndroidResource Include="Resources\drawable\ArgomentiIcon.png" />
     <AndroidResource Include="Resources\drawable\AssenzeIcon.png" />
     <AndroidResource Include="Resources\drawable\VotiIcon.png" />
     <AndroidResource Include="Resources\drawable\MedieIcon.png" />
     <AndroidResource Include="Resources\drawable\NoteIcon.png" />
     <AndroidResource Include="Resources\drawable\double_up.png" />
-    <AndroidResource Include="Resources\drawable\VotiHead.png" />
     <AndroidResource Include="Resources\drawable\PasswordIcon.png" />
     <AndroidResource Include="Resources\drawable\back_arrow.png" />
   </ItemGroup>

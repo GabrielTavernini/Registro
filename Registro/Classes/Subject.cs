@@ -91,7 +91,7 @@ namespace Registro
             return media;
         }
 
-        static Subject getSubjectByString(String s)
+        static public Subject getSubjectByString(String s)
         {
             Subject sub;
             App.Subjects.TryGetValue(s, out sub);
