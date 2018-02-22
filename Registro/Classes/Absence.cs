@@ -12,8 +12,8 @@ namespace Registro
         public Absence(String Type, String date, Boolean save)
         {
             this.date = date;
-            date = date.Substring(0, 10);
             this.Type = Type;
+            System.Diagnostics.Debug.WriteLine(Type + " " + date);
             if (date != "")
                 this.dateTime = ConvertDate(date);
             if (save)
@@ -25,13 +25,12 @@ namespace Registro
         public void setDate(String date)
         {
             this.date = date;
-            date = date.Substring(0, 10);
             this.dateTime = ConvertDate(date);
         }
 
         private DateTime ConvertDate(String date)
         {
-            try { return DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture); }
+            try { return DateTime.ParseExact(this.date, "dd/MM/yyyy", CultureInfo.InvariantCulture); }
             catch { return new DateTime(); }
         }
     }

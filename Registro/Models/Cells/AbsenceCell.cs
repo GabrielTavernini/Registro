@@ -111,7 +111,7 @@ namespace Registro.Models
             this.SetBinding(ItemIdProperty, nameof(AbsenceModel.Id));
             gradeL.SetBinding(Label.TextProperty, nameof(AbsenceModel.FirstLetter));
             gradeF.SetBinding(ShapeView.ColorProperty, nameof(AbsenceModel.color));
-            subjectL.SetBinding(Label.TextProperty, nameof(AbsenceModel.Nome));
+            subjectL.SetBinding(Label.TextProperty, nameof(AbsenceModel.Type));
             typeL.SetBinding(Label.TextProperty, nameof(AbsenceModel.Preview));
             dateL.SetBinding(Label.TextProperty, nameof(AbsenceModel.date));
         }

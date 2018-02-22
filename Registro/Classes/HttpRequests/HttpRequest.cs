@@ -31,6 +31,7 @@ namespace Registro
             await MarksRequests.extractAll();
             await ArgumentsRequests.extractAll();
             await NotesRequests.extractAll();
+            await AbsencesRequests.extractAll();
 
             return true;
         }

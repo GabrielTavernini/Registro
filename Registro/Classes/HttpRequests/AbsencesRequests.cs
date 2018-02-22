@@ -13,8 +13,7 @@ namespace Registro.Classes.HttpRequests
         {
             String absencesPage = await getAbsencesPageAsync();
 
-            //extratNotesIndiv(absencesPage);
-            //extratNotesClass(absencesPage);
+            extratAbsences(absencesPage);
             System.Diagnostics.Debug.WriteLine(absencesPage);
             return absencesPage;
         }
@@ -52,8 +51,6 @@ namespace Registro.Classes.HttpRequests
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
-            Absence currentAbsence = new Absence();
-
             Element table = doc.Select("body > div.contenuto > table:nth-child(6) > tbody > tr:nth-child(6)").First;
 
             if (table == null) return;
@@ -65,25 +62,29 @@ namespace Registro.Classes.HttpRequests
             {
                 if (Column == 1)
                 {
-                    foreach(String s in inputElement.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                    foreach(String s in inputElement.Text.Split(' '))
                     {
-                        currentAbsence = new Absence("Assenza", s, true);
+                        System.Diagnostics.Debug.WriteLine(s);
+                        if(s != "" && s != null && s.Length > 4)
+                            new Absence("Assenza", s, true);
                     }
                     Column++;
                 }
                 else if (Column == 2)
                 {
-                    foreach (String s in inputElement.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                    foreach (String s in inputElement.Text.Split(' '))
                     {
-                        currentAbsence = new Absence("Ritardo", s, true);
+                        if (s != "" && s != null && s.Length > 4)
+                            new Absence("Ritardo", s, true);
                     }                    
                     Column++;
                 }
                 else if (Column == 3)
                 {
-                    foreach (String s in inputElement.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                    foreach (String s in inputElement.Text.Split(' '))
                     {
-                        currentAbsence = new Absence("Uscita", s, true);
+                        if (s != "" && s != null && s.Length > 4)
+                            new Absence("Uscita", s, true);
                     }                    
                     Column = 1;
                 }

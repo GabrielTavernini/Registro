@@ -48,7 +48,7 @@ namespace Registro.Pages
                 Setting.Margin = new Thickness(0, 20, 0, 0); */
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
@@ -57,8 +57,12 @@ namespace Registro.Pages
                 isFirstTime = false;
                 HttpRequest.User = user;
 
-                Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
-                t.Start();
+                //Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
+                //t.Start();
+
+                InfoList.IsRefreshing = true;
+                await HttpRequest.extractAllAsync();
+                InfoList.IsRefreshing = false;
 
             }
         }
@@ -84,6 +88,9 @@ namespace Registro.Pages
 
             if (mo.title == "Note")
                 await Navigation.PushAsync(new NotesPage());
+
+            if (mo.title == "Assenze")
+                await Navigation.PushAsync(new AbsencesPage());
         }
 
         private async Task RefreshAsync(ListView list)

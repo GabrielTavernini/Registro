@@ -76,6 +76,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\AbsencesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -145,6 +149,9 @@
     <Compile Include="Models\Cells\NoteCell.cs" />
     <Compile Include="Models\Cells\AbsenceCell.cs" />
     <Compile Include="Models\AbsenceModel.cs" />
+    <Compile Include="Pages\MarksPages\AbsencesPage.xaml.cs">
+      <DependentUpon>AbsencesPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
