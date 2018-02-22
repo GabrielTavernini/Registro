@@ -143,6 +143,8 @@
     <Compile Include="Models\Cells\MarkCell.cs" />
     <Compile Include="Models\Cells\MenuCell.cs" />
     <Compile Include="Models\Cells\NoteCell.cs" />
+    <Compile Include="Models\Cells\AbsenceCell.cs" />
+    <Compile Include="Models\AbsenceModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
