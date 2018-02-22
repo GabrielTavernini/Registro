@@ -51,7 +51,7 @@ namespace Registro.Pages
             if (Device.RuntimePlatform == Device.iOS)
             {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(10, 30, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
 
@@ -113,7 +113,13 @@ namespace Registro.Pages
         {
             GradeModel g = e.Item as GradeModel;
             if (g.subject != "MEDIA GLOBALE")
-                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject)));
+            {
+
+                if(InfoList.IsVisible)
+                    Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 1));
+                else
+                    Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 0));
+            }
         }
 
         private async Task RefreshAsync(ListView list)

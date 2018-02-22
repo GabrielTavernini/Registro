@@ -16,14 +16,14 @@ namespace Registro.Pages
     {
         Subject sub;
 
-        public SubjectPageMarks(Subject sub)
+        public SubjectPageMarks(Subject sub, int period)
         {
             this.sub = sub;
             GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (DateTime.Now.Month >= 7)
+            if (period == 1)
             {
                 Selector2.BackgroundColor = Color.FromHex("#00B1D4");
                 Selector1.BackgroundColor = Color.FromHex("#0082D4");
@@ -56,7 +56,7 @@ namespace Registro.Pages
             if (Device.RuntimePlatform == Device.iOS)
             {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(10, 30, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
 

@@ -146,8 +146,8 @@ namespace Registro.Models
 
             try
             {
-                await View.ScaleTo(1.2, 175);
-                await View.ScaleTo(1, 175);               
+                await View.ScaleTo(1.2, 125);
+                await View.ScaleTo(1, 125);               
             }
             catch{}
 

@@ -11,6 +11,7 @@ namespace Registro.Pages
     {
         User user;
         bool isFirstTime = false;
+        Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
 
         public HomePage(User user)
         {
@@ -46,9 +47,13 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0); */
+            
+            if (Device.RuntimePlatform == Device.iOS)
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+           
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -56,14 +61,7 @@ namespace Registro.Pages
             {
                 isFirstTime = false;
                 HttpRequest.User = user;
-
-                //Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
-                //t.Start();
-
-                InfoList.IsRefreshing = true;
-                await HttpRequest.extractAllAsync();
-                InfoList.IsRefreshing = false;
-
+                //#t.Start();
             }
         }
 
@@ -95,22 +93,14 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            if(await HttpRequest.RefreshAsync())
-                System.Diagnostics.Debug.WriteLine("Connection Error!");
+            if ((t != null)
+                && (t.IsCompleted != false ||
+                t.Status != TaskStatus.Running ||
+                t.Status != TaskStatus.WaitingToRun ||
+                t.Status != TaskStatus.WaitingForActivation))
+                await HttpRequest.RefreshAsync();
 
             list.IsRefreshing = false;
-         }
-
-        private async Task loadMarksAsync(User user)
-        {
-            HttpRequest.User = user;
-            if (!await HttpRequest.extractAllAsync())
-            {
-                System.Diagnostics.Debug.WriteLine("Connection Error!");
-                return;
-            }
-
-            return;
         }
 
         //--------------------------------------------------------------------------------------------------------------------------------------------

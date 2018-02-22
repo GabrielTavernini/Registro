@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Registro.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -45,6 +47,7 @@ namespace Registro
             else
                 periodChange = GetPeriodChange();
 
+            DeserializeObjects();
 
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
@@ -90,6 +93,54 @@ namespace Registro
             {
                 return new DateTime(DateTime.Now.Year, 1, 31);
             }
+        }
+
+
+        static public void DeserializeObjects()
+        {
+
+            if (Application.Current.Properties.ContainsKey("grades"))
+            {
+                String str = Application.Current.Properties["grades"] as String;
+                grades = JsonConvert.DeserializeObject<List<Grade>>(str);
+
+                foreach(Grade g in grades)
+                {
+                    if(!subjects.ContainsKey(g.subject.name))
+                    {
+                        subjects.Add(g.subject.name, g.subject); 
+                    }
+                }
+            }
+
+            if (Application.Current.Properties.ContainsKey("arguments"))
+            {
+                String str = Application.Current.Properties["arguments"] as String;
+                arguments = JsonConvert.DeserializeObject<List<Arguments>>(str);
+            }
+
+            if (Application.Current.Properties.ContainsKey("notes"))
+            {
+                String str = Application.Current.Properties["notes"] as String;
+                notes = JsonConvert.DeserializeObject<List<Note>>(str);
+            }
+
+            if (Application.Current.Properties.ContainsKey("absences"))
+            {
+                String str = Application.Current.Properties["absences"] as String;
+                absences = JsonConvert.DeserializeObject<List<Absence>>(str);
+            }
+        }
+
+        static public void SerializeObjects()
+        {
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+
+            Application.Current.Properties["grades"] = JsonConvert.SerializeObject(grades, Formatting.Indented, jsonSettings);
+            //Application.Current.Properties["subjects"] = JsonConvert.SerializeObject(subjects, Formatting.Indented, jsonSettings);
+            Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(arguments, Formatting.Indented, jsonSettings);
+            Application.Current.Properties["notes"] = JsonConvert.SerializeObject(notes, Formatting.Indented, jsonSettings);
+            Application.Current.Properties["absences"] = JsonConvert.SerializeObject(absences, Formatting.Indented, jsonSettings);
         }
     }
 }

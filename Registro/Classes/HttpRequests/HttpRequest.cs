@@ -33,6 +33,7 @@ namespace Registro
             await NotesRequests.extractAll();
             await AbsencesRequests.extractAll();
 
+            App.SerializeObjects();
             return true;
         }
 
@@ -40,7 +41,10 @@ namespace Registro
         static public async Task<Boolean> LoginAsync()
         {
             if(cookies == null)
-                await getCookiesAsync();
+                if( await getCookiesAsync() == "failed")
+                    return false;
+
+
 
             string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + await cryptPasswordAsync(User.password);
 
@@ -75,6 +79,7 @@ namespace Registro
             App.Grades = new List<Grade>();
             App.Arguments = new List<Arguments>();
             App.Notes = new List<Note>();
+            App.Absences = new List<Absence>();
         }
 
         static public async Task<Boolean> RefreshAsync()
@@ -85,7 +90,9 @@ namespace Registro
             await MarksRequests.extractAll();
             await ArgumentsRequests.extractAll();
             await NotesRequests.extractAll();
+            await AbsencesRequests.extractAll();
 
+            App.SerializeObjects();
             return true;
         }
 
@@ -125,9 +132,10 @@ namespace Registro
             HttpRequestMessage req = new HttpRequestMessage();
             req.RequestUri = new Uri(url);
 
-            HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+            HttpResponseMessage resp = new HttpResponseMessage();
             try
-            {
+            {                
+                resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
                 HttpHeaders headers = resp.Headers;
                 IEnumerable<string> values;
                 if (headers.TryGetValues("Set-Cookie", out values))
@@ -135,7 +143,7 @@ namespace Registro
                     cookieHeader = values.First();
                 }
             }
-            catch { }
+            catch { return "failed"; }
 
             String[] temp = cookieHeader.Split(';');
             cookies = temp[0];
