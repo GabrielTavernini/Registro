@@ -18,6 +18,8 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             if (DateTime.Now.Month >= 7)
             {
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;

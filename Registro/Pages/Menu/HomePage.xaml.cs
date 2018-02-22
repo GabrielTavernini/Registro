@@ -82,6 +82,8 @@ namespace Registro.Pages
             if (mo.title == "Argomenti")
                 await Navigation.PushAsync(new ArgumentsPage());
 
+            if (mo.title == "Note")
+                await Navigation.PushAsync(new NotesPage());
         }
 
         private async Task RefreshAsync(ListView list)

@@ -8,9 +8,9 @@ using Xamarin.Forms;
 
 namespace Registro.Pages
 {
-    public partial class ArgumentsPage : ContentPage
+    public partial class NotesPage : ContentPage
     {
-        public ArgumentsPage()
+        public NotesPage()
         {
             GC.Collect();
             InitializeComponent();
@@ -18,8 +18,8 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             if(DateTime.Now.Month >= 7)
             {
-                Selector2.BackgroundColor = Color.FromHex("#B2D235");
-                Selector1.BackgroundColor = Color.FromHex("#51d134");
+                Selector2.BackgroundColor = Color.FromHex("#F2AA52");
+                Selector1.BackgroundColor = Color.FromHex("#f18951");
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
@@ -27,8 +27,8 @@ namespace Registro.Pages
                 InfoList2.ItemsSource = GetItems2();                
             }else
             {
-                Selector1.BackgroundColor = Color.FromHex("#B2D235");
-                Selector2.BackgroundColor = Color.FromHex("#51d134");
+                Selector1.BackgroundColor = Color.FromHex("#F2AA52");
+                Selector2.BackgroundColor = Color.FromHex("#f18951");
                 InfoList.Scale = 0;
                 InfoList2.Scale = 1;
                 InfoList.IsVisible = false;
@@ -76,8 +76,8 @@ namespace Registro.Pages
             var secondPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             secondPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#B2D235");
-                Selector2.BackgroundColor = Color.FromHex("#51d134");
+                Selector1.BackgroundColor = Color.FromHex("#F2AA52");
+                Selector2.BackgroundColor = Color.FromHex("#f18951");
                 InfoList.Scale = 0;
                 InfoList.IsVisible = false;
                 InfoList2.Scale = 1;
@@ -88,8 +88,8 @@ namespace Registro.Pages
             var firstPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             firstPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#51d134");
-                Selector2.BackgroundColor = Color.FromHex("#B2D235");
+                Selector1.BackgroundColor = Color.FromHex("#f18951");
+                Selector2.BackgroundColor = Color.FromHex("#F2AA52");
                 InfoList.Scale = 1;
                 InfoList.IsVisible = true;
                 InfoList2.Scale = 0;
@@ -105,22 +105,22 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-            ArgsModel g = e.Item as ArgsModel;
-            if (g.Argument == null || g.Argument == "")
-                DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
+            NoteModel g = e.Item as NoteModel;
+            if (g.Text == null || g.Text == "")
+                DisplayAlert("Nota", "Nessuna Descrizione", "Ok");
             else
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(g.Argument);
-                if(g.Activity != null && g.Activity != "")
+                sb.Append(g.Text);
+                if(g.Measures != null && g.Measures != "")
                 {
                     sb.AppendLine(" ");
                     sb.AppendLine(" ");
-                    sb.AppendLine("Attività:");
-                    sb.Append(g.Activity);
+                    sb.AppendLine("Provvedimenti:");
+                    sb.Append(g.Measures);
                 }
 
-                DisplayAlert("Argomento", sb.ToString(), "Ok");  
+                DisplayAlert("Nota", sb.ToString(), "Ok");  
             }
                 
         }
@@ -208,62 +208,66 @@ namespace Registro.Pages
 
         #endregion
 
-        private List<ArgsModel> GetItems1()
+        private List<NoteModel> GetItems1()
         {
-            List<ArgsModel> list = new List<ArgsModel>();
-            foreach (Arguments a in App.Arguments)
+            List<NoteModel> list = new List<NoteModel>();
+            foreach (Note n in App.Notes)
             {
-                if (a.dateTime.CompareTo(App.periodChange) <= 0)
-                    list.Add(new ArgsModel(a, 0));
+                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new NoteModel(n, 0));
             }
-            list.Sort(new CustomDataTimeComparerArgs());
+            list.Sort(new CustomDataTimeComparerNote());
 
             int j = 1;
-            foreach (ArgsModel g in list)
+            foreach (NoteModel n in list)
             {
-                g.Id = j;
-                g.color = Color.FromHex("#B2D235");
+                n.Id = j;
+                n.color = Color.FromHex("#F2AA52");
                 j++;
             }
 
             if (list.Count > 0)
                 return list;
 
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
-            list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
+            Note note = new Note("Nessuna Nota", "", "", "", false);
+            NoteModel noteModel = new NoteModel(note, 1, Color.FromHex("#F2AA52"));
+            noteModel.Preview = "Lo studente non ha note!";
+            list.Add(noteModel);
             return list;
         }
 
-        private List<ArgsModel> GetItems2()
+        private List<NoteModel> GetItems2()
         {
-            List<ArgsModel> list = new List<ArgsModel>();
-            foreach (Arguments a in App.Arguments)
+            List<NoteModel> list = new List<NoteModel>();
+            foreach (Note n in App.Notes)
             {
-                if (a.dateTime.CompareTo(App.periodChange) > 0)
-                    list.Add(new ArgsModel(a, 0));
+                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new NoteModel(n, 0));
             }
-            list.Sort(new CustomDataTimeComparerArgs());
+            list.Sort(new CustomDataTimeComparerNote());
 
             int j = 1;
-            foreach (ArgsModel g in list)
+            foreach (NoteModel n in list)
             {
-                g.Id = j;
-                g.color = Color.FromHex("#B2D235");
+                n.Id = j;
+                n.color = Color.FromHex("#F2AA52");
                 j++;
             }
 
             if (list.Count > 0)
                 return list;
 
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
-            list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
+            Note note = new Note("Nessuna Nota", "", "", "", false);
+            NoteModel noteModel = new NoteModel(note, 1, Color.FromHex("#F2AA52"));
+            noteModel.Preview = "Lo studente non ha note!";
+            list.Add(noteModel);
             return list;
         }
     }
 
-    public class CustomDataTimeComparerArgs : IComparer<ArgsModel>
+    public class CustomDataTimeComparerNote : IComparer<NoteModel>
     {
-        public int Compare(ArgsModel x, ArgsModel y)
+        public int Compare(NoteModel x, NoteModel y)
         {
             return -DateTime.Compare(x.dateTime, y.dateTime);
         }

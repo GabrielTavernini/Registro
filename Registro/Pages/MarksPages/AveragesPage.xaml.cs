@@ -22,6 +22,8 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             if (DateTime.Now.Month >= 7)
             {
+                Selector2.BackgroundColor = Color.FromHex("#61DDDD");
+                Selector1.BackgroundColor = Color.FromHex("#009bd4");
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
@@ -111,7 +113,7 @@ namespace Registro.Pages
         {
             GradeModel g = e.Item as GradeModel;
             if (g.subject != "MEDIA GLOBALE")
-                Navigation.PushAsync(new SubjectPage(Subject.getSubjectByString(g.subject)));
+                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject)));
         }
 
         private async Task RefreshAsync(ListView list)

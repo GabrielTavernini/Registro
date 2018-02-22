@@ -56,15 +56,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\MarksPages\TestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\MarksPages\ArgumentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\MarksPages\SubjectPage.xaml">
+    <EmbeddedResource Include="Pages\MarksPages\SubjectPages\SubjectPageMarks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\SubjectPages\SubjectPageArgs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\SlidePages\TestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarksPages\NotesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -100,20 +108,12 @@
     </Compile>
     <Compile Include="Controls\LayoutTouchListner.cs" />
     <Compile Include="Controls\SearchPageViewCellWithId.cs" />
-    <Compile Include="Models\Item.cs" />
     <Compile Include="Pages\Page4.xaml.cs">
       <DependentUpon>Page4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuOption.cs" />
-    <Compile Include="Models\MenuCell.cs" />
-    <Compile Include="Models\MarkCell.cs" />
     <Compile Include="Models\GradeModel.cs" />
-    <Compile Include="Pages\MarksPages\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MarksPages\MainPage.cs" />
     <Compile Include="Classes\Arguments.cs" />
-    <Compile Include="Models\ArgsCell.cs" />
     <Compile Include="Pages\MarksPages\ArgumentsPage.xaml.cs">
       <DependentUpon>ArgumentsPage.xaml</DependentUpon>
     </Compile>
@@ -121,10 +121,28 @@
     <Compile Include="Classes\HttpRequests\HttpRequest.cs" />
     <Compile Include="Classes\HttpRequests\ArgumentsRequests.cs" />
     <Compile Include="Classes\HttpRequests\MarksRequests.cs" />
-    <Compile Include="Models\CarouselListModel.cs" />
-    <Compile Include="Pages\MarksPages\SubjectPage.xaml.cs">
-      <DependentUpon>SubjectPage.xaml</DependentUpon>
+    <Compile Include="Pages\MarksPages\SubjectPages\SubjectPageMarks.xaml.cs">
+      <DependentUpon>SubjectPageMarks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MarksPages\SubjectPages\SubjectPageArgs.xaml.cs">
+      <DependentUpon>SubjectPageArgs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MarksPages\SlidePages\MainPage.cs" />
+    <Compile Include="Pages\MarksPages\SlidePages\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\HttpRequests\NotesRequests.cs" />
+    <Compile Include="Classes\Note.cs" />
+    <Compile Include="Pages\MarksPages\NotesPage.xaml.cs">
+      <DependentUpon>NotesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoteModel.cs" />
+    <Compile Include="Classes\HttpRequests\AbsencesRequests.cs" />
+    <Compile Include="Classes\Absence.cs" />
+    <Compile Include="Models\Cells\ArgsCell.cs" />
+    <Compile Include="Models\Cells\MarkCell.cs" />
+    <Compile Include="Models\Cells\MenuCell.cs" />
+    <Compile Include="Models\Cells\NoteCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
@@ -163,6 +181,9 @@
     <Folder Include="Pages\MarksPages\" />
     <Folder Include="Models\" />
     <Folder Include="Classes\HttpRequests\" />
+    <Folder Include="Pages\MarksPages\SubjectPages\" />
+    <Folder Include="Pages\MarksPages\SlidePages\" />
+    <Folder Include="Models\Cells\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

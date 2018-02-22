@@ -19,8 +19,12 @@ namespace Registro
         private static List<Grade> grades = new List<Grade>();
         private static Dictionary<String, Subject> subjects = new Dictionary<string, Subject>();
         private static List<Arguments> arguments = new List<Arguments>();
+        private static List<Note> notes = new List<Note>();
+        private static List<Absence> absences = new List<Absence>();
 
 
+        internal static List<Absence> Absences { get => absences; set => absences = value; }
+        internal static List<Note> Notes { get => notes; set => notes = value; }
         internal static List<Arguments> Arguments { get => arguments; set => arguments = value; }
         internal static List<Grade> Grades { get => grades; set => grades = value; }
         internal static Dictionary<string, Subject> Subjects { get => subjects; set => subjects = value; }

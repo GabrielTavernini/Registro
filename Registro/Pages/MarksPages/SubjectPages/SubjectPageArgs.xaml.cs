@@ -12,19 +12,21 @@ namespace Registro.Pages
     /// <summary>
     /// working on ios and android
     /// </summary>
-    public partial class SubjectPage : ContentPage
+    public partial class SubjectPageArgs : ContentPage
     {
-        Subject sub;
+        ArgsModel arg;
 
-        public SubjectPage(Subject sub)
+        public SubjectPageArgs(ArgsModel arg)
         {
-            this.sub = sub;
+            this.arg = arg;
             GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
             if (DateTime.Now.Month >= 7)
             {
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
@@ -42,7 +44,7 @@ namespace Registro.Pages
                 InfoList2.ItemsSource = GetItems2();
             }
 
-            TitleLabel.Text = sub.name;
+            TitleLabel.Text = arg.subject;
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -211,56 +213,46 @@ namespace Registro.Pages
         /// Fake items for listView
         /// </summary>
         /// <returns></returns>
-        private List<GradeModel> GetItems1()
+        private List<ArgsModel> GetItems1()
         {
-            List<GradeModel> list = new List<GradeModel>();
-            List<GradeModel> returnList = new List<GradeModel>();
-
-            Grade globalAverage = new Grade("", "Media della materia", sub.getMedia1().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
-            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
-
-            foreach (Grade g in sub.grades)
+            List<ArgsModel> list = new List<ArgsModel>();
+            foreach (Arguments a in App.Arguments)
             {
-                if (g.dateTime.CompareTo(App.periodChange) <= 0)
-                    list.Add(new GradeModel(g, 1));
+                if (a.dateTime.CompareTo(App.periodChange) <= 0 && a.subject == arg.subject)
+                    list.Add(new ArgsModel(a, 0));
             }
-            list.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparerArgs());
 
-            foreach (GradeModel g in list)
+            int j = 1;
+            foreach (ArgsModel g in list)
             {
-                g.Id = list.Count() + 1;
-                g.color = Color.FromHex("#00B1D4");
-
-                returnList.Add(g);
+                g.Id = j;
+                g.color = Color.FromHex("#B2D235");
+                j++;
             }
 
-            return returnList;
+            return list;
         }
 
-        private List<GradeModel> GetItems2()
+        private List<ArgsModel> GetItems2()
         {
-            List<GradeModel> list = new List<GradeModel>();
-            List<GradeModel> returnList = new List<GradeModel>();
-
-            Grade globalAverage = new Grade("", "Media della meteria", sub.getMedia2().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
-            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
-
-            foreach (Grade g in sub.grades)
+            List<ArgsModel> list = new List<ArgsModel>();
+            foreach (Arguments a in App.Arguments)
             {
-                if (g.dateTime.CompareTo(App.periodChange) > 0)
-                    list.Add(new GradeModel(g, 1));
+                if (a.dateTime.CompareTo(App.periodChange) > 0 && a.subject == arg.subject)
+                    list.Add(new ArgsModel(a, 0));
             }
-            list.Sort(new CustomDataTimeComparer());
+            list.Sort(new CustomDataTimeComparerArgs());
 
-            foreach (GradeModel g in list)
+            int j = 1;
+            foreach (ArgsModel g in list)
             {
-                g.Id = list.Count() + 1;
-                g.color = Color.FromHex("#00B1D4");
-
-                returnList.Add(g);
+                g.Id = j;
+                g.color = Color.FromHex("#B2D235");
+                j++;
             }
 
-            return returnList;
+            return list;
         }
     }
 }

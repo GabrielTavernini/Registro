@@ -12,6 +12,7 @@ using System.Net.Http;
 using ModernHttpClient;
 using System.Collections;
 using System.Net.Http.Headers;
+using Registro.Classes.HttpRequests;
 
 namespace Registro
 {
@@ -29,6 +30,7 @@ namespace Registro
 
             await MarksRequests.extractAll();
             await ArgumentsRequests.extractAll();
+            await NotesRequests.extractAll();
 
             return true;
         }
@@ -71,6 +73,7 @@ namespace Registro
             App.Subjects = new Dictionary<string, Subject>();
             App.Grades = new List<Grade>();
             App.Arguments = new List<Arguments>();
+            App.Notes = new List<Note>();
         }
 
         static public async Task<Boolean> RefreshAsync()
@@ -80,6 +83,7 @@ namespace Registro
             clearLists();
             await MarksRequests.extractAll();
             await ArgumentsRequests.extractAll();
+            await NotesRequests.extractAll();
 
             return true;
         }

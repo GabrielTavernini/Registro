@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Registro.Controls;
@@ -8,27 +9,34 @@ using Xamarin.Forms;
 
 namespace Registro.Pages
 {
-    public partial class ArgumentsPage : ContentPage
+    /// <summary>
+    /// working on ios and android
+    /// </summary>
+    public partial class SubjectPageMarks : ContentPage
     {
-        public ArgumentsPage()
+        Subject sub;
+
+        public SubjectPageMarks(Subject sub)
         {
+            this.sub = sub;
             GC.Collect();
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if(DateTime.Now.Month >= 7)
+            if (DateTime.Now.Month >= 7)
             {
-                Selector2.BackgroundColor = Color.FromHex("#B2D235");
-                Selector1.BackgroundColor = Color.FromHex("#51d134");
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 1;
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
-                InfoList2.ItemsSource = GetItems2();                
-            }else
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
             {
-                Selector1.BackgroundColor = Color.FromHex("#B2D235");
-                Selector2.BackgroundColor = Color.FromHex("#51d134");
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 0;
                 InfoList2.Scale = 1;
                 InfoList.IsVisible = false;
@@ -36,6 +44,7 @@ namespace Registro.Pages
                 InfoList2.ItemsSource = GetItems2();
             }
 
+            TitleLabel.Text = sub.name;
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -50,7 +59,9 @@ namespace Registro.Pages
                 Back.Margin = new Thickness(0, 20, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
+
         }
+
 
 
 
@@ -76,8 +87,8 @@ namespace Registro.Pages
             var secondPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             secondPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#B2D235");
-                Selector2.BackgroundColor = Color.FromHex("#51d134");
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
                 InfoList.Scale = 0;
                 InfoList.IsVisible = false;
                 InfoList2.Scale = 1;
@@ -88,8 +99,8 @@ namespace Registro.Pages
             var firstPeriodGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             firstPeriodGesture.Tapped += (sender, args) =>
             {
-                Selector1.BackgroundColor = Color.FromHex("#51d134");
-                Selector2.BackgroundColor = Color.FromHex("#B2D235");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
                 InfoList.Scale = 1;
                 InfoList.IsVisible = true;
                 InfoList2.Scale = 0;
@@ -105,24 +116,11 @@ namespace Registro.Pages
 
         private void ItemTapped(ItemTappedEventArgs e)
         {
-            ArgsModel g = e.Item as ArgsModel;
-            if (g.Argument == null || g.Argument == "")
-                DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
+            GradeModel g = e.Item as GradeModel;
+            if (g.Description == null || g.Description == "")
+                DisplayAlert("Descrizione Voto", "Nessuna Descrizione", "Ok");
             else
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(g.Argument);
-                if(g.Activity != null && g.Activity != "")
-                {
-                    sb.AppendLine(" ");
-                    sb.AppendLine(" ");
-                    sb.AppendLine("Attività:");
-                    sb.Append(g.Activity);
-                }
-
-                DisplayAlert("Argomento", sb.ToString(), "Ok");  
-            }
-                
+                DisplayAlert("Descrizione Voto", g.Description, "Ok");
         }
 
         private async Task RefreshAsync(ListView list)
@@ -208,64 +206,63 @@ namespace Registro.Pages
 
         #endregion
 
-        private List<ArgsModel> GetItems1()
+
+
+
+        /// <summary>
+        /// Fake items for listView
+        /// </summary>
+        /// <returns></returns>
+        private List<GradeModel> GetItems1()
         {
-            List<ArgsModel> list = new List<ArgsModel>();
-            foreach (Arguments a in App.Arguments)
+            List<GradeModel> list = new List<GradeModel>();
+            List<GradeModel> returnList = new List<GradeModel>();
+
+            Grade globalAverage = new Grade("", "Media della materia", sub.getMedia1().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
+            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+
+            foreach (Grade g in sub.grades)
             {
-                if (a.dateTime.CompareTo(App.periodChange) <= 0)
-                    list.Add(new ArgsModel(a, 0));
+                if (g.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new GradeModel(g, 1));
             }
-            list.Sort(new CustomDataTimeComparerArgs());
+            list.Sort(new CustomDataTimeComparer());
 
-            int j = 1;
-            foreach (ArgsModel g in list)
+            foreach (GradeModel g in list)
             {
-                g.Id = j;
-                g.color = Color.FromHex("#B2D235");
-                j++;
+                g.Id = list.Count() + 1;
+                g.color = Color.FromHex("#00B1D4");
+
+                returnList.Add(g);
             }
 
-            if (list.Count > 0)
-                return list;
-
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
-            list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
-            return list;
+            return returnList;
         }
 
-        private List<ArgsModel> GetItems2()
+        private List<GradeModel> GetItems2()
         {
-            List<ArgsModel> list = new List<ArgsModel>();
-            foreach (Arguments a in App.Arguments)
+            List<GradeModel> list = new List<GradeModel>();
+            List<GradeModel> returnList = new List<GradeModel>();
+
+            Grade globalAverage = new Grade("", "Media della meteria", sub.getMedia2().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
+            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+
+            foreach (Grade g in sub.grades)
             {
-                if (a.dateTime.CompareTo(App.periodChange) > 0)
-                    list.Add(new ArgsModel(a, 0));
+                if (g.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new GradeModel(g, 1));
             }
-            list.Sort(new CustomDataTimeComparerArgs());
+            list.Sort(new CustomDataTimeComparer());
 
-            int j = 1;
-            foreach (ArgsModel g in list)
+            foreach (GradeModel g in list)
             {
-                g.Id = j;
-                g.color = Color.FromHex("#B2D235");
-                j++;
+                g.Id = list.Count() + 1;
+                g.color = Color.FromHex("#00B1D4");
+
+                returnList.Add(g);
             }
 
-            if (list.Count > 0)
-                return list;
-
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
-            list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
-            return list;
-        }
-    }
-
-    public class CustomDataTimeComparerArgs : IComparer<ArgsModel>
-    {
-        public int Compare(ArgsModel x, ArgsModel y)
-        {
-            return -DateTime.Compare(x.dateTime, y.dateTime);
+            return returnList;
         }
     }
 }
