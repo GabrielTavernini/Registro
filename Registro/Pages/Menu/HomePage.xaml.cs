@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidClosing;
 
 namespace Registro.Pages
 {
@@ -11,11 +12,12 @@ namespace Registro.Pages
     {
         User user;
         bool isFirstTime = false;
-        Task t = new Task(async () => { await HttpRequest.extractAllAsync(); });
+        Task t = new Task(async () => { await HttpRequest.RefreshAsync(); });
 
         public HomePage(User user)
         {
             this.user = user;
+            HttpRequest.User = user;
             this.isFirstTime = true;
             initialize();
         }
@@ -60,8 +62,7 @@ namespace Registro.Pages
             if(isFirstTime)
             {
                 isFirstTime = false;
-                HttpRequest.User = user;
-                //#t.Start();
+                t.Start();
             }
         }
 
@@ -101,6 +102,14 @@ namespace Registro.Pages
                 await HttpRequest.RefreshAsync();
 
             list.IsRefreshing = false;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if(Device.RuntimePlatform == Device.Android)
+                return DependencyService.Get<IClose>().CloseApp();
+            
+            return base.OnBackButtonPressed();
         }
 
         //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -210,24 +219,3 @@ namespace Registro.Pages
         }
     }
 }
-
-
-
-/*
-if (Device.RuntimePlatform == Device.iOS)
-{
-    if (((150 * list.Count) - (235)) < App.ScreenHeight)
-    {
-        double nd = (double)((App.ScreenHeight - ((150.0 * list.Count) - (235.0))) + 20.0) / 1.0;
-        int n = (int)Math.Ceiling(nd);
-        System.Diagnostics.Debug.WriteLine(nd);
-        System.Diagnostics.Debug.WriteLine(n);
-
-        for (int i = 0; i < n; i++)
-        {
-            MenuOption mo = new MenuOption("", ImageSource.FromFile(""), Color.Transparent, list.Count + 1);
-            mo.Height = 1;
-            list.Add(mo);
-        }
-    }
-}*/

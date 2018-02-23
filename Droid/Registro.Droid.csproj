@@ -147,6 +147,7 @@
     <Compile Include="Renders\CustomButtonRenderer.cs" />
     <Compile Include="Renders\LayoutTouchListnerRender.cs" />
     <Compile Include="SplashActivity.cs" />
+    <Compile Include="Renders\CloseRender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

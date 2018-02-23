@@ -168,7 +168,7 @@ namespace Registro.Pages
                 page = new MarksPage(1); 
             
             Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync();
+            await Navigation.PopAsync(false);
         }
         #endregion
 

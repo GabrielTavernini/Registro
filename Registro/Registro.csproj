@@ -152,6 +152,7 @@
     <Compile Include="Pages\MarksPages\AbsencesPage.xaml.cs">
       <DependentUpon>AbsencesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AndroidClosing.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

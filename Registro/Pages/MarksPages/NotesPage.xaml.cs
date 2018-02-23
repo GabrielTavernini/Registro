@@ -48,7 +48,7 @@ namespace Registro.Pages
             if (Device.RuntimePlatform == Device.iOS)
             {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(10, 30, 0, 0);
+                Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
         }
@@ -180,7 +180,7 @@ namespace Registro.Pages
                 page = new NotesPage(2);
 
             Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync();
+            await Navigation.PopAsync(false);
         }
         #endregion
 

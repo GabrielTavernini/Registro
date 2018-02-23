@@ -180,7 +180,7 @@ namespace Registro.Pages
                 page = new ArgumentsPage(1);
 
             Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync();
+            await Navigation.PopAsync(false);
         }
         #endregion
 

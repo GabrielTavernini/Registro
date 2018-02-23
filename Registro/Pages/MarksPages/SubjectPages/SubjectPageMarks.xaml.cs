@@ -135,7 +135,7 @@ namespace Registro.Pages
                 page = new SubjectPageMarks(sub,1);
 
             Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync();
+            await Navigation.PopAsync(false);
         }
         #endregion
 

@@ -175,7 +175,7 @@ namespace Registro.Pages
                 page = new AveragesPage(2);
 
             Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync();
+            await Navigation.PopAsync(false);
         }
         #endregion
 
