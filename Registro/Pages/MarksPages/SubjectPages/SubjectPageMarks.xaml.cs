@@ -56,7 +56,7 @@ namespace Registro.Pages
             if (Device.RuntimePlatform == Device.iOS)
             {
                 Setting.Margin = new Thickness(0, 20, 0, 0);
-                Back.Margin = new Thickness(10, 30, 0, 0);
+                Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
 
@@ -125,8 +125,17 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            await Task.Delay(2000);
+            await MarksRequests.refreshMarks();
             list.IsRefreshing = false;
+
+            ContentPage page;
+            if (InfoList2.IsVisible)
+                page = new SubjectPageMarks(sub,2);
+            else
+                page = new SubjectPageMarks(sub,1);
+
+            Navigation.InsertPageBefore(page, this);
+            await Navigation.PopAsync();
         }
         #endregion
 
@@ -207,8 +216,6 @@ namespace Registro.Pages
         #endregion
 
 
-
-
         /// <summary>
         /// Fake items for listView
         /// </summary>
@@ -236,6 +243,14 @@ namespace Registro.Pages
                 returnList.Add(g);
             }
 
+            if (returnList.Count() > 1)
+                return returnList;
+
+            returnList.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "0", "Non ci sono voti per questo periodo",
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+            returnList.Add(nope);
             return returnList;
         }
 
@@ -258,10 +273,18 @@ namespace Registro.Pages
             {
                 g.Id = list.Count() + 1;
                 g.color = Color.FromHex("#00B1D4");
-
                 returnList.Add(g);
             }
 
+            if (returnList.Count() > 1)
+                return returnList;
+
+            returnList.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo", 
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+            nope.gradeString = "N";
+            returnList.Add(nope);
             return returnList;
         }
     }

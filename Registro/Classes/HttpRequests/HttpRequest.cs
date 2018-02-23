@@ -28,10 +28,10 @@ namespace Registro
             if (!await LoginAsync())
                 return false;
 
-            await MarksRequests.extractAll();
-            await ArgumentsRequests.extractAll();
-            await NotesRequests.extractAll();
-            await AbsencesRequests.extractAll();
+            await MarksRequests.extractAllMarks();
+            await ArgumentsRequests.extractAllArguments();
+            await NotesRequests.extractAllNotes();
+            await AbsencesRequests.extractAllAbsences();
 
             App.SerializeObjects();
             return true;
@@ -87,10 +87,10 @@ namespace Registro
             if (!await LoginAsync())
                 return false;
             clearLists();
-            await MarksRequests.extractAll();
-            await ArgumentsRequests.extractAll();
-            await NotesRequests.extractAll();
-            await AbsencesRequests.extractAll();
+            await MarksRequests.extractAllMarks();
+            await ArgumentsRequests.extractAllArguments();
+            await NotesRequests.extractAllNotes();
+            await AbsencesRequests.extractAllAbsences();
 
             App.SerializeObjects();
             return true;
@@ -110,25 +110,30 @@ namespace Registro
         {
             HttpClient client = new HttpClient(new NativeMessageHandler());
 
-            using (client)
+            try
             {
-                using (HttpResponseMessage response = await client.GetAsync(User.school.loginUrl))
+                using (client)
                 {
-                    using (HttpContent content = response.Content)
+                    using (HttpResponseMessage response = await client.GetAsync(User.school.loginUrl))
                     {
-                        var page = await content.ReadAsStringAsync();
-                        seed = page.Split(new[] { "seme='" }, StringSplitOptions.None)[1].Substring(0, 32);
-                        response.Dispose();
+                        using (HttpContent content = response.Content)
+                        {
+                            var page = await content.ReadAsStringAsync();
+                            seed = page.Split(new[] { "seme='" }, StringSplitOptions.None)[1].Substring(0, 32);
+                            response.Dispose();
+                        }
+
                     }
                 }
             }
+            catch { return "failed"; }
             return seed;
         }
 
         static public async Task<string> getCookiesAsync()
         {
             string cookieHeader = "";
-            string url = "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27";
+            string url = User.school.loginUrl;
             HttpRequestMessage req = new HttpRequestMessage();
             req.RequestUri = new Uri(url);
 

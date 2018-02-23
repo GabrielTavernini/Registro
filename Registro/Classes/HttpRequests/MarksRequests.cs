@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
+using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 
@@ -10,12 +12,28 @@ namespace Registro
     public class MarksRequests : HttpRequest
     {
 
-        static public async Task<String> extractAll()
+        static public async Task<String> extractAllMarks()
         {
             String marksPage = await getMarksPageAsync();
             extratMarks(marksPage);
             System.Diagnostics.Debug.WriteLine(marksPage);
             return marksPage;
+        }
+
+        static public async Task<Boolean> refreshMarks()
+        {
+            if (!await LoginAsync())
+                return false;
+
+            App.Subjects = new Dictionary<string, Subject>();
+            App.Grades = new List<Grade>();
+
+            String marksPage = await getMarksPageAsync();
+            extratMarks(marksPage);
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
+            return true;
         }
 
 

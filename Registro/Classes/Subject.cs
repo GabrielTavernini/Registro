@@ -44,6 +44,9 @@ namespace Registro
             float mediaFloat = sum / i;
             media.setGrade(mediaFloat.ToString("0.00"));
 
+            if (mediaFloat == 10.00)
+                media.setGrade("10");
+
             return media;
         }
 
@@ -66,6 +69,9 @@ namespace Registro
             float mediaFloat = sum / i;
             media.setGrade(mediaFloat.ToString("0.00"));
 
+            if (mediaFloat == 10.00)
+                media.setGrade("10");
+            
             return media;
         }
 
@@ -88,6 +94,9 @@ namespace Registro
             float mediaFloat = sum / i;
             media.setGrade(mediaFloat.ToString("0.00"));
 
+            if (mediaFloat == 10.00)
+                media.setGrade("10");
+            
             return media;
         }
 

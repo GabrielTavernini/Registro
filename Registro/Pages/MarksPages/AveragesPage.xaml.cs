@@ -20,7 +20,50 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (DateTime.Now.Month >= 7)
+            if (DateTime.Now.CompareTo(App.periodChange) <= 0)
+            {
+                Selector2.BackgroundColor = Color.FromHex("#61DDDD");
+                Selector1.BackgroundColor = Color.FromHex("#009bd4");
+                InfoList.Scale = 1;
+                InfoList2.Scale = 0;
+                InfoList2.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
+            {
+                Selector1.BackgroundColor = Color.FromHex("#61DDDD");
+                Selector2.BackgroundColor = Color.FromHex("#009bd4");
+                InfoList.Scale = 0;
+                InfoList2.Scale = 1;
+                InfoList.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+
+            MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
+            Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
+            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+
+            gesturesSetup();
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(0, 25, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+
+        }
+
+        public AveragesPage(int period)
+        {
+            GC.Collect();
+            InitializeComponent();
+
+            NavigationPage.SetHasNavigationBar(this, false);
+            if (period == 1)
             {
                 Selector2.BackgroundColor = Color.FromHex("#61DDDD");
                 Selector1.BackgroundColor = Color.FromHex("#009bd4");
@@ -56,8 +99,6 @@ namespace Registro.Pages
             }
 
         }
-
-
 
 
         #region setup
@@ -124,8 +165,17 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            await Task.Delay(2000);
+            await MarksRequests.refreshMarks();
             list.IsRefreshing = false;
+
+            ContentPage page;
+            if (InfoList.IsVisible)
+                page = new AveragesPage(1);
+            else
+                page = new AveragesPage(2);
+
+            Navigation.InsertPageBefore(page, this);
+            await Navigation.PopAsync();
         }
         #endregion
 
@@ -206,8 +256,6 @@ namespace Registro.Pages
         #endregion
 
 
-
-
         /// <summary>
         /// Fake items for listView
         /// </summary>
@@ -223,14 +271,6 @@ namespace Registro.Pages
                     baseList.Add(new GradeModel(g, 1));
             }
             baseList.Sort(new CustomDataTimeComparer());
-
-            int j = 1;
-            foreach (GradeModel g in baseList)
-            {
-                g.Id = j;
-                g.color = Color.FromHex("#00B1D4");
-                j++;
-            }
 
 
             float sum = 0;
@@ -252,6 +292,15 @@ namespace Registro.Pages
                 }
             }
 
+            if (list.Count() > 1)
+                return list;
+
+            list.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#61DDDD"));
+            nope.gradeString = "N";
+            list.Add(nope);
             return list;
         }
 
@@ -266,14 +315,6 @@ namespace Registro.Pages
                     baseList.Add(new GradeModel(g, 1));
             }
             baseList.Sort(new CustomDataTimeComparer());
-
-            int j = 1;
-            foreach (GradeModel g in baseList)
-            {
-                g.Id = j;
-                g.color = Color.FromHex("#00B1D4");
-                j++;
-            }
 
 
             float sum = 0;
@@ -295,6 +336,15 @@ namespace Registro.Pages
                 }
             }
 
+            if (list.Count() > 1)
+                return list;
+
+            list.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#61DDDD"));
+            nope.gradeString = "N";
+            list.Add(nope);
             return list;
         }
     }

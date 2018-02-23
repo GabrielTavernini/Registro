@@ -16,7 +16,51 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (DateTime.Now.Month >= 7)
+
+            if (DateTime.Now.CompareTo(App.periodChange) <= 0)
+            {
+                Selector2.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector1.BackgroundColor = Color.FromHex("#0082D4");
+                InfoList.Scale = 1;
+                InfoList2.Scale = 0;
+                InfoList2.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
+            {
+                Selector1.BackgroundColor = Color.FromHex("#00B1D4");
+                Selector2.BackgroundColor = Color.FromHex("#0082D4");
+                InfoList.Scale = 0;
+                InfoList2.Scale = 1;
+                InfoList.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+
+            MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
+            Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
+            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+
+            gesturesSetup();
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Setting.Margin = new Thickness(0, 25, 10, 0);
+                Back.Margin = new Thickness(0, 25, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+        }
+
+        public MarksPage(int period)
+        {
+            GC.Collect();
+            InitializeComponent();
+
+            NavigationPage.SetHasNavigationBar(this, false);
+
+            if (period == 1)
             {
                 Selector2.BackgroundColor = Color.FromHex("#00B1D4");
                 Selector1.BackgroundColor = Color.FromHex("#0082D4");
@@ -51,6 +95,7 @@ namespace Registro.Pages
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
         }
+
 
 
         #region setup
@@ -113,8 +158,17 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            await Task.Delay(2000);
+            await MarksRequests.refreshMarks();
             list.IsRefreshing = false;
+
+            ContentPage page;
+            if (InfoList2.IsVisible)
+                page = new MarksPage(2);
+            else
+                page = new MarksPage(1); 
+            
+            Navigation.InsertPageBefore(page, this);
+            await Navigation.PopAsync();
         }
         #endregion
 
@@ -217,6 +271,15 @@ namespace Registro.Pages
                 j++;
             }
 
+            if (list.Count > 1)
+                return list;
+
+            list.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+            nope.gradeString = "N";
+            list.Add(nope);
             return list;
         }
 
@@ -239,6 +302,15 @@ namespace Registro.Pages
                 j++;
             }
 
+            if (list.Count > 1)
+                return list;
+
+            list.Clear();
+            GradeModel nope = new GradeModel(
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
+                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+            nope.gradeString = "N";
+            list.Add(nope);
             return list;
         }
         #endregion

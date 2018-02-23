@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
+using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 
@@ -9,7 +11,7 @@ namespace Registro.Classes.HttpRequests
 {
     public class AbsencesRequests : HttpRequest
     {
-        static public async Task<String> extractAll()
+        static public async Task<String> extractAllAbsences()
         {
             String absencesPage = await getAbsencesPageAsync();
 
@@ -18,7 +20,20 @@ namespace Registro.Classes.HttpRequests
             return absencesPage;
         }
 
+        static public async Task<Boolean> refreshAbsence()
+        {
+            if (!await LoginAsync())
+                return false;
 
+            App.Absences = new List<Absence>();
+
+            String Page = await getAbsencesPageAsync();
+            extratAbsences(Page);
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
+            return true;
+        }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------

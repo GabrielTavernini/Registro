@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Registro.Classes.HttpRequests;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
@@ -16,7 +17,7 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if(DateTime.Now.Month >= 7)
+            if(DateTime.Now.CompareTo(App.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#F2AA52");
                 Selector1.BackgroundColor = Color.FromHex("#f18951");
@@ -52,6 +53,48 @@ namespace Registro.Pages
             }
         }
 
+        public NotesPage(int period)
+        {
+            GC.Collect();
+            InitializeComponent();
+
+            NavigationPage.SetHasNavigationBar(this, false);
+            if (period == 1)
+            {
+                Selector2.BackgroundColor = Color.FromHex("#F2AA52");
+                Selector1.BackgroundColor = Color.FromHex("#f18951");
+                InfoList.Scale = 1;
+                InfoList2.Scale = 0;
+                InfoList2.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
+            {
+                Selector1.BackgroundColor = Color.FromHex("#F2AA52");
+                Selector2.BackgroundColor = Color.FromHex("#f18951");
+                InfoList.Scale = 0;
+                InfoList2.Scale = 1;
+                InfoList.IsVisible = false;
+                InfoList.ItemsSource = GetItems1();
+                InfoList2.ItemsSource = GetItems2();
+            }
+
+
+            MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
+            Head.HeightRequest = App.ScreenHeight * 0.08;
+            MainImage.HeightRequest = App.ScreenWidth;
+            Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+
+            gesturesSetup();
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Setting.Margin = new Thickness(0, 20, 0, 0);
+                Back.Margin = new Thickness(10, 30, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+        }
 
 
         #region setup
@@ -127,8 +170,17 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            await Task.Delay(2000);
+            await NotesRequests.refreshNotes();
             list.IsRefreshing = false;
+
+            ContentPage page;
+            if (InfoList.IsVisible)
+                page = new NotesPage(1);
+            else
+                page = new NotesPage(2);
+
+            Navigation.InsertPageBefore(page, this);
+            await Navigation.PopAsync();
         }
         #endregion
 

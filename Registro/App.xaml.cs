@@ -137,7 +137,6 @@ namespace Registro
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
 
             Application.Current.Properties["grades"] = JsonConvert.SerializeObject(grades, Formatting.Indented, jsonSettings);
-            //Application.Current.Properties["subjects"] = JsonConvert.SerializeObject(subjects, Formatting.Indented, jsonSettings);
             Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(arguments, Formatting.Indented, jsonSettings);
             Application.Current.Properties["notes"] = JsonConvert.SerializeObject(notes, Formatting.Indented, jsonSettings);
             Application.Current.Properties["absences"] = JsonConvert.SerializeObject(absences, Formatting.Indented, jsonSettings);

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ModernHttpClient;
+using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 
@@ -11,7 +12,7 @@ namespace Registro
 {
     public class ArgumentsRequests : HttpRequest
     {
-        static public async Task<String> extractAll()
+        static public async Task<String> extractAllArguments()
         {
             String argsPage = await getArgsPageAsync();
             await extratArgsAsync(argsPage);
@@ -19,6 +20,20 @@ namespace Registro
             return argsPage;
         }
 
+        static public async Task<Boolean> refreshArguments()
+        {
+            if (!await LoginAsync())
+                return false;
+
+            App.Arguments = new List<Arguments>();
+
+            String Page = await getArgsPageAsync();
+            await extratArgsAsync(Page);
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(App.Arguments, Formatting.Indented, jsonSettings);
+            return true;
+        }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getArgsPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------

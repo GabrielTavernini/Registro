@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
+using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 
@@ -9,7 +11,7 @@ namespace Registro.Classes.HttpRequests
 {
     public class NotesRequests : HttpRequest
     {
-        static public async Task<String> extractAll()
+        static public async Task<String> extractAllNotes()
         {
             String notesPage = await getNotesPageAsync();
 
@@ -19,7 +21,21 @@ namespace Registro.Classes.HttpRequests
             return notesPage;
         }
 
+        static public async Task<Boolean> refreshNotes()
+        {
+            if (!await LoginAsync())
+                return false;
 
+            App.Notes = new List<Note>();
+
+            String Page = await getNotesPageAsync();
+            extratNotesIndiv(Page);
+            extratNotesClass(Page);
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["notes"] = JsonConvert.SerializeObject(App.Notes, Formatting.Indented, jsonSettings);
+            return true;
+        }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
