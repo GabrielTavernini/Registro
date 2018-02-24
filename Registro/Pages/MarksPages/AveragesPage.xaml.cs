@@ -153,14 +153,13 @@ namespace Registro.Pages
         private void ItemTapped(ItemTappedEventArgs e)
         {
             GradeModel g = e.Item as GradeModel;
-            if (g.subject != "MEDIA GLOBALE")
-            {
+            if (g.subject == "MEDIA GLOBALE" || g.subject == " ")
+                return;
 
-                if(InfoList.IsVisible)
-                    Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 1));
-                else
-                    Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 0));
-            }
+            if(InfoList.IsVisible)
+                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 1));
+            else
+                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 0));
         }
 
         private async Task RefreshAsync(ListView list)
@@ -234,23 +233,30 @@ namespace Registro.Pages
             MoveUp();
         }
 
-        private void MoveDown()
+        private async void MoveDown()
         {
             DoubleUp.IsVisible = true;
-            Body.TranslateTo(0, 200, 250, Easing.Linear);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            await Body.TranslateTo(0, 200, 250, Easing.Linear);
+
+            if (Device.RuntimePlatform == Device.iOS)
+                Body.HeightRequest = App.ScreenHeight - (200 + (App.ScreenHeight * 0.08));
         }
 
         private void MoveUp()
         {
+            if (Device.RuntimePlatform == Device.iOS)
+                Body.HeightRequest = App.ScreenHeight - (App.ScreenHeight * 0.08);
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
             DoubleUp.IsVisible = false;
-
         }
 
         #endregion
@@ -292,8 +298,19 @@ namespace Registro.Pages
                 }
             }
 
+
+            //Final setup and returns
             if (list.Count() > 1)
+            {
+               /* if (Device.RuntimePlatform != Device.iOS)
+                    return list;
+                
+                if (60 * list.Count() > App.ScreenHeight * 0.92 - 200
+                    && 60 * list.Count() - 100 < App.ScreenHeight * 0.92)
+                    list.Add(GradeModel.VoidCell(list.Count() + 1));*/
+
                 return list;
+            }
 
             list.Clear();
             GradeModel nope = new GradeModel(
@@ -336,8 +353,19 @@ namespace Registro.Pages
                 }
             }
 
+
+            //Final Controls and returns
             if (list.Count() > 1)
+            {
+                /*if (Device.RuntimePlatform != Device.iOS)
+                    return list;
+
+                if (60 * list.Count() > App.ScreenHeight * 0.92 - 200
+                    && 60 * list.Count() - 100 < App.ScreenHeight * 0.92)
+                    list.Add(GradeModel.VoidCell(list.Count() + 1));*/
+
                 return list;
+            }
 
             list.Clear();
             GradeModel nope = new GradeModel(

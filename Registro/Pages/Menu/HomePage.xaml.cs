@@ -62,7 +62,7 @@ namespace Registro.Pages
             if(isFirstTime)
             {
                 isFirstTime = false;
-                t.Start();
+                //t.Start();
             }
         }
 

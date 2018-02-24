@@ -117,6 +117,9 @@ namespace Registro.Pages
         private void ItemTapped(ItemTappedEventArgs e)
         {
             GradeModel g = e.Item as GradeModel;
+            if (g.subject == " " || g.subject == "MEDIA MATERIA")
+                return;
+
             if (g.Description == null || g.Description == "")
                 DisplayAlert("Descrizione Voto", "Nessuna Descrizione", "Ok");
             else
@@ -194,23 +197,30 @@ namespace Registro.Pages
             MoveUp();
         }
 
-        private void MoveDown()
+        private async void MoveDown()
         {
             DoubleUp.IsVisible = true;
-            Body.TranslateTo(0, 200, 250, Easing.Linear);
-            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
-            DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
-            TitleLabel.ScaleTo(2, 250, Easing.Linear);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+                DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
+                TitleLabel.ScaleTo(2, 250, Easing.Linear);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            await Body.TranslateTo(0, 200, 250, Easing.Linear);
+
+            if(Device.RuntimePlatform == Device.iOS)
+                Body.HeightRequest = App.ScreenHeight - (200 + (App.ScreenHeight * 0.08));
         }
 
         private void MoveUp()
         {
+            if(Device.RuntimePlatform == Device.iOS)
+                Body.HeightRequest = App.ScreenHeight - (App.ScreenHeight * 0.08);
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
             DoubleUp.IsVisible = false;
-
         }
 
         #endregion
@@ -243,8 +253,19 @@ namespace Registro.Pages
                 returnList.Add(g);
             }
 
+
             if (returnList.Count() > 1)
+            {
+                /*if (Device.RuntimePlatform != Device.iOS)
+                    return returnList;
+                
+                if (60 * returnList.Count() > App.ScreenHeight * 0.92 - 200
+                    && 60 * returnList.Count() - 100 < App.ScreenHeight * 0.92)
+                    returnList.Add(GradeModel.VoidCell(list.Count() + 1));*/
+
                 return returnList;
+            }
+                
 
             returnList.Clear();
             GradeModel nope = new GradeModel(
@@ -276,8 +297,18 @@ namespace Registro.Pages
                 returnList.Add(g);
             }
 
+
             if (returnList.Count() > 1)
+            {
+                /*if (Device.RuntimePlatform != Device.iOS)
+                    return returnList;
+                
+                if (60 * returnList.Count() > App.ScreenHeight * 0.92 -200
+                    && 60 * returnList.Count() - 100 < App.ScreenHeight * 0.92)
+                    returnList.Add(GradeModel.VoidCell(list.Count() + 1));*/
+
                 return returnList;
+            }
 
             returnList.Clear();
             GradeModel nope = new GradeModel(

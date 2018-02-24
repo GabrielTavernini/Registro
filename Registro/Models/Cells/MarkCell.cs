@@ -87,8 +87,10 @@ namespace Registro.Models
                 }
             };
 
+
             mainG.Children.Add(gradeF, 0, 0);
             Grid.SetRowSpan(gradeF, 2);
+
 
             mainG.Children.Add(subjectL, 1, 0);
 
@@ -102,20 +104,22 @@ namespace Registro.Models
             View = mainG;
             View.BackgroundColor = Color.White;
 
+
+
             //-----------------Bindings-----------------
-            this.SetBinding(VoidProperty, nameof(GradeModel.Void));
             this.SetBinding(ItemIdProperty, nameof(GradeModel.Id));
-            gradeF.SetBinding(ShapeView.ColorProperty, nameof(GradeModel.color));
             gradeL.SetBinding(Label.TextProperty, nameof(GradeModel.gradeString));
             subjectL.SetBinding(Label.TextProperty, nameof(GradeModel.subject));
             typeL.SetBinding(Label.TextProperty, nameof(GradeModel.type));
             dateL.SetBinding(Label.TextProperty, nameof(GradeModel.date));
+            gradeF.SetBinding(ShapeView.ColorProperty, nameof(GradeModel.color));
+            gradeF.SetBinding(ShapeView.IsVisibleProperty, nameof(GradeModel.ShapeVisible));
+            this.SetBinding(VoidProperty, nameof(GradeModel.ShapeVisible));
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-                
             try
             {
                 await Task.Delay(75);
