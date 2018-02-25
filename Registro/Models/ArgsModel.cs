@@ -49,7 +49,7 @@ namespace Registro.Models
 
         public static ArgsModel VoidCell(int Id)
         {
-            ArgsModel gm = new ArgsModel(new Arguments("", "", "", "", false), Id);
+            ArgsModel gm = new ArgsModel(new Arguments("", "", "", ""), Id);
             gm.Id = Id;
             gm.Void = true;
             return gm;

@@ -235,8 +235,8 @@ namespace Registro.Pages
             List<GradeModel> list = new List<GradeModel>();
             List<GradeModel> returnList = new List<GradeModel>();
 
-            Grade globalAverage = new Grade("", "Media della materia", sub.getMedia1().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
-            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+            //Grade globalAverage = new Grade("", "Media della materia", sub.getMedia1().gradeString, "", new Subject("MEDIA MATERIA", false), false);
+            //returnList.Add(new GradeModel(globalAverage, returnList.Count() + 1, Color.FromHex("#00B1D4")));
 
             foreach (Grade g in sub.grades)
             {
@@ -247,30 +247,20 @@ namespace Registro.Pages
 
             foreach (GradeModel g in list)
             {
-                g.Id = list.Count() + 1;
+                g.Id = returnList.Count() + 1;
                 g.color = Color.FromHex("#00B1D4");
-
                 returnList.Add(g);
             }
 
 
-            if (returnList.Count() > 1)
-            {
-                /*if (Device.RuntimePlatform != Device.iOS)
-                    return returnList;
-                
-                if (60 * returnList.Count() > App.ScreenHeight * 0.92 - 200
-                    && 60 * returnList.Count() - 100 < App.ScreenHeight * 0.92)
-                    returnList.Add(GradeModel.VoidCell(list.Count() + 1));*/
-
+            if (returnList.Count() > 0)
                 return returnList;
-            }
                 
 
             returnList.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "0", "Non ci sono voti per questo periodo",
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             returnList.Add(nope);
             return returnList;
         }
@@ -280,8 +270,8 @@ namespace Registro.Pages
             List<GradeModel> list = new List<GradeModel>();
             List<GradeModel> returnList = new List<GradeModel>();
 
-            Grade globalAverage = new Grade("", "Media della meteria", sub.getMedia2().grade.ToString("0.00"), "", new Subject("MEDIA MATERIA", false), false);
-            returnList.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#00B1D4")));
+            //Grade globalAverage = new Grade("", "Media della meteria", sub.getMedia2().gradeString, "", new Subject("MEDIA MATERIA", false), false);
+            //returnList.Add(new GradeModel(globalAverage, returnList.Count() + 1, Color.FromHex("#00B1D4")));
 
             foreach (Grade g in sub.grades)
             {
@@ -292,28 +282,19 @@ namespace Registro.Pages
 
             foreach (GradeModel g in list)
             {
-                g.Id = list.Count() + 1;
+                g.Id = returnList.Count() + 1;
                 g.color = Color.FromHex("#00B1D4");
                 returnList.Add(g);
             }
 
 
-            if (returnList.Count() > 1)
-            {
-                /*if (Device.RuntimePlatform != Device.iOS)
-                    return returnList;
-                
-                if (60 * returnList.Count() > App.ScreenHeight * 0.92 -200
-                    && 60 * returnList.Count() - 100 < App.ScreenHeight * 0.92)
-                    returnList.Add(GradeModel.VoidCell(list.Count() + 1));*/
-
+            if (returnList.Count() > 0)
                 return returnList;
-            }
 
             returnList.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo", 
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             nope.gradeString = "N";
             returnList.Add(nope);
             return returnList;

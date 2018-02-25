@@ -11,12 +11,21 @@ namespace Registro
 {
     public class MarksRequests : HttpRequest
     {
+        static private List<Grade> tempGrade = new List<Grade>();
+        static private Dictionary<String,Subject> tempSubject = new Dictionary<String, Subject>();
 
         static public async Task<String> extractAllMarks()
         {
             String marksPage = await getMarksPageAsync();
             extratMarks(marksPage);
             System.Diagnostics.Debug.WriteLine(marksPage);
+
+            App.Grades = tempGrade;
+            App.Subjects = tempSubject;
+
+            tempGrade = new List<Grade>();
+            tempSubject = new Dictionary<String, Subject>();
+
             return marksPage;
         }
 
@@ -31,9 +40,23 @@ namespace Registro
             String marksPage = await getMarksPageAsync();
             extratMarks(marksPage);
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
-            return true;
+            if (tempGrade == App.Grades && tempSubject == App.Subjects)
+            {
+                tempGrade = new List<Grade>();
+                tempSubject = new Dictionary<string, Subject>();
+                return true;
+            }
+            else
+            {
+                App.Grades = tempGrade;
+                App.Subjects = tempSubject;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
+                tempGrade = new List<Grade>();
+                tempSubject = new Dictionary<string, Subject>();
+                return true;
+            }
+
         }
 
 
@@ -69,8 +92,8 @@ namespace Registro
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
-            Subject currentSubject = new Subject("", false);
-            Grade currentGrade = new Grade("", "", "", "", currentSubject, false);
+            Subject currentSubject = new Subject("");
+            Grade currentGrade = new Grade("", "", "", "", currentSubject);
 
             int Column = 0;
             for (int i = 2; ; i++)
@@ -87,12 +110,14 @@ namespace Registro
                     if ("4".Equals(inputElement.Attr("colspan")))
                     {
                         Column = 1;
-                        currentSubject = new Subject(inputElement.Text.Replace("[", "").Replace("]", ""), true);
+                        currentSubject = new Subject(inputElement.Text.Replace("[", "").Replace("]", ""));
+                        tempSubject.Add(currentSubject.name, currentSubject);
                     }
                     else if (Column == 1)
                     {
-                        currentGrade = new Grade(inputElement.Text, "", "", "", currentSubject, true);
+                        currentGrade = new Grade(inputElement.Text, "", "", "", currentSubject);
                         currentSubject.grades.Add(currentGrade);
+                        tempGrade.Add(currentGrade);
                         Column++;
                     }
                     else if (Column == 2)

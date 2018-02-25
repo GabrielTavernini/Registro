@@ -103,11 +103,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -158,19 +158,28 @@ namespace Registro.Pages
                 
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await AbsencesRequests.refreshAbsence();
-            list.IsRefreshing = false;
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
+            
+            Task.Run(async () => await AbsencesRequests.refreshAbsence())
+                .ContinueWith((end) => {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
 
-            ContentPage page;
-            if (InfoList2.IsVisible)
-                page = new AbsencesPage(2);
-            else
-                page = new AbsencesPage(1);
+                        ContentPage page;
+                        if (InfoList2.IsVisible)
+                            page = new AbsencesPage(2);
+                        else
+                            page = new AbsencesPage(1);
 
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);
+                    });
+                });
         }
         #endregion
 
@@ -279,7 +288,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Absence absence = new Absence(" ", "", false);
+            Absence absence = new Absence(" ", "");
             AbsenceModel absenceModel = new AbsenceModel(absence, 1, Color.FromHex("#E15B5C"));
             absenceModel.Type = "Nessuna Assenza";
             absenceModel.FirstLetter = "N";
@@ -309,7 +318,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Absence absence = new Absence(" ", "", false);
+            Absence absence = new Absence(" ", "");
             AbsenceModel absenceModel = new AbsenceModel(absence, 1, Color.FromHex("#E15B5C"));
             absenceModel.Type = "Nessuna Assenza";
             absenceModel.FirstLetter = "N";

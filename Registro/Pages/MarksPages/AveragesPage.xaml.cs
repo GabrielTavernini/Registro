@@ -105,11 +105,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -162,19 +162,28 @@ namespace Registro.Pages
                 Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 0));
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await MarksRequests.refreshMarks();
-            list.IsRefreshing = false;
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
+            
+            Task.Run(async () => await MarksRequests.refreshMarks())
+                .ContinueWith((end) => {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
 
-            ContentPage page;
-            if (InfoList.IsVisible)
-                page = new AveragesPage(1);
-            else
-                page = new AveragesPage(2);
+                        ContentPage page;
+                        if (InfoList.IsVisible)
+                            page = new AveragesPage(1);
+                        else
+                            page = new AveragesPage(2);
 
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);
+                    });
+                });
         }
         #endregion
 
@@ -285,7 +294,7 @@ namespace Registro.Pages
                 sum += g.grade;
             }
 
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
+            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE"));
             list.Add(new GradeModel(globalAverage, list.Count() + 1,  Color.FromHex("#61DDDD")));
 
             foreach (Subject s in App.Subjects.Values.ToList())
@@ -315,7 +324,7 @@ namespace Registro.Pages
             list.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#61DDDD"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#61DDDD"));
             nope.gradeString = "N";
             list.Add(nope);
             return list;
@@ -340,7 +349,7 @@ namespace Registro.Pages
                 sum += g.grade;
             }
 
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
+            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE"));
             list.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#61DDDD")));
 
             foreach (Subject s in App.Subjects.Values.ToList())
@@ -370,7 +379,7 @@ namespace Registro.Pages
             list.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#61DDDD"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#61DDDD"));
             nope.gradeString = "N";
             list.Add(nope);
             return list;

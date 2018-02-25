@@ -12,11 +12,14 @@ namespace Registro
 {
     public class ArgumentsRequests : HttpRequest
     {
+        static private List<Arguments> tempArgs = new List<Arguments>();
+        
         static public async Task<String> extractAllArguments()
         {
             String argsPage = await getArgsPageAsync();
             await extratArgsAsync(argsPage);
-            System.Diagnostics.Debug.WriteLine(argsPage);
+            App.Arguments = tempArgs;
+            tempArgs = new List<Arguments>();
             return argsPage;
         }
 
@@ -25,14 +28,24 @@ namespace Registro
             if (!await LoginAsync())
                 return false;
 
-            App.Arguments = new List<Arguments>();
 
             String Page = await getArgsPageAsync();
             await extratArgsAsync(Page);
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(App.Arguments, Formatting.Indented, jsonSettings);
-            return true;
+            if (tempArgs == App.Arguments)
+            {
+                tempArgs = new List<Arguments>();
+                return true;                
+            }
+            else
+            {
+                App.Arguments = tempArgs;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(App.Arguments, Formatting.Indented, jsonSettings);
+                tempArgs = new List<Arguments>();
+                return true;                 
+            }
+
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getArgsPage-----------------------------------------------------------
@@ -91,7 +104,7 @@ namespace Registro
         //--------------------------------------------------------------------extratArgs-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task extratArgsAsync(String html)
+        static public async Task<List<Arguments>> extratArgsAsync(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
@@ -109,19 +122,18 @@ namespace Registro
             }
 
 
-
-
             foreach (KeyValuePair<String, String> KVp in subjects)
             {
                 extratArgsTable(await getArgsSubPageAsync(KVp.Key), KVp.Value);
             }
+
+            return tempArgs;
         }
 
         static public void extratArgsTable(String html, String currentSubject)
         {
             Document doc = Dcsoup.ParseBodyFragment(html, "");
-            Arguments currentArgument = new Arguments();
-
+            //Arguments currentArgument = new Arguments();
 
             for (int i = 2; ; i++)
             {
@@ -136,17 +148,17 @@ namespace Registro
                 {
                     if (Column == 1)
                     {
-                        currentArgument = new Arguments("", "", inputElement.Text, currentSubject, true);
+                        tempArgs.Add(new Arguments("", "", inputElement.Text, currentSubject));
                         Column++;
                     }
                     else if (Column == 2)
                     {
-                        currentArgument.Argument = (inputElement.Text);
+                        tempArgs[tempArgs.Count - 1].Argument = (inputElement.Text);
                         Column++;
                     }
                     else if (Column == 3)
                     {
-                        currentArgument.Activity = inputElement.Text;
+                        tempArgs[tempArgs.Count - 1].Activity = inputElement.Text;
                         Column = 1;
                     }
 

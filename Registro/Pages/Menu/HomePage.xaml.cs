@@ -12,7 +12,7 @@ namespace Registro.Pages
     {
         User user;
         bool isFirstTime = false;
-        Task t = new Task(async () => { await HttpRequest.RefreshAsync(); });
+        public static bool generalRefresh = false;
 
         public HomePage(User user)
         {
@@ -40,7 +40,7 @@ namespace Registro.Pages
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += async (sender, e) => { await ItemTappedAsync(e); };
 
             /*var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -62,7 +62,16 @@ namespace Registro.Pages
             if(isFirstTime)
             {
                 isFirstTime = false;
-                //t.Start();
+                InfoList.IsRefreshing = true;
+                generalRefresh = true;
+                Task.Run(async () => await HttpRequest.RefreshAsync())
+                    .ContinueWith((end) => { 
+                    Device.BeginInvokeOnMainThread(() => 
+                    { 
+                        InfoList.IsRefreshing = false; 
+                        generalRefresh = false; 
+                    }); 
+                });
             }
         }
 
@@ -90,18 +99,16 @@ namespace Registro.Pages
 
             if (mo.title == "Assenze")
                 await Navigation.PushAsync(new AbsencesPage());
+
+            if (mo.title == "Impostazioni")
+                await Navigation.PushAsync(new SettingsPage());
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            if ((t != null)
-                && (t.IsCompleted != false ||
-                t.Status != TaskStatus.Running ||
-                t.Status != TaskStatus.WaitingToRun ||
-                t.Status != TaskStatus.WaitingForActivation))
-                await HttpRequest.RefreshAsync();
-
-            list.IsRefreshing = false;
+            generalRefresh = true;
+            Task.Run(async () => await HttpRequest.RefreshAsync())
+                .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => { InfoList.IsRefreshing = false; generalRefresh = false; }); });
         }
 
         protected override bool OnBackButtonPressed()

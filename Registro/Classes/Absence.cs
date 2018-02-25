@@ -9,15 +9,13 @@ namespace Registro
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
 
-        public Absence(String Type, String date, Boolean save)
+        public Absence(String Type, String date)
         {
             this.date = date;
             this.Type = Type;
             System.Diagnostics.Debug.WriteLine(Type + " " + date);
             if (date != "")
                 this.dateTime = ConvertDate(date);
-            if (save)
-                App.Absences.Add(this);
         }
 
         public Absence() { }

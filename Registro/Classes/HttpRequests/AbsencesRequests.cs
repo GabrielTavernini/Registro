@@ -11,12 +11,17 @@ namespace Registro.Classes.HttpRequests
 {
     public class AbsencesRequests : HttpRequest
     {
+        static private List<Absence> tempAbsences = new List<Absence>();
+        
         static public async Task<String> extractAllAbsences()
         {
             String absencesPage = await getAbsencesPageAsync();
 
             extratAbsences(absencesPage);
             System.Diagnostics.Debug.WriteLine(absencesPage);
+
+            tempAbsences = new List<Absence>();
+
             return absencesPage;
         }
 
@@ -30,9 +35,19 @@ namespace Registro.Classes.HttpRequests
             String Page = await getAbsencesPageAsync();
             extratAbsences(Page);
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
-            return true;
+            if (tempAbsences == App.Absences)
+            {
+                tempAbsences = new List<Absence>();
+                return true;
+            }
+            else
+            {
+                App.Absences = tempAbsences;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
+                tempAbsences = new List<Absence>();
+                return true;
+            }
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
@@ -80,8 +95,8 @@ namespace Registro.Classes.HttpRequests
                     foreach(String s in inputElement.Text.Split(' '))
                     {
                         System.Diagnostics.Debug.WriteLine(s);
-                        if(s != "" && s != null && s.Length > 4)
-                            new Absence("Assenza", s, true);
+                        if (s != "" && s != null && s.Length > 4)
+                            tempAbsences.Add(new Absence("Assenza", s));
                     }
                     Column++;
                 }
@@ -90,7 +105,7 @@ namespace Registro.Classes.HttpRequests
                     foreach (String s in inputElement.Text.Split(' '))
                     {
                         if (s != "" && s != null && s.Length > 4)
-                            new Absence("Ritardo", s, true);
+                            tempAbsences.Add(new Absence("Ritardo", s));
                     }                    
                     Column++;
                 }
@@ -99,7 +114,7 @@ namespace Registro.Classes.HttpRequests
                     foreach (String s in inputElement.Text.Split(' '))
                     {
                         if (s != "" && s != null && s.Length > 4)
-                            new Absence("Uscita", s, true);
+                            tempAbsences.Add(new Absence("Uscita", s));
                     }                    
                     Column = 1;
                 }

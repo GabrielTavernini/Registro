@@ -117,6 +117,7 @@ namespace Registro
             {
                 String str = Application.Current.Properties["arguments"] as String;
                 arguments = JsonConvert.DeserializeObject<List<Arguments>>(str);
+                    
             }
 
             if (Application.Current.Properties.ContainsKey("notes"))

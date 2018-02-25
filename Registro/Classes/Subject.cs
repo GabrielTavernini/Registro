@@ -14,24 +14,21 @@ namespace Registro
         public List<Grade> grades { get; set; }
 
 
-        public Subject(String name, List<Grade> grades, Boolean save)
+        public Subject(String name, List<Grade> grades)
         {
             this.name = name;
             this.grades = grades;
-            if (save) App.Subjects.Add(this.name, this);
-
         }
 
-        public Subject(String name, Boolean save)
+        public Subject(String name)
         {
             this.name = name;
             this.grades = new List<Grade>();
-            if (save) App.Subjects.Add(this.name, this);
         }
 
         public Grade getMedia()
         {
-            Grade media = new Grade("", "", "", "Media", this, false);
+            Grade media = new Grade("", "", "", "Media", this);
             float sum = (float)0.0;
             int i = 0;
 
@@ -50,10 +47,9 @@ namespace Registro
             return media;
         }
 
-
         public Grade getMedia1()
         {
-            Grade media = new Grade("", "", "", "Media", this, false);
+            Grade media = new Grade("", "", "", "Media", this);
             float sum = (float)0.0;
             int i = 0;
 
@@ -77,7 +73,7 @@ namespace Registro
 
         public Grade getMedia2()
         {
-            Grade media = new Grade("", "", "", "Media", this, false);
+            Grade media = new Grade("", "", "", "Media", this);
             float sum = (float)0.0;
             int i = 0;
 

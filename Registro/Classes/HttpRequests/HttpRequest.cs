@@ -77,7 +77,7 @@ namespace Registro
         {
             App.Subjects = new Dictionary<string, Subject>();
             App.Grades = new List<Grade>();
-            App.Arguments = new List<Arguments>();
+            //App.Arguments = new List<Arguments>();
             App.Notes = new List<Note>();
             App.Absences = new List<Absence>();
         }
@@ -86,10 +86,12 @@ namespace Registro
         {
             if (!await LoginAsync())
                 return false;
-            clearLists();
-            await MarksRequests.extractAllMarks();
-            await ArgumentsRequests.extractAllArguments();
-            await NotesRequests.extractAllNotes();
+
+            await MarksRequests.refreshMarks();
+            await ArgumentsRequests.refreshArguments();
+            await NotesRequests.refreshNotes();
+
+            App.Absences = new List<Absence>();
             await AbsencesRequests.extractAllAbsences();
 
             App.SerializeObjects();

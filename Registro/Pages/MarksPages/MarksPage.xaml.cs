@@ -102,11 +102,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         { 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -156,19 +156,28 @@ namespace Registro.Pages
                 DisplayAlert("Descrizione Voto", g.Description, "Ok");
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await MarksRequests.refreshMarks();
-            list.IsRefreshing = false;
-
-            ContentPage page;
-            if (InfoList2.IsVisible)
-                page = new MarksPage(2);
-            else
-                page = new MarksPage(1); 
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
             
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+            Task.Run(async () => await MarksRequests.refreshMarks())
+            .ContinueWith((end) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    InfoList.IsRefreshing = false;
+                    InfoList2.IsRefreshing = false;
+                    ContentPage page;
+                    if (InfoList2.IsVisible)
+                        page = new MarksPage(2);
+                    else
+                        page = new MarksPage(1);
+
+                    Navigation.InsertPageBefore(page, this);
+                    Navigation.PopAsync(false);
+                });
+            });
         }
         #endregion
 
@@ -284,7 +293,7 @@ namespace Registro.Pages
             list.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             nope.gradeString = "N";
             list.Add(nope);
             return list;
@@ -315,7 +324,7 @@ namespace Registro.Pages
             list.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
-                          new Subject("NESSUN VOTO", false), false), 1, Color.FromHex("#00B1D4"));
+                          new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             nope.gradeString = "N";
             list.Add(nope);
             return list;

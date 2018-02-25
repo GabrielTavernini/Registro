@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Xamarin.Forms;
 
@@ -12,14 +13,13 @@ namespace Registro
         public String subject { get; set; } = "";
         public DateTime dateTime { get; set; }
 
-        public Arguments(String Argument, String Activity, String date, String sub, Boolean save)
+        public Arguments(String Argument, String Activity, String date, String sub)
         {
             this.date = date;
             this.subject = sub;
             this.Argument = Argument;
             this.Activity = Activity;
             if (date != "") this.dateTime = ConvertDate(date);
-            if (save) App.Arguments.Add(this);
         }
 
         public Arguments() { }

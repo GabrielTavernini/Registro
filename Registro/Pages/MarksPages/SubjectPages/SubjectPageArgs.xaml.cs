@@ -216,9 +216,10 @@ namespace Registro.Pages
         private List<ArgsModel> GetItems1()
         {
             List<ArgsModel> list = new List<ArgsModel>();
+
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) <= 0 && a.subject == arg.subject)
+                if (a.dateTime.CompareTo(App.periodChange) <= 0)
                     list.Add(new ArgsModel(a, 0));
             }
             list.Sort(new CustomDataTimeComparerArgs());
@@ -239,7 +240,7 @@ namespace Registro.Pages
             List<ArgsModel> list = new List<ArgsModel>();
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) > 0 && a.subject == arg.subject)
+                if (a.dateTime.CompareTo(App.periodChange) > 0)
                     list.Add(new ArgsModel(a, 0));
             }
             list.Sort(new CustomDataTimeComparerArgs());

@@ -11,6 +11,8 @@ namespace Registro.Classes.HttpRequests
 {
     public class NotesRequests : HttpRequest
     {
+        static private List<Note> tempNotes = new List<Note>();
+        
         static public async Task<String> extractAllNotes()
         {
             String notesPage = await getNotesPageAsync();
@@ -18,6 +20,9 @@ namespace Registro.Classes.HttpRequests
             extratNotesIndiv(notesPage);
             extratNotesClass(notesPage);
             System.Diagnostics.Debug.WriteLine(notesPage);
+
+            tempNotes = new List<Note>();
+
             return notesPage;
         }
 
@@ -32,9 +37,19 @@ namespace Registro.Classes.HttpRequests
             extratNotesIndiv(Page);
             extratNotesClass(Page);
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["notes"] = JsonConvert.SerializeObject(App.Notes, Formatting.Indented, jsonSettings);
-            return true;
+            if (tempNotes == App.Notes)
+            {
+                tempNotes = new List<Note>();
+                return true;
+            }
+            else
+            {
+                App.Notes = tempNotes;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["notes"] = JsonConvert.SerializeObject(App.Notes, Formatting.Indented, jsonSettings);
+                tempNotes = new List<Note>();
+                return true;
+            }
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
@@ -88,7 +103,8 @@ namespace Registro.Classes.HttpRequests
                     }
                     else if (Column == 1)
                     {
-                        currentNote = new Note(inputElement.Text, "", "", "", true);
+                        currentNote = new Note(inputElement.Text, "", "", "");
+                        tempNotes.Add(currentNote);
                         Column++;
                     }
                     else if (Column == 2)
@@ -138,7 +154,8 @@ namespace Registro.Classes.HttpRequests
                     }
                     else if (Column == 1)
                     {
-                        currentNote = new Note(inputElement.Text, "", "", "", true);
+                        currentNote = new Note(inputElement.Text, "", "", "");
+                        tempNotes.Add(currentNote);
                         Column++;
                     }
                     else if (Column == 2)

@@ -80,7 +80,7 @@ namespace Registro.Pages
                 sum += g.grade;
             }
 
-            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / App.Grades.Count).ToString("0.00"), "", new Subject("MEDIA GLOBALE", false), false);
+            Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / App.Grades.Count).ToString("0.00"), "", new Subject("MEDIA GLOBALE"));
             list.Add(new GradeModel(globalAverage, list.Count + 1, color));
 
             foreach (Subject s in App.Subjects.Values)

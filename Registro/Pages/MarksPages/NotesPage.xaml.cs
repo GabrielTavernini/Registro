@@ -101,11 +101,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -168,20 +168,26 @@ namespace Registro.Pages
                 
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await NotesRequests.refreshNotes();
-            list.IsRefreshing = false;
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
+            Task.Run(async () => await NotesRequests.refreshNotes())
+            .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => 
+            { 
+                InfoList.IsRefreshing = false;
+                InfoList2.IsRefreshing = false;
+                ContentPage page;
+                if (InfoList.IsVisible)
+                    page = new NotesPage(1);
+                else
+                    page = new NotesPage(2);
 
-            ContentPage page;
-            if (InfoList.IsVisible)
-                page = new NotesPage(1);
-            else
-                page = new NotesPage(2);
-
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+                Navigation.InsertPageBefore(page, this);
+                Navigation.PopAsync(false);
+            }); });
         }
+
         #endregion
 
         #region MoveList
@@ -288,7 +294,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Note note = new Note("Nessuna Nota", "", "", "", false);
+            Note note = new Note("Nessuna Nota", "", "", "");
             NoteModel noteModel = new NoteModel(note, 1, Color.FromHex("#F2AA52"));
             noteModel.Preview = "Lo studente non ha note!";
             list.Add(noteModel);
@@ -316,7 +322,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Note note = new Note("Nessuna Nota", "", "", "", false);
+            Note note = new Note("Nessuna Nota", "", "", "");
             NoteModel noteModel = new NoteModel(note, 1, Color.FromHex("#F2AA52"));
             noteModel.Preview = "Lo studente non ha note!";
             list.Add(noteModel);

@@ -14,11 +14,11 @@ namespace Registro
         public String Description { get; set; } = "";
         public String type { get; set; } = "";
         public float grade { get; set; } = 0.0f;
-        public Subject subject { get; set; } = new Subject("", false);
+        public Subject subject { get; set; } = new Subject("");
         public String gradeString { get; set; } = "";
         public DateTime dateTime { get; set; }
 
-        public Grade(String date, String type, String grade, String Description, Subject subject, Boolean save)
+        public Grade(String date, String type, String grade, String Description, Subject subject)
         {
             this.date = date;
             this.Description = Description;
@@ -27,7 +27,6 @@ namespace Registro
             this.gradeString = grade;
             this.subject = subject;
             if(date != "") this.dateTime = ConvertDate(date);
-            if (save) App.Grades.Add(this);
         }
 
         public Grade(){}

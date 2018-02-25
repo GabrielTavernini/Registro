@@ -11,7 +11,7 @@ namespace Registro
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
 
-        public Note(String Nome, String Text, String Measures, String date, Boolean save)
+        public Note(String Nome, String Text, String Measures, String date)
         {
             this.date = date;
             this.Text = Text;
@@ -19,8 +19,6 @@ namespace Registro
             this.Measures = Measures;
             if (date != "") 
                 this.dateTime = ConvertDate(date);
-            if (save) 
-                App.Notes.Add(this);
         }
 
         public Note() { }

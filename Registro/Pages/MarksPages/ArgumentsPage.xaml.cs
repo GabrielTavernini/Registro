@@ -101,11 +101,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -168,19 +168,28 @@ namespace Registro.Pages
                 
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await ArgumentsRequests.refreshArguments();
-            list.IsRefreshing = false;
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
+            
+            Task.Run(async () => await ArgumentsRequests.refreshArguments())
+                .ContinueWith((end) => {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
 
-            ContentPage page;
-            if (InfoList2.IsVisible)
-                page = new ArgumentsPage(2);
-            else
-                page = new ArgumentsPage(1);
+                        ContentPage page;
+                        if (InfoList2.IsVisible)
+                            page = new ArgumentsPage(2);
+                        else
+                            page = new ArgumentsPage(1);
 
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);
+                    });
+                });
         }
         #endregion
 
@@ -273,7 +282,8 @@ namespace Registro.Pages
             foreach (Arguments a in App.Arguments)
             {
                 if (a.dateTime.CompareTo(App.periodChange) <= 0)
-                    list.Add(new ArgsModel(a, 0));
+                    list.Add(new ArgsModel(a, 0)); 
+
             }
             list.Sort(new CustomDataTimeComparerArgs());
 
@@ -288,7 +298,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
+            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento");
             list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
             return list;
         }
@@ -314,7 +324,7 @@ namespace Registro.Pages
             if (list.Count > 0)
                 return list;
 
-            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento", false);
+            Arguments arg = new Arguments("Non ci sono argomenti!", "", "", "Nessun Argomento");
             list.Add(new ArgsModel(arg, 1, Color.FromHex("#B2D235")));
             return list;
         }
