@@ -12,9 +12,9 @@ namespace Registro
 {
     public class ArgumentsRequests : HttpRequest
     {
-        static private List<Arguments> tempArgs = new List<Arguments>();
+        private List<Arguments> tempArgs = new List<Arguments>();
         
-        static public async Task<String> extractAllArguments()
+        public async Task<String> extractAllArguments()
         {
             String argsPage = await getArgsPageAsync();
             await extratArgsAsync(argsPage);
@@ -23,11 +23,10 @@ namespace Registro
             return argsPage;
         }
 
-        static public async Task<Boolean> refreshArguments()
+        public async Task<Boolean> refreshArguments()
         {
             if (!await LoginAsync())
                 return false;
-
 
             String Page = await getArgsPageAsync();
             await extratArgsAsync(Page);
@@ -51,7 +50,7 @@ namespace Registro
         //--------------------------------------------------------------------getArgsPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<String> getArgsPageAsync()
+        public async Task<String> getArgsPageAsync()
         {
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
@@ -70,7 +69,7 @@ namespace Registro
             return pageSource;
         }
 
-        static public async Task<String> getArgsSubPageAsync(String id)
+        public async Task<String> getArgsSubPageAsync(String id)
         {
             string formParams = "idmateria=" + id;
 
@@ -104,7 +103,7 @@ namespace Registro
         //--------------------------------------------------------------------extratArgs-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<List<Arguments>> extratArgsAsync(String html)
+        public async Task<List<Arguments>> extratArgsAsync(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
@@ -130,7 +129,7 @@ namespace Registro
             return tempArgs;
         }
 
-        static public void extratArgsTable(String html, String currentSubject)
+        public void extratArgsTable(String html, String currentSubject)
         {
             Document doc = Dcsoup.ParseBodyFragment(html, "");
             //Arguments currentArgument = new Arguments();

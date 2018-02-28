@@ -11,26 +11,26 @@ namespace Registro.Classes.HttpRequests
 {
     public class AbsencesRequests : HttpRequest
     {
-        static private List<Absence> tempAbsences = new List<Absence>();
+        private List<Absence> tempAbsences = new List<Absence>();
         
-        static public async Task<String> extractAllAbsences()
+        public async Task<String> extractAllAbsences()
         {
             String absencesPage = await getAbsencesPageAsync();
 
             extratAbsences(absencesPage);
             System.Diagnostics.Debug.WriteLine(absencesPage);
 
+            App.Absences = tempAbsences;
             tempAbsences = new List<Absence>();
 
             return absencesPage;
         }
 
-        static public async Task<Boolean> refreshAbsence()
+        public async Task<Boolean> refreshAbsence()
         {
             if (!await LoginAsync())
                 return false;
 
-            App.Absences = new List<Absence>();
 
             String Page = await getAbsencesPageAsync();
             extratAbsences(Page);
@@ -53,7 +53,7 @@ namespace Registro.Classes.HttpRequests
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<string> getAbsencesPageAsync()
+        public async Task<string> getAbsencesPageAsync()
         {
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
@@ -76,7 +76,7 @@ namespace Registro.Classes.HttpRequests
         //--------------------------------------------------------------------extratMarks-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public void extratAbsences(String html)
+        public void extratAbsences(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");

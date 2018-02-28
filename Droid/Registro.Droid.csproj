@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.props')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -43,12 +44,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="XFGloss">
-      <HintPath>..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.dll</HintPath>
-    </Reference>
-    <Reference Include="XFGloss.Droid">
-      <HintPath>..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="Supremes">
       <HintPath>..\packages\dcsoup.1.0.0\lib\netstandard1.3\Supremes.dll</HintPath>
     </Reference>
@@ -57,6 +52,15 @@
     </Reference>
     <Reference Include="OkHttp">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\MonoAndroid\OkHttp.dll</HintPath>
+    </Reference>
+    <Reference Include="XFShapeView">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.dll</HintPath>
+    </Reference>
+    <Reference Include="XFShapeView.Droid">
+      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Android.Support.Annotations">
       <HintPath>..\packages\Xamarin.Android.Support.Annotations.25.4.0.2\lib\MonoAndroid70\Xamarin.Android.Support.Annotations.dll</HintPath>
@@ -121,17 +125,23 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
-    <Reference Include="XFShapeView">
-      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.dll</HintPath>
+    <Reference Include="XFGloss">
+      <HintPath>..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.dll</HintPath>
     </Reference>
-    <Reference Include="XFShapeView.Droid">
-      <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\MonoAndroid10\XFShapeView.Droid.dll</HintPath>
+    <Reference Include="XFGloss.Droid">
+      <HintPath>..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.Droid.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.CarouselView">
-      <HintPath>..\packages\Xamarin.Forms.CarouselView.2.3.0-pre2\lib\MonoAndroid10\Xamarin.Forms.CarouselView.dll</HintPath>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.42.1021.1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Basement.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Xamarin.GooglePlayServices.Tasks">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Tasks.42.1021.1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.42.1021.1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Iid">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Iid.42.1021.1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Iid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +158,7 @@
     <Compile Include="Renders\LayoutTouchListnerRender.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Renders\CloseRender.cs" />
+    <Compile Include="Renders\Notifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -197,5 +208,10 @@
   <Import Project="..\packages\Xamarin.Android.Support.v7.AppCompat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.v7.AppCompat.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.AppCompat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.v7.AppCompat.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Design.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Design.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Design.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Design.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.MediaRouter.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.v7.MediaRouter.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.MediaRouter.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.v7.MediaRouter.targets')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Basement.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Tasks.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Tasks.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Tasks.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Tasks.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Base.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Base.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Base.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Base.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Iid.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Iid.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Iid.42.1021.1\build\MonoAndroid70\Xamarin.GooglePlayServices.Iid.targets')" />
 </Project>

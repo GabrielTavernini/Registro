@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidClosing;
 
 namespace Registro.Pages
 {
@@ -43,6 +44,14 @@ namespace Registro.Pages
             await label1.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);
             await label2.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);
             await buttonStack.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (Device.RuntimePlatform == Device.Android)
+                return DependencyService.Get<IClose>().CloseApp();
+
+            return base.OnBackButtonPressed();
         }
     }
 }

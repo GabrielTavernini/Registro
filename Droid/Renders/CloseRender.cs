@@ -10,7 +10,7 @@ namespace Registro.Droid
     {
         public Boolean CloseApp()
         {
-            Context c =  Xamarin.Forms.Forms.Context as global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity;
+            Context c = MainActivity.Instance;
             Intent startMain = new Intent(Intent.ActionMain);
             startMain.AddCategory(Intent.CategoryHome);
              c.StartActivity(startMain);

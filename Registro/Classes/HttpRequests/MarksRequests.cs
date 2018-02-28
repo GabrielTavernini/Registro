@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
 using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
+using Xamarin.Forms;
+using static Registro.Controls.AndroidNotifications;
 
 namespace Registro
 {
     public class MarksRequests : HttpRequest
     {
-        static private List<Grade> tempGrade = new List<Grade>();
-        static private Dictionary<String,Subject> tempSubject = new Dictionary<String, Subject>();
+        private List<Grade> tempGrade = new List<Grade>();
+        private Dictionary<String,Subject> tempSubject = new Dictionary<String, Subject>();
 
-        static public async Task<String> extractAllMarks()
+        public async Task<String> extractAllMarks()
         {
             String marksPage = await getMarksPageAsync();
             extratMarks(marksPage);
@@ -29,18 +32,15 @@ namespace Registro
             return marksPage;
         }
 
-        static public async Task<Boolean> refreshMarks()
+        public async Task<Boolean> refreshMarks()
         {
             if (!await LoginAsync())
                 return false;
 
-            App.Subjects = new Dictionary<string, Subject>();
-            App.Grades = new List<Grade>();
-
             String marksPage = await getMarksPageAsync();
             extratMarks(marksPage);
 
-            if (tempGrade == App.Grades && tempSubject == App.Subjects)
+            if (tempGrade == App.Grades || tempGrade.Count() == 0)
             {
                 tempGrade = new List<Grade>();
                 tempSubject = new Dictionary<string, Subject>();
@@ -48,6 +48,18 @@ namespace Registro
             }
             else
             {
+
+                System.Diagnostics.Debug.WriteLine("Count temp: {0}  // Count app: {1}", tempGrade.Count(), App.Grades.Count());
+
+
+                List<Grade> list3 = tempGrade.Except(App.Grades, new GradesComparer()).ToList();
+
+                for (int i = 0; i < list3.Count(); i++)
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotify>().NotifyMark(list3[i], i);
+                }
+
                 App.Grades = tempGrade;
                 App.Subjects = tempSubject;
                 JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
@@ -64,7 +76,7 @@ namespace Registro
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<string> getMarksPageAsync()
+        public async Task<string> getMarksPageAsync()
         {
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
@@ -87,7 +99,7 @@ namespace Registro
         //--------------------------------------------------------------------extratMarks-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public void extratMarks(String html)
+        public void extratMarks(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
@@ -98,14 +110,14 @@ namespace Registro
             int Column = 0;
             for (int i = 2; ; i++)
             {
-                Element table = doc.Select("body > div.contenuto > table > tbody > tr:nth-child(" + i + ")").First;
+                Supremes.Nodes.Element table = doc.Select("body > div.contenuto > table > tbody > tr:nth-child(" + i + ")").First;
 
                 if (table == null) break;
 
                 Elements inputElements = table.GetElementsByTag("td");
 
 
-                foreach (Element inputElement in inputElements)
+                foreach (Supremes.Nodes.Element inputElement in inputElements)
                 {
                     if ("4".Equals(inputElement.Attr("colspan")))
                     {
@@ -140,5 +152,35 @@ namespace Registro
             }
         }
 
+    }
+
+    public class GradesComparer : IEqualityComparer<Grade>
+    {
+        public int GetHashCode(Grade co)
+        {
+            if (co == null)
+            {
+                return 0;
+            }
+            String s = co.gradeString + co.subject.name + co.date + co.type + co.Description;
+            return s.GetHashCode();
+        }
+
+        public bool Equals(Grade x, Grade y)
+        {
+            if (x == null && y == null)
+                return true;
+            else if (x == null || y == null)
+                return false;
+
+            if (x.subject.name == y.subject.name
+               && x.gradeString == y.gradeString
+               && x.date == y.date
+               && x.Description == y.Description
+               && x.type == y.type)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Registro.Models;
 using Registro.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,8 +24,9 @@ namespace Registro
         private static List<Arguments> arguments = new List<Arguments>();
         private static List<Note> notes = new List<Note>();
         private static List<Absence> absences = new List<Absence>();
+        private static Settings settings = new Settings();
 
-
+        internal static Settings Settings { get => settings; set => settings = value; }
         internal static List<Absence> Absences { get => absences; set => absences = value; }
         internal static List<Note> Notes { get => notes; set => notes = value; }
         internal static List<Arguments> Arguments { get => arguments; set => arguments = value; }
@@ -40,15 +42,11 @@ namespace Registro
 
         protected override void OnStart()
         {
-            // Handle when your app starts
-
-            if (Application.Current.Properties.ContainsKey("periodchange"))
-                periodChange = DateTime.ParseExact(Application.Current.Properties["periodchange"] as string, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            else
-                periodChange = GetPeriodChange();
-
+            //Deserialize object lists
             DeserializeObjects();
+            System.Diagnostics.Debug.WriteLine("Count App: {0}", App.Grades.Count());
 
+            //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
                 Application.Current.Properties.ContainsKey("school"))
@@ -83,6 +81,8 @@ namespace Registro
             // Handle when your app resumes
         }
 
+
+
         private DateTime GetPeriodChange()
         {
             if(DateTime.Now.Month > 7)
@@ -96,8 +96,22 @@ namespace Registro
         }
 
 
-        static public void DeserializeObjects()
+        public void DeserializeObjects()
         {
+            if(Application.Current.Properties.ContainsKey("settings"))
+            {
+                String str = Application.Current.Properties["settings"] as String;
+                settings = JsonConvert.DeserializeObject<Settings>(str); 
+            }
+            
+            if (Application.Current.Properties.ContainsKey("periodchange"))
+            {
+                String str = Application.Current.Properties["periodchange"] as String;
+                periodChange = JsonConvert.DeserializeObject<DateTime>(str);
+            }
+            else
+                periodChange = GetPeriodChange();
+
 
             if (Application.Current.Properties.ContainsKey("grades"))
             {

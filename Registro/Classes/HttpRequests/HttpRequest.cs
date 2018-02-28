@@ -28,10 +28,10 @@ namespace Registro
             if (!await LoginAsync())
                 return false;
 
-            await MarksRequests.extractAllMarks();
-            await ArgumentsRequests.extractAllArguments();
-            await NotesRequests.extractAllNotes();
-            await AbsencesRequests.extractAllAbsences();
+            await new MarksRequests().extractAllMarks();
+            await new ArgumentsRequests().extractAllArguments();
+            await new NotesRequests().extractAllNotes();
+            await new AbsencesRequests().extractAllAbsences();
 
             App.SerializeObjects();
             return true;
@@ -73,26 +73,16 @@ namespace Registro
             }
         }
 
-        static public void clearLists()
-        {
-            App.Subjects = new Dictionary<string, Subject>();
-            App.Grades = new List<Grade>();
-            //App.Arguments = new List<Arguments>();
-            App.Notes = new List<Note>();
-            App.Absences = new List<Absence>();
-        }
-
         static public async Task<Boolean> RefreshAsync()
         {
+            System.Diagnostics.Debug.WriteLine("Count App Refresh: {0}", App.Grades.Count());
             if (!await LoginAsync())
                 return false;
 
-            await MarksRequests.refreshMarks();
-            await ArgumentsRequests.refreshArguments();
-            await NotesRequests.refreshNotes();
-
-            App.Absences = new List<Absence>();
-            await AbsencesRequests.extractAllAbsences();
+            await new MarksRequests().refreshMarks();
+            await new ArgumentsRequests().refreshArguments();
+            await new NotesRequests().refreshNotes();
+            await new AbsencesRequests().refreshAbsence();
 
             App.SerializeObjects();
             return true;

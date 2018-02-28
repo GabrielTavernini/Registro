@@ -161,7 +161,7 @@ namespace Registro.Pages
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
             
-            Task.Run(async () => await MarksRequests.refreshMarks())
+            Task.Run(async () => await new MarksRequests().refreshMarks())
             .ContinueWith((end) =>
             {
                 Device.BeginInvokeOnMainThread(() =>

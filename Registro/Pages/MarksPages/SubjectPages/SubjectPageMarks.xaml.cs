@@ -128,7 +128,7 @@ namespace Registro.Pages
 
         private async Task RefreshAsync(ListView list)
         {
-            await MarksRequests.refreshMarks();
+            await new MarksRequests().refreshMarks();
             list.IsRefreshing = false;
 
             ContentPage page;

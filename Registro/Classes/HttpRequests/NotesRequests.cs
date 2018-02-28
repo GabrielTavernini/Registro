@@ -11,9 +11,9 @@ namespace Registro.Classes.HttpRequests
 {
     public class NotesRequests : HttpRequest
     {
-        static private List<Note> tempNotes = new List<Note>();
+        private List<Note> tempNotes = new List<Note>();
         
-        static public async Task<String> extractAllNotes()
+        public async Task<String> extractAllNotes()
         {
             String notesPage = await getNotesPageAsync();
 
@@ -21,17 +21,16 @@ namespace Registro.Classes.HttpRequests
             extratNotesClass(notesPage);
             System.Diagnostics.Debug.WriteLine(notesPage);
 
+            App.Notes = tempNotes;
             tempNotes = new List<Note>();
 
             return notesPage;
         }
 
-        static public async Task<Boolean> refreshNotes()
+        public async Task<Boolean> refreshNotes()
         {
             if (!await LoginAsync())
                 return false;
-
-            App.Notes = new List<Note>();
 
             String Page = await getNotesPageAsync();
             extratNotesIndiv(Page);
@@ -55,7 +54,7 @@ namespace Registro.Classes.HttpRequests
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<string> getNotesPageAsync()
+        public async Task<string> getNotesPageAsync()
         {
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
@@ -78,7 +77,7 @@ namespace Registro.Classes.HttpRequests
         //--------------------------------------------------------------------extratMarks-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public void extratNotesIndiv(String html)
+        public void extratNotesIndiv(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
@@ -129,7 +128,7 @@ namespace Registro.Classes.HttpRequests
         }
 
 
-        static public void extratNotesClass(String html)
+        public void extratNotesClass(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");

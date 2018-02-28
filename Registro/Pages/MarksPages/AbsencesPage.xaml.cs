@@ -163,7 +163,7 @@ namespace Registro.Pages
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
             
-            Task.Run(async () => await AbsencesRequests.refreshAbsence())
+            Task.Run(async () => await new AbsencesRequests().refreshAbsence())
                 .ContinueWith((end) => {
                     Device.BeginInvokeOnMainThread(() =>
                     {

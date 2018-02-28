@@ -114,9 +114,6 @@
     <Reference Include="XFShapeView.iOS">
       <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\Xamarin.iOS10\XFShapeView.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.CarouselView">
-      <HintPath>..\packages\Xamarin.Forms.CarouselView.2.3.0-pre2\lib\Xamarin.iOS10\Xamarin.Forms.CarouselView.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>

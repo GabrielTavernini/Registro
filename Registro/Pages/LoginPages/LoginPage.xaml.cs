@@ -55,6 +55,11 @@ namespace Registro.Pages
             if(!await HttpRequest.extractAllAsync())
             {
                 System.Diagnostics.Debug.WriteLine("Connection Error!");
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+                LodingLabel.IsVisible = false;
+
+                btnAuthenticate.IsVisible = true;
                 return;
             }
 

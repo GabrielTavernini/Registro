@@ -62,16 +62,19 @@ namespace Registro.Pages
             if(isFirstTime)
             {
                 isFirstTime = false;
-                InfoList.IsRefreshing = true;
-                generalRefresh = true;
-                Task.Run(async () => await HttpRequest.RefreshAsync())
-                    .ContinueWith((end) => { 
-                    Device.BeginInvokeOnMainThread(() => 
-                    { 
-                        InfoList.IsRefreshing = false; 
-                        generalRefresh = false; 
-                    }); 
-                });
+                if (App.Settings.startupUpdate)
+                {
+                    InfoList.IsRefreshing = true;
+                    generalRefresh = true;
+                    Task.Run(async () => await HttpRequest.RefreshAsync())
+                        .ContinueWith((end) => {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                InfoList.IsRefreshing = false;
+                                generalRefresh = false;
+                            });
+                        });                    
+                }
             }
         }
 
@@ -112,7 +115,7 @@ namespace Registro.Pages
         }
 
         protected override bool OnBackButtonPressed()
-        {
+        {            
             if(Device.RuntimePlatform == Device.Android)
                 return DependencyService.Get<IClose>().CloseApp();
             

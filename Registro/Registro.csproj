@@ -160,6 +160,8 @@
     <Compile Include="Pages\MarksPages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cells\SettingsCells.cs" />
+    <Compile Include="Controls\AndroidNotifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">
@@ -182,9 +184,6 @@
     </Reference>
     <Reference Include="XFShapeView">
       <HintPath>..\packages\VG.XFShapeView.1.0.5\lib\portable-net45+wp80+win8+wpa81\XFShapeView.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.CarouselView">
-      <HintPath>..\packages\Xamarin.Forms.CarouselView.2.3.0-pre2\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.CarouselView.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
