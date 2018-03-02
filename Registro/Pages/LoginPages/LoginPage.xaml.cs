@@ -15,7 +15,7 @@ namespace Registro.Pages
             if(schoolString == "IC Valle dei Laghi Dro - SSPG Dro")
             {
                 school = new School(
-                     "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
+                    "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
                      "Dro"
                  ); 
             }
@@ -60,6 +60,7 @@ namespace Registro.Pages
                 LodingLabel.IsVisible = false;
 
                 btnAuthenticate.IsVisible = true;
+                await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
                 return;
             }
 

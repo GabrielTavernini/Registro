@@ -10,6 +10,8 @@ using Android.OS;
 using XFShapeView.Droid;
 using Java.Lang;
 using Android.App.Job;
+using Android.Gms.Common;
+using Registro.Pages;
 
 namespace Registro.Droid
 {
@@ -17,6 +19,8 @@ namespace Registro.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
+        private static AlarmManager manager;
+        private static PendingIntent pendingIntent;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -24,7 +28,6 @@ namespace Registro.Droid
             App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density); // real pixels
             App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density); // real pixels
 
-            StartAlarm(this);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -38,15 +41,43 @@ namespace Registro.Droid
             XFGloss.Droid.Library.Init(this, savedInstanceState);
         }
 
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (manager == null)
+                StartAlarm(this);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (manager != null)
+                manager.Cancel(pendingIntent);
+        }
+
         internal static void StartAlarm(Context context)
         {
-            AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
             Intent myIntent;
-            PendingIntent pendingIntent;
             myIntent = new Intent(context, typeof(AlarmRefreshReceiver));
             pendingIntent = PendingIntent.GetBroadcast(context, 0, myIntent, 0);
 
-            manager.SetRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + (3600 * 1000), 3600 * 1000, pendingIntent);
+            manager.SetInexactRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, 60 * 30 * 1000, pendingIntent);
+        }
+
+        internal static void StopAlarm()
+        {
+            manager.Cancel(pendingIntent);
         }
     }
 }
+
+
+
+
+
+
+
+/*
+*/

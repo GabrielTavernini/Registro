@@ -166,16 +166,21 @@ namespace Registro.Pages
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    InfoList.IsRefreshing = false;
-                    InfoList2.IsRefreshing = false;
-                    ContentPage page;
-                    if (InfoList2.IsVisible)
-                        page = new MarksPage(2);
-                    else
-                        page = new MarksPage(1);
+                    try
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
+                        ContentPage page;
+                        if (InfoList2.IsVisible)
+                            page = new MarksPage(2);
+                        else
+                            page = new MarksPage(1);
 
-                    Navigation.InsertPageBefore(page, this);
-                    Navigation.PopAsync(false);
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);                     
+                    }
+                    catch{}
+
                 });
             });
         }

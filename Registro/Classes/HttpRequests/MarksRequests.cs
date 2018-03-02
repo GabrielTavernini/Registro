@@ -34,41 +34,38 @@ namespace Registro
 
         public async Task<Boolean> refreshMarks()
         {
+            tempGrade.Clear();
+            tempSubject.Clear();
             if (!await LoginAsync())
                 return false;
 
             String marksPage = await getMarksPageAsync();
+            if (marksPage == "failed")
+                return false;
+            
             extratMarks(marksPage);
+            if (!tempGrade.Any())
+                return false;
 
-            if (tempGrade == App.Grades || tempGrade.Count() == 0)
+            //done checking for errors! 
+            //let's save and notify new data
+            if(App.Settings.notifyMarks)
             {
-                tempGrade = new List<Grade>();
-                tempSubject = new Dictionary<string, Subject>();
-                return true;
-            }
-            else
-            {
-
-                System.Diagnostics.Debug.WriteLine("Count temp: {0}  // Count app: {1}", tempGrade.Count(), App.Grades.Count());
-
-
                 List<Grade> list3 = tempGrade.Except(App.Grades, new GradesComparer()).ToList();
 
                 for (int i = 0; i < list3.Count(); i++)
                 {
                     if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotify>().NotifyMark(list3[i], i);
-                }
-
-                App.Grades = tempGrade;
-                App.Subjects = tempSubject;
-                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-                Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
-                tempGrade = new List<Grade>();
-                tempSubject = new Dictionary<string, Subject>();
-                return true;
+                        DependencyService.Get<INotify>().NotifyMark(list3[i], -i);
+                } 
             }
 
+
+            App.Grades = tempGrade;
+            App.Subjects = tempSubject;
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
+            return true;
         }
 
 
@@ -78,21 +75,25 @@ namespace Registro
 
         public async Task<string> getMarksPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.marksUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            try
+            {
+                string pageSource;
+                HttpRequestMessage getRequest = new HttpRequestMessage();
+                getRequest.RequestUri = new Uri(User.school.marksUrl);
+                getRequest.Headers.Add("Cookie", cookies);
+                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-            pageSource = await getResponse.Content.ReadAsStringAsync();
+                pageSource = await getResponse.Content.ReadAsStringAsync();
 
-            getRequest.Dispose();
-            getResponse.Dispose();
+                getRequest.Dispose();
+                getResponse.Dispose();
 
-            return pageSource;
+                return pageSource;
+            }
+            catch { return "failed"; }
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -121,13 +122,15 @@ namespace Registro
                 {
                     if ("4".Equals(inputElement.Attr("colspan")))
                     {
-                        Column = 1;
                         currentSubject = new Subject(inputElement.Text.Replace("[", "").Replace("]", ""));
+
                         tempSubject.Add(currentSubject.name, currentSubject);
+                        Column = 1;
                     }
                     else if (Column == 1)
                     {
                         currentGrade = new Grade(inputElement.Text, "", "", "", currentSubject);
+
                         currentSubject.grades.Add(currentGrade);
                         tempGrade.Add(currentGrade);
                         Column++;
@@ -173,11 +176,13 @@ namespace Registro
             else if (x == null || y == null)
                 return false;
 
-            if (x.subject.name == y.subject.name
-               && x.gradeString == y.gradeString
-               && x.date == y.date
-               && x.Description == y.Description
-               && x.type == y.type)
+
+
+            if (x.gradeString == y.gradeString
+                && x.subject.name == y.subject.name
+                && x.date == y.date
+                && x.type == y.type
+                && x.Description == y.Description)
                 return true;
             else
                 return false;

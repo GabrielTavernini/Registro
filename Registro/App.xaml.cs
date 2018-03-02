@@ -14,6 +14,7 @@ namespace Registro
 {
     public partial class App : Application
     {
+        private string firstPage = "";
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
         public static int ScreenHeight { get; set; }
@@ -40,6 +41,12 @@ namespace Registro
             InitializeComponent();
         }
 
+        public App(String page)
+        {
+            firstPage = page;
+            InitializeComponent();
+        }
+
         protected override void OnStart()
         {
             //Deserialize object lists
@@ -53,7 +60,7 @@ namespace Registro
             {
 
                 School school = new School(
-                     "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
+                    "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
                      "Dro"
                  );
 
@@ -62,7 +69,7 @@ namespace Registro
 
                 User user = new User(username, password, school);
 
-                MainPage = new NavigationPage(new HomePage(user));//new MainPage(user));//new HomePage(user));
+                MainPage = new NavigationPage(new HomePage(user, firstPage));
             }
             else
             {

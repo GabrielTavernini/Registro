@@ -173,21 +173,28 @@ namespace Registro.Pages
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
             Task.Run(async () => await new NotesRequests().refreshNotes())
-            .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => 
-            { 
-                InfoList.IsRefreshing = false;
-                InfoList2.IsRefreshing = false;
-                ContentPage page;
-                if (InfoList.IsVisible)
-                    page = new NotesPage(1);
-                else
-                    page = new NotesPage(2);
+            .ContinueWith((end) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    try
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
+                        ContentPage page;
+                        if (InfoList.IsVisible)
+                            page = new NotesPage(1);
+                        else
+                            page = new NotesPage(2);
 
-                Navigation.InsertPageBefore(page, this);
-                Navigation.PopAsync(false);
-            }); });
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);   
+                    }
+                    catch{}
+
+                });
+            });
         }
-
         #endregion
 
         #region MoveList

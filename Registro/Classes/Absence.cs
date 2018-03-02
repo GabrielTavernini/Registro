@@ -9,6 +9,7 @@ namespace Registro
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
 
+
         public Absence(String Type, String date)
         {
             this.date = date;

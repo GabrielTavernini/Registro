@@ -18,6 +18,7 @@ namespace Registro
         public String gradeString { get; set; } = "";
         public DateTime dateTime { get; set; }
 
+
         public Grade(String date, String type, String grade, String Description, Subject subject)
         {
             this.date = date;

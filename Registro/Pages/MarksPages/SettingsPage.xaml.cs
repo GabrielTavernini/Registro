@@ -17,6 +17,7 @@ namespace Registro.Pages
         CustomSwitchCell notifyMarks;
         CustomSwitchCell notifyNotes;
         CustomSwitchCell notifyAbsences;
+        CustomSwitchCell notifyArguments;
         CustomSwitchCell startupUpdate;
         CustomExitCell exitCell;
 
@@ -42,16 +43,20 @@ namespace Registro.Pages
 
             notifyNotes = new CustomSwitchCell("Notifiche per nuove note", App.Settings.notifyNotes);
             notifyAbsences = new CustomSwitchCell("Notifiche per nuovi assenze", App.Settings.notifyAbsences);
+            notifyArguments = new CustomSwitchCell("Notifiche per nuovi argomenti", App.Settings.notifyArguments);
+
             startupUpdate = new CustomSwitchCell("Aggiorna all'avvio", App.Settings.startupUpdate);
 
             notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             notifyNotes.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             notifyAbsences.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            notifyArguments.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             startupUpdate.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
 
             NotificationSection.Add(notifyMarks);
             NotificationSection.Add(notifyNotes);
             NotificationSection.Add(notifyAbsences);
+            NotificationSection.Add(notifyArguments);
 
             GeneralSection.Add(startupUpdate);
 
@@ -91,11 +96,12 @@ namespace Registro.Pages
             
             if (sender == notifyAbsences)
                 App.Settings.notifyAbsences = args.Value;
+
+            if(sender == notifyArguments)
+                App.Settings.notifyArguments = args.Value;
             
             if (sender == startupUpdate)
             {
-                if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotify>().NotifyMark(new Grade("", "", "9", "", new Subject("LOL")), 10);
                 App.Settings.startupUpdate = args.Value;
             }
                 
@@ -114,6 +120,10 @@ namespace Registro.Pages
             if(answer)
             {
                 Application.Current.Properties.Clear();
+
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotify>().StopAlarm();
+
                 await Navigation.PushAsync(new FirstPage());  
             }
         }

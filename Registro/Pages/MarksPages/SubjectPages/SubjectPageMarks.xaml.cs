@@ -69,11 +69,11 @@ namespace Registro.Pages
         public void gesturesSetup()
         {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             InfoList2.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
-            InfoList2.Refreshing += async (sender, e) => { await RefreshAsync(InfoList); };
+            InfoList2.Refreshing += (sender, e) => { Refresh(); };
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -126,19 +126,32 @@ namespace Registro.Pages
                 DisplayAlert("Descrizione Voto", g.Description, "Ok");
         }
 
-        private async Task RefreshAsync(ListView list)
+        private void Refresh()
         {
-            await new MarksRequests().refreshMarks();
-            list.IsRefreshing = false;
+            InfoList.IsRefreshing = true;
+            InfoList2.IsRefreshing = true;
 
-            ContentPage page;
-            if (InfoList2.IsVisible)
-                page = new SubjectPageMarks(sub,2);
-            else
-                page = new SubjectPageMarks(sub,1);
+            Task.Run(async () => await new MarksRequests().refreshMarks())
+            .ContinueWith((end) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    try
+                    {
+                        InfoList.IsRefreshing = false;
+                        InfoList2.IsRefreshing = false;
+                        ContentPage page;
+                        if (InfoList2.IsVisible)
+                            page = new SubjectPageMarks(sub, 2);
+                        else
+                            page = new SubjectPageMarks(sub, 1);
 
-            Navigation.InsertPageBefore(page, this);
-            await Navigation.PopAsync(false);
+                        Navigation.InsertPageBefore(page, this);
+                        Navigation.PopAsync(false);
+                    }
+                    catch { }
+                });
+            });
         }
         #endregion
 

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
 using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
+using Xamarin.Forms;
+using static Registro.Controls.AndroidNotifications;
 
 namespace Registro.Classes.HttpRequests
 {
@@ -28,26 +31,35 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<Boolean> refreshAbsence()
         {
+            tempAbsences.Clear();
             if (!await LoginAsync())
                 return false;
 
 
             String Page = await getAbsencesPageAsync();
-            extratAbsences(Page);
+            if (Page == "failed")
+                return false;
 
-            if (tempAbsences == App.Absences)
+            extratAbsences(Page);
+            if (!tempAbsences.Any())
+                return false;
+
+
+            if (App.Settings.notifyAbsences)
             {
-                tempAbsences = new List<Absence>();
-                return true;
+                List<Absence> list3 = tempAbsences.Except(App.Absences, new AbsencesComparer()).ToList();
+                for (int i = 0; i < list3.Count(); i++)
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotify>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
+                }
             }
-            else
-            {
-                App.Absences = tempAbsences;
-                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-                Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
-                tempAbsences = new List<Absence>();
-                return true;
-            }
+
+
+            App.Absences = tempAbsences;
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
+            return true;
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
@@ -55,21 +67,26 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<string> getAbsencesPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.absencesUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            try
+            {
+                string pageSource;
+                HttpRequestMessage getRequest = new HttpRequestMessage();
+                getRequest.RequestUri = new Uri(User.school.absencesUrl);
+                getRequest.Headers.Add("Cookie", cookies);
+                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-            pageSource = await getResponse.Content.ReadAsStringAsync();
+                pageSource = await getResponse.Content.ReadAsStringAsync();
 
-            getRequest.Dispose();
-            getResponse.Dispose();
+                getRequest.Dispose();
+                getResponse.Dispose();
 
-            return pageSource;
+                return pageSource;
+            }
+            catch { return "failed"; }
+
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,14 +98,14 @@ namespace Registro.Classes.HttpRequests
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
-            Element table = doc.Select("body > div.contenuto > table:nth-child(6) > tbody > tr:nth-child(6)").First;
+            Supremes.Nodes.Element table = doc.Select("body > div.contenuto > table:nth-child(6) > tbody > tr:nth-child(6)").First;
 
             if (table == null) return;
 
             Elements inputElements = table.GetElementsByTag("td");
 
             int Column = 1;
-            foreach (Element inputElement in inputElements)
+            foreach (Supremes.Nodes.Element inputElement in inputElements)
             {
                 if (Column == 1)
                 {
@@ -105,7 +122,7 @@ namespace Registro.Classes.HttpRequests
                     foreach (String s in inputElement.Text.Split(' '))
                     {
                         if (s != "" && s != null && s.Length > 4)
-                            tempAbsences.Add(new Absence("Ritardo", s));
+                                    tempAbsences.Add(new Absence("Ritardo", s));
                     }                    
                     Column++;
                 }
@@ -120,6 +137,35 @@ namespace Registro.Classes.HttpRequests
                 }
 
             }
+        }
+    }
+
+    public class AbsencesComparer : IEqualityComparer<Absence>
+    {
+        public int GetHashCode(Absence co)
+        {
+            if (co == null)
+            {
+                return 0;
+            }
+            String s = co.Type + co.date;
+            return s.GetHashCode();
+        }
+
+        public bool Equals(Absence x, Absence y)
+        {
+            if (x == null && y == null)
+                return true;
+            else if (x == null || y == null)
+                return false;
+
+
+
+            if (x.Type == y.Type
+                && x.date == y.date)
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -145,13 +145,15 @@ namespace Registro.Models
         public Boolean notifyMarks { get; set; } = true;
         public Boolean notifyNotes { get; set; } = true;
         public Boolean notifyAbsences { get; set; } = false;
+        public Boolean notifyArguments { get; set; } = false;
         public Boolean startupUpdate { get; set; } = true;
 
-        public Settings(Boolean notifyMarks, Boolean notifyNotes, Boolean notifyAbsences, Boolean startupUpdate)
+        public Settings(Boolean notifyMarks, Boolean notifyNotes, Boolean notifyAbsences, Boolean notifyArguments, Boolean startupUpdate)
         {
             this.notifyMarks = notifyMarks;
             this.notifyNotes = notifyNotes;
             this.notifyAbsences = notifyAbsences;
+            this.notifyArguments = notifyArguments;
             this.startupUpdate = startupUpdate;
         }
 

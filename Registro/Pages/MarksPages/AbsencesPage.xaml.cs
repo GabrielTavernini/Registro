@@ -6,6 +6,7 @@ using Registro.Classes.HttpRequests;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidClosing;
 
 namespace Registro.Pages
 {
@@ -167,22 +168,25 @@ namespace Registro.Pages
                 .ContinueWith((end) => {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        InfoList.IsRefreshing = false;
-                        InfoList2.IsRefreshing = false;
+                        try
+                        {
+                            InfoList.IsRefreshing = false;
+                                InfoList2.IsRefreshing = false;
 
-                        ContentPage page;
-                        if (InfoList2.IsVisible)
-                            page = new AbsencesPage(2);
-                        else
-                            page = new AbsencesPage(1);
+                                ContentPage page;
+                                if (InfoList2.IsVisible)
+                                    page = new AbsencesPage(2);
+                                else
+                                    page = new AbsencesPage(1);
 
-                        Navigation.InsertPageBefore(page, this);
-                        Navigation.PopAsync(false);
+                                Navigation.InsertPageBefore(page, this);
+                                Navigation.PopAsync(false);
+                        }
+                        catch{}
                     });
                 });
         }
         #endregion
-
 
         #region MoveList
 

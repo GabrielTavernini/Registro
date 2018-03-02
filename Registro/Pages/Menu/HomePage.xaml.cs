@@ -14,12 +14,22 @@ namespace Registro.Pages
         bool isFirstTime = false;
         public static bool generalRefresh = false;
 
-        public HomePage(User user)
+        public HomePage(User user, string firstPage)
         {
             this.user = user;
             HttpRequest.User = user;
             this.isFirstTime = true;
             initialize();
+
+
+            if (firstPage == "MarksPage")
+                Navigation.PushAsync(new MarksPage());
+            else if (firstPage == "NotesPage")
+                Navigation.PushAsync(new NotesPage());
+            else if (firstPage == "ArgsPage")
+                Navigation.PushAsync(new ArgumentsPage());
+            else if(firstPage == "AbsencesPage")
+                Navigation.PushAsync(new AbsencesPage());
         }
 
         public HomePage()

@@ -37,56 +37,63 @@ namespace Registro
             return true;
         }
 
-
-        static public async Task<Boolean> LoginAsync()
-        {
-            if(cookies == null)
-                if( await getCookiesAsync() == "failed")
-                    return false;
-
-
-
-            string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + await cryptPasswordAsync(User.password);
-
-            HttpRequestMessage req = new HttpRequestMessage();
-            Uri uri = new Uri(User.school.formUrl);
-            req.RequestUri = uri;
-            req.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-            req.Headers.Add("Cookie", cookies);
-            req.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            req.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-            req.Headers.Add("Referer", User.school.loginUrl);
-            req.Method = HttpMethod.Post;
-
-            byte[] bytes = Encoding.UTF8.GetBytes(formParams);
-            req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
-            req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
-
-            try{
-                HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-                resp.Dispose();
-                req.Dispose();
-                return true;
-            }catch{
-                req.Dispose();
-                return false; 
-            }
-        }
-
         static public async Task<Boolean> RefreshAsync()
         {
             System.Diagnostics.Debug.WriteLine("Count App Refresh: {0}", App.Grades.Count());
             if (!await LoginAsync())
                 return false;
 
-            await new MarksRequests().refreshMarks();
-            await new ArgumentsRequests().refreshArguments();
-            await new NotesRequests().refreshNotes();
-            await new AbsencesRequests().refreshAbsence();
 
-            App.SerializeObjects();
-            return true;
+                await new MarksRequests().refreshMarks();
+                await new NotesRequests().refreshNotes();
+                await new AbsencesRequests().refreshAbsence();
+                await new ArgumentsRequests().refreshArguments();
+
+                System.Diagnostics.Debug.WriteLine(App.Arguments.Last().Argument);
+
+                App.SerializeObjects();
+                return true;
+
         }
+
+        static public async Task<Boolean> LoginAsync()
+        {
+            if(cookies == null)
+                if( await getCookiesAsync() == "failed")
+                    return false;
+            
+            try
+            {
+                string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + await cryptPasswordAsync(User.password);
+
+                HttpRequestMessage req = new HttpRequestMessage();
+                Uri uri = new Uri(User.school.formUrl);
+                req.RequestUri = uri;
+                req.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+                req.Headers.Add("Cookie", cookies);
+                req.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                req.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+                req.Headers.Add("Referer", User.school.loginUrl);
+                req.Method = HttpMethod.Post;
+
+                byte[] bytes = Encoding.UTF8.GetBytes(formParams);
+                req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
+                req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+
+                HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+                resp.Dispose();
+                req.Dispose();
+                return true;
+            }
+            catch{
+                seed = null;
+                cookies = null;
+                return false; 
+            }
+        }
+
+
 
 
 
@@ -117,9 +124,9 @@ namespace Registro
 
                     }
                 }
+                return seed;
             }
             catch { return "failed"; }
-            return seed;
         }
 
         static public async Task<string> getCookiesAsync()

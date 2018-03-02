@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ using ModernHttpClient;
 using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
+using Xamarin.Forms;
+using static Registro.Controls.AndroidNotifications;
 
 namespace Registro
 {
@@ -29,22 +32,31 @@ namespace Registro
                 return false;
 
             String Page = await getArgsPageAsync();
-            await extratArgsAsync(Page);
+            if (Page == "failed")
+                return false;
 
-            if (tempArgs == App.Arguments)
+
+            if(await extratArgsAsync(Page))
             {
-                tempArgs = new List<Arguments>();
-                return true;                
-            }
-            else
-            {
+                //done checking for errors! 
+                //let's save and notify new data
+                if(App.Settings.notifyArguments)
+                {
+                    List<Arguments> list3 = tempArgs.Except(App.Arguments, new ArgumentsComparer()).ToList();
+
+                    for (int i = 0; i < list3.Count(); i++)
+                    {
+                        if (Device.RuntimePlatform == Device.Android)
+                            DependencyService.Get<INotify>().NotifyArguments(list3[i], i);
+                    }  
+                }
+
                 App.Arguments = tempArgs;
                 JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
                 Xamarin.Forms.Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(App.Arguments, Formatting.Indented, jsonSettings);
-                tempArgs = new List<Arguments>();
-                return true;                 
+                return true; 
             }
-
+            return false;
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getArgsPage-----------------------------------------------------------
@@ -52,21 +64,25 @@ namespace Registro
 
         public async Task<String> getArgsPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.argsUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            try
+            {
+                string pageSource;
+                HttpRequestMessage getRequest = new HttpRequestMessage();
+                getRequest.RequestUri = new Uri(User.school.argsUrl);
+                getRequest.Headers.Add("Cookie", cookies);
+                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                //getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-            pageSource = await getResponse.Content.ReadAsStringAsync();
+                pageSource = await getResponse.Content.ReadAsStringAsync();
 
-            getRequest.Dispose();
-            getResponse.Dispose();
+                getRequest.Dispose();
+                getResponse.Dispose();
 
-            return pageSource;
+                return pageSource;
+            }
+            catch { return "failed"; }
         }
 
         public async Task<String> getArgsSubPageAsync(String id)
@@ -96,22 +112,22 @@ namespace Registro
                 req.Dispose();
                 return pageSource;
             }
-            catch { return ""; }
+            catch { return "failed"; }
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------extratArgs-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task<List<Arguments>> extratArgsAsync(String html)
+        public async Task<Boolean> extratArgsAsync(String html)
         {
             System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Dictionary<String, String> subjects = new Dictionary<String, String>();
-            Element selector = doc.Select("body > div.contenuto > form > table > tbody > tr > td > select").First;
+            Supremes.Nodes.Element selector = doc.Select("body > div.contenuto > form > table > tbody > tr > td > select").First;
 
-            foreach (Element option in selector.GetElementsByTag("option"))
+            foreach (Supremes.Nodes.Element option in selector.GetElementsByTag("option"))
             {
                 if (option.Attributes["value"] != null)
                 {
@@ -123,10 +139,14 @@ namespace Registro
 
             foreach (KeyValuePair<String, String> KVp in subjects)
             {
-                extratArgsTable(await getArgsSubPageAsync(KVp.Key), KVp.Value);
+                String s = await getArgsSubPageAsync(KVp.Key);
+                if(s == "failed")
+                    return false;
+                    
+                extratArgsTable(s, KVp.Value);
             }
 
-            return tempArgs;
+            return true;
         }
 
         public void extratArgsTable(String html, String currentSubject)
@@ -136,14 +156,14 @@ namespace Registro
 
             for (int i = 2; ; i++)
             {
-                Element table = doc.Select("body > div.contenuto > table > tbody > tr:nth-child(" + i + ")").First;
+                Supremes.Nodes.Element table = doc.Select("body > div.contenuto > table > tbody > tr:nth-child(" + i + ")").First;
 
                 if (table == null) break;
 
                 Elements inputElements = table.GetElementsByTag("td");
 
                 int Column = 1;
-                foreach (Element inputElement in inputElements)
+                foreach (Supremes.Nodes.Element inputElement in inputElements)
                 {
                     if (Column == 1)
                     {
@@ -163,6 +183,38 @@ namespace Registro
 
                 }
             }
+        }
+    }
+
+
+    public class ArgumentsComparer : IEqualityComparer<Arguments>
+    {
+        public int GetHashCode(Arguments co)
+        {
+            if (co == null)
+            {
+                return 0;
+            }
+            String s = co.Argument + co.Activity + co.subject + co.date;
+            return s.GetHashCode();
+        }
+
+        public bool Equals(Arguments x, Arguments y)
+        {
+            if (x == null && y == null)
+                return true;
+            else if (x == null || y == null)
+                return false;
+
+
+
+            if (x.Activity == y.Activity
+                && x.Argument == y.Argument
+                && x.subject == y.subject
+                && x.date == y.date)
+                return true;
+            else
+                return false;
         }
     }
 }

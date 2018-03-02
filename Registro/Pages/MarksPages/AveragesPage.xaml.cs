@@ -171,17 +171,21 @@ namespace Registro.Pages
                 .ContinueWith((end) => {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        InfoList.IsRefreshing = false;
-                        InfoList2.IsRefreshing = false;
+                        try
+                        {
+                            InfoList.IsRefreshing = false;
+                                InfoList2.IsRefreshing = false;
 
-                        ContentPage page;
-                        if (InfoList.IsVisible)
-                            page = new AveragesPage(1);
-                        else
-                            page = new AveragesPage(2);
+                                ContentPage page;
+                                if (InfoList.IsVisible)
+                                    page = new AveragesPage(1);
+                                else
+                                    page = new AveragesPage(2);
 
-                        Navigation.InsertPageBefore(page, this);
-                        Navigation.PopAsync(false);
+                                Navigation.InsertPageBefore(page, this);
+                                Navigation.PopAsync(false);
+                        }
+                        catch{}
                     });
                 });
         }

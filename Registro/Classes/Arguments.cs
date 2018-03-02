@@ -13,6 +13,7 @@ namespace Registro
         public String subject { get; set; } = "";
         public DateTime dateTime { get; set; }
 
+
         public Arguments(String Argument, String Activity, String date, String sub)
         {
             this.date = date;

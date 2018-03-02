@@ -11,6 +11,7 @@ namespace Registro
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
 
+
         public Note(String Nome, String Text, String Measures, String date)
         {
             this.date = date;
