@@ -7,7 +7,7 @@ using Registro.Classes.HttpRequests;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
-using static Registro.Controls.AndroidNotifications;
+using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
 {
@@ -65,6 +65,14 @@ namespace Registro.Pages
             LoginSection.Add(exitCell);
 
 
+            Info.Tapped += (sender, e) => 
+            {
+                if(Device.RuntimePlatform == Device.iOS)
+                    DependencyService.Get<INotifyiOS>().NotifyMark(App.Grades[new Random().Next(0, App.Grades.Count - 1)]);
+                else
+                    DependencyService.Get<INotifyAndroid>().NotifyArguments(App.Arguments[new Random().Next(0, App.Arguments.Count - 1)], DateTime.Now.Millisecond);
+            };
+
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -101,9 +109,7 @@ namespace Registro.Pages
                 App.Settings.notifyArguments = args.Value;
             
             if (sender == startupUpdate)
-            {
                 App.Settings.startupUpdate = args.Value;
-            }
                 
 
             Application.Current.Properties["settings"] = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
@@ -122,8 +128,9 @@ namespace Registro.Pages
                 Application.Current.Properties.Clear();
 
                 if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotify>().StopAlarm();
-
+                    DependencyService.Get<INotifyAndroid>().StopAlarm();
+                else
+                    DependencyService.Get<INotifyiOS>().StopAlarm();
                 await Navigation.PushAsync(new FirstPage());  
             }
         }

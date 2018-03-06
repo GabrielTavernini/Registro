@@ -31,7 +31,7 @@
                     </TableSection>
 
                     <TableSection x:Name="GeneralSection" Title="Generali">
-                        <TextCell Text="Ulteriori informazioni" TextColor="Black"/>
+                        <TextCell x:Name="Info" Text="Ulteriori informazioni" TextColor="Black"/>
                         <models:DatePickerCell DataChanged="DataChanged"/>
                     </TableSection>
 

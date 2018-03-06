@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 using Xamarin.Forms;
-using static Registro.Controls.AndroidNotifications;
+using static Registro.Controls.Notifications;
 
 namespace Registro
 {
@@ -47,7 +47,7 @@ namespace Registro
                     for (int i = 0; i < list3.Count(); i++)
                     {
                         if (Device.RuntimePlatform == Device.Android)
-                            DependencyService.Get<INotify>().NotifyArguments(list3[i], i);
+                            DependencyService.Get<INotifyAndroid>().NotifyArguments(list3[i], i);
                     }  
                 }
 

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Supremes;
 using Supremes.Nodes;
 using Xamarin.Forms;
-using static Registro.Controls.AndroidNotifications;
+using static Registro.Controls.Notifications;
 
 namespace Registro.Classes.HttpRequests
 {
@@ -51,7 +51,7 @@ namespace Registro.Classes.HttpRequests
                 for (int i = 0; i < list3.Count(); i++)
                 {
                     if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotify>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
+                        DependencyService.Get<INotifyAndroid>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
                 }
             }
 

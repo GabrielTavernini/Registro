@@ -12,13 +12,14 @@ using Android.Util;
 using Android.Gms.Common;
 using Android.Widget;
 using Registro.Droid;
-using static Registro.Controls.AndroidNotifications;
+using static Registro.Controls.Notifications;
 using Registro.Pages;
+using System.Text;
 
-[assembly: Xamarin.Forms.Dependency(typeof(Notifications))]
+[assembly: Xamarin.Forms.Dependency(typeof(Registro.Droid.Notifications))]
 namespace Registro.Droid
 {
-    public class Notifications : INotify
+    public class Notifications : INotifyAndroid
     {
         public void NotifyMark(Grade g, int id)
         {
@@ -107,13 +108,26 @@ namespace Registro.Droid
             inte.PutExtra("page", "ArgsPage");
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
+            StringBuilder sb = new StringBuilder();
+            sb.Append(a.Argument);
+            if (a.Activity != null && a.Activity != "")
+            {
+                sb.AppendLine(" ");
+                sb.AppendLine(" ");
+                sb.AppendLine("Attività:");
+                sb.Append(a.Activity);
+            }
+
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
                 //.SetContentIntent(pe)
                 .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
                 .SetContentTitle(String.Format("Nuovo Argomento di {0}", a.subject))               // Display the count in the Content Info
                 .SetSmallIcon(Resource.Drawable.icon_transparent)
-                .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon));// Display this icon
-
+                .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon))
+                .SetStyle(new NotificationCompat.BigTextStyle()
+                          .BigText(sb.ToString()));
+            
             builder.SetContentText(a.Argument);
 
             // Finally, publish the notification:
@@ -143,64 +157,13 @@ namespace Registro.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            MainActivity.StartAlarm(MainActivity.Instance);
-        }
-    }
-
-}
-
-
-
-
-/*
-[BroadcastReceiver(Enabled = true)]
-public class AlarmRefreshReceiver : BroadcastReceiver
-{
-    public override void OnReceive(Context context, Intent intent)
-    {
-        Task.Run(async () => await HttpRequest.RefreshAsync());
-        Context c = MainActivity.Instance;
-        Grade g = new Grade("", "", "", "", new Subject("Scheduling test"));
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
-            .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
-            .SetContentTitle("Nuovo Voto")               // Display the count in the Content Info
-            .SetSmallIcon(Resource.Drawable.icon_transparent)
-            .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon))// Display this icon
-            .SetContentText(String.Format(
-                "Hai preso {0} di {1}", g.gradeString, g.subject.name)); // The message to display.
-
-        // Finally, publish the notification:
-        NotificationManager notificationManager =
-            (NotificationManager)c.GetSystemService(Context.NotificationService);
-        notificationManager.Notify(new Random().Next(), builder.Build());
-    }
-}
-
-[BroadcastReceiver(Enabled = true, Exported = true)]
-public class BootReciver : BroadcastReceiver
-{
-    public override void OnReceive(Context context, Intent intent)
-    {
-        MainActivity.StartAlarm(MainActivity.Instance);
-    }
-}
-*/
-/*
-public class BootReceiver : BroadcastReceiver
-{
-    public override void OnReceive(Context context, Intent intent)
-    {
-        Context c = MainActivity.Instance;
-
-        if (MainActivity.manager == null)
-        {
-            MainActivity.manager = (AlarmManager)c.GetSystemService(Context.AlarmService);
+            /*AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
             Intent myIntent;
-            PendingIntent pendingIntent;
-            myIntent = new Intent(c, typeof(AlarmRefreshReceiver));
-            pendingIntent = PendingIntent.GetBroadcast(c, 0, myIntent, 0);
+            myIntent = new Intent(context, typeof(AlarmRefreshReceiver));
+            PendingIntent pendingIntent = PendingIntent.GetBroadcast(context, 0, myIntent, 0);
 
-            MainActivity.manager.SetRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1, 1000 * 60, pendingIntent);
+            manager.SetInexactRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, 60 * 30 * 1000, pendingIntent);  */      
         }
     }
-}*/
+
+}

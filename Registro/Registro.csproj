@@ -161,7 +161,7 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Cells\SettingsCells.cs" />
-    <Compile Include="Controls\AndroidNotifications.cs" />
+    <Compile Include="Controls\Notifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

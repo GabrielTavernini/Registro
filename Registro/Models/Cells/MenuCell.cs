@@ -20,7 +20,7 @@ namespace Registro.Models
                         return parent.X + 4;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y + 4;
+                        return parent.Y + 14;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width - 4;
@@ -35,7 +35,7 @@ namespace Registro.Models
                         return parent.X;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y;
+                        return parent.Y + 10;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width - 4;
@@ -52,7 +52,7 @@ namespace Registro.Models
                         return parent.X;
                     }), Constraint.RelativeToParent((parent) =>
                     {
-                        return parent.Y;
+                        return parent.Y + 10;
                     }), Constraint.RelativeToParent((parent) =>
                     {
                         return parent.Width;
@@ -119,7 +119,7 @@ namespace Registro.Models
 
             System.Diagnostics.Debug.WriteLine("Appear " + ItemId);
 
-            if (ItemId == 1 || ItemId == 2 || ItemId == 3)
+            if (ItemId == 1)
             {
                 DoFirstApper();
             }

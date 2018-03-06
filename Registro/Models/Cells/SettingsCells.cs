@@ -76,8 +76,8 @@ namespace Registro.Models
             sw = new Switch()
             {
                 IsToggled = On,
-                Scale = 1.1,
                 Margin = new Thickness(0, 0, 5, 0),
+                VerticalOptions = LayoutOptions.Center,
             };
 
             sw.Toggled += (sender, e) => { SwitchChanged(this, e); };

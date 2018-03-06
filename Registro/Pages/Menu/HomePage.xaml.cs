@@ -42,6 +42,7 @@ namespace Registro.Pages
             InitializeComponent();
 
             InfoList.ItemsSource = GetItems();
+            InfoList.Footer = new StackLayout() { HeightRequest = 10 }; 
             NavigationPage.SetHasNavigationBar(this, false);
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
@@ -225,7 +226,7 @@ namespace Registro.Pages
             var list = new List<MenuOption>();
 
 
-            list.Add(MenuOption.VoidCell(list.Count + 1));
+            //list.Add(MenuOption.VoidCell(list.Count + 1));
 
             list.Add(new MenuOption("Voti", ImageSource.FromFile("VotiIcon.png"), Color.FromHex("#00B1D4"), list.Count + 1));
             list.Add(new MenuOption("Medie", ImageSource.FromFile("MedieIcon.png"), Color.FromHex("#61DDDD"), list.Count + 1));

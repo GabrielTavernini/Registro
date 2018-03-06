@@ -21,15 +21,25 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2563" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" image="gradient_launch.jpg">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2563" translatesAutoresizingMaskIntoConstraints="NO" image="gradient_launch.jpg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2564" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" image="icon_transparent.png">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2564" translatesAutoresizingMaskIntoConstraints="NO" image="icon_transparent.png">
                                 <rect key="frame" x="139" y="286" width="96" height="96"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint id="3594" firstItem="2564" firstAttribute="width" constant="96"/>
+                                    <constraint id="3595" firstAttribute="width" secondItem="2564" secondAttribute="height" multiplier="1:1"/>
+                                </constraints>
                             </imageView>
                         </subviews>
+                        <constraints>
+                            <constraint id="2976" firstItem="2563" firstAttribute="bottom" secondItem="2562" secondAttribute="bottom"/>
+                            <constraint id="2977" firstItem="2563" firstAttribute="top" secondItem="2562" secondAttribute="top"/>
+                            <constraint id="2978" firstItem="2563" firstAttribute="trailing" secondItem="2562" secondAttribute="trailingMargin" constant="16"/>
+                            <constraint id="2979" firstItem="2562" firstAttribute="leadingMargin" secondItem="2563" secondAttribute="leading" constant="16"/>
+                            <constraint id="2980" firstItem="2564" firstAttribute="centerY" secondItem="2563" secondAttribute="centerY"/>
+                            <constraint id="2981" firstItem="2564" firstAttribute="centerX" secondItem="2563" secondAttribute="centerX"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -46,5 +56,17 @@
         <image name="gradient_launch.jpg" width="1600" height="1600"/>
         <image name="icon_transparent.png" width="133" height="133"/>
         <image name="icon.png" width="72" height="72"/>
+        <image name="HomeHead.png" width="1080" height="748"/>
+        <image name="ArgomentiIcon.png" width="154" height="154"/>
+        <image name="AssenzeIcon.png" width="160" height="161"/>
+        <image name="VotiIcon.png" width="154" height="154"/>
+        <image name="MedieIcon.png" width="154" height="154"/>
+        <image name="NoteIcon.png" width="160" height="160"/>
+        <image name="settings_icon.png" width="64" height="64"/>
+        <image name="double_up.png" width="32" height="32"/>
+        <image name="VotiHead.png" width="1080" height="748"/>
+        <image name="back_arrow.png" width="32" height="32"/>
+        <image name="PasswordIcon.png" width="110" height="110"/>
+        <image name="back_margin.png" width="1024" height="512"/>
     </resources>
 </document>
