@@ -6,6 +6,7 @@ using Registro.Classes.HttpRequests;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -17,6 +18,10 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setNotesTheme();  //Android Themes
+
+
             if(DateTime.Now.CompareTo(App.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#F2AA52");
@@ -109,7 +114,7 @@ namespace Registro.Pages
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { };
+            settingTapGesture.Tapped += (sender, args) => { Navigation.PushAsync(new SettingsPage()); };
             Setting.GestureRecognizers.Add(settingTapGesture);
 
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -172,7 +177,9 @@ namespace Registro.Pages
         {
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
-            Task.Run(async () => await new NotesRequests().refreshNotes())
+            Boolean success = true;
+
+            Task.Run(async () => success = await new NotesRequests().refreshNotes())
             .ContinueWith((end) =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -181,14 +188,18 @@ namespace Registro.Pages
                     {
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
-                        ContentPage page;
-                        if (InfoList.IsVisible)
-                            page = new NotesPage(1);
-                        else
-                            page = new NotesPage(2);
 
-                        Navigation.InsertPageBefore(page, this);
-                        Navigation.PopAsync(false);   
+                        if(success)
+                        {
+                            ContentPage page;
+                            if (InfoList.IsVisible)
+                                page = new NotesPage(1);
+                            else
+                                page = new NotesPage(2);
+
+                            Navigation.InsertPageBefore(page, this);
+                            Navigation.PopAsync(false);   
+                        }
                     }
                     catch{}
 

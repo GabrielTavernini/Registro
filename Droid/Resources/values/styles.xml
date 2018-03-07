@@ -14,6 +14,32 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
     </style>
+
+    <style name="MarksTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#00B1D4</item> 
+    </style>
+
+    <style name="AveragesTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#61DDDD</item> 
+    </style>
+
+    <style name="ArgumentsTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#B2D235</item> 
+    </style>
+
+    <style name="NotesTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#F2AA52</item> 
+    </style>
+
+    <style name="AbsencesTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#E15B5C</item> 
+    </style>
+
+    <style name="SettingsTheme" parent="MyTheme.Base">
+        <item name="colorAccent">#E15BBB</item> 
+    </style>
+
+    
     
     <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">#FF4081</item>

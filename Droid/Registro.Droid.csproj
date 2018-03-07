@@ -159,6 +159,7 @@
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Renders\CloseRender.cs" />
     <Compile Include="Renders\Notifications.cs" />
+    <Compile Include="Renders\ThemeChanger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

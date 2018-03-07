@@ -7338,6 +7338,9 @@ namespace Registro.Droid
 		public partial class Style
 		{
 			
+			// aapt resource value: 0x7f0c018f
+			public const int AbsencesTheme = 2131493263;
+			
 			// aapt resource value: 0x7f0c00ae
 			public const int AlertDialog_AppCompat = 2131493038;
 			
@@ -7353,8 +7356,14 @@ namespace Registro.Droid
 			// aapt resource value: 0x7f0c0170
 			public const int Animation_Design_BottomSheetDialog = 2131493232;
 			
-			// aapt resource value: 0x7f0c018b
-			public const int AppCompatDialogStyle = 2131493259;
+			// aapt resource value: 0x7f0c0191
+			public const int AppCompatDialogStyle = 2131493265;
+			
+			// aapt resource value: 0x7f0c018d
+			public const int ArgumentsTheme = 2131493261;
+			
+			// aapt resource value: 0x7f0c018c
+			public const int AveragesTheme = 2131493260;
 			
 			// aapt resource value: 0x7f0c00b2
 			public const int Base_AlertDialog_AppCompat = 2131493042;
@@ -7830,14 +7839,20 @@ namespace Registro.Droid
 			// aapt resource value: 0x7f0c000e
 			public const int CardView_Light = 2131492878;
 			
-			// aapt resource value: 0x7f0c018c
-			public const int LaunchTheme = 2131493260;
+			// aapt resource value: 0x7f0c0192
+			public const int LaunchTheme = 2131493266;
+			
+			// aapt resource value: 0x7f0c018b
+			public const int MarksTheme = 2131493259;
 			
 			// aapt resource value: 0x7f0c0189
 			public const int MyTheme = 2131493257;
 			
 			// aapt resource value: 0x7f0c018a
 			public const int MyTheme_Base = 2131493258;
+			
+			// aapt resource value: 0x7f0c018e
+			public const int NotesTheme = 2131493262;
 			
 			// aapt resource value: 0x7f0c002d
 			public const int Platform_AppCompat = 2131492909;
@@ -7922,6 +7937,9 @@ namespace Registro.Droid
 			
 			// aapt resource value: 0x7f0c004d
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131492941;
+			
+			// aapt resource value: 0x7f0c0190
+			public const int SettingsTheme = 2131493264;
 			
 			// aapt resource value: 0x7f0c00dd
 			public const int TextAppearance_AppCompat = 2131493085;

@@ -77,7 +77,7 @@ namespace Registro.Pages
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { };
+            settingTapGesture.Tapped += (sender, args) => { Navigation.PushAsync(new SettingsPage()); };
             Setting.GestureRecognizers.Add(settingTapGesture);
 
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -130,6 +130,7 @@ namespace Registro.Pages
         {
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
+            Boolean success = true;
 
             Task.Run(async () => await new MarksRequests().refreshMarks())
             .ContinueWith((end) =>
@@ -140,14 +141,18 @@ namespace Registro.Pages
                     {
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
-                        ContentPage page;
-                        if (InfoList2.IsVisible)
-                            page = new SubjectPageMarks(sub, 2);
-                        else
-                            page = new SubjectPageMarks(sub, 1);
 
-                        Navigation.InsertPageBefore(page, this);
-                        Navigation.PopAsync(false);
+                        if(success)
+                        {
+                            ContentPage page;
+                            if (InfoList2.IsVisible)
+                                page = new SubjectPageMarks(sub, 2);
+                            else
+                                page = new SubjectPageMarks(sub, 1);
+
+                            Navigation.InsertPageBefore(page, this);
+                            Navigation.PopAsync(false);
+                        }
                     }
                     catch { }
                 });

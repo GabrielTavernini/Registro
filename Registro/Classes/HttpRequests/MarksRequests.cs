@@ -57,6 +57,8 @@ namespace Registro
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().NotifyMark(list3[i], -i);
+                    else
+                        DependencyService.Get<INotifyiOS>().NotifyMark(list3[i]);
                 } 
             }
 

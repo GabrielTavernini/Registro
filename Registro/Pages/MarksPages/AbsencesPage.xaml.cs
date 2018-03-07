@@ -7,6 +7,7 @@ using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -18,6 +19,11 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setAbsencesTheme();  //Android Themes
+
+
+
             if(DateTime.Now.CompareTo(App.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#E15B5C");
@@ -112,7 +118,7 @@ namespace Registro.Pages
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { };
+            settingTapGesture.Tapped += (sender, args) => { Navigation.PushAsync(new SettingsPage()); };
             Setting.GestureRecognizers.Add(settingTapGesture);
 
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -163,16 +169,20 @@ namespace Registro.Pages
         {
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
-            
-            Task.Run(async () => await new AbsencesRequests().refreshAbsence())
-                .ContinueWith((end) => {
+            Boolean success = true;
+
+            Task.Run(async () => success = await new AbsencesRequests().refreshAbsence())
+                .ContinueWith((end) =>
+                {
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         try
                         {
                             InfoList.IsRefreshing = false;
-                                InfoList2.IsRefreshing = false;
+                            InfoList2.IsRefreshing = false;
 
+                            if (success)
+                            {
                                 ContentPage page;
                                 if (InfoList2.IsVisible)
                                     page = new AbsencesPage(2);
@@ -181,8 +191,10 @@ namespace Registro.Pages
 
                                 Navigation.InsertPageBefore(page, this);
                                 Navigation.PopAsync(false);
+                            }
+
                         }
-                        catch{}
+                        catch { }
                     });
                 });
         }

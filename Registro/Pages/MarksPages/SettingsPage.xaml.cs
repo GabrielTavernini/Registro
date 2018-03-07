@@ -7,6 +7,7 @@ using Registro.Classes.HttpRequests;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
@@ -27,6 +28,9 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setSettingsTheme();  //Android Themes
+            
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -76,7 +80,6 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
             {
-                Setting.Margin = new Thickness(0, 20, 0, 0);
                 Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
@@ -141,10 +144,6 @@ namespace Registro.Pages
         #region setup
         public void gesturesSetup()
         {
-            var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { };
-            Setting.GestureRecognizers.Add(settingTapGesture);
-
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
             Back.GestureRecognizers.Add(backTapGesture);

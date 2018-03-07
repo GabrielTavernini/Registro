@@ -48,6 +48,8 @@ namespace Registro
                     {
                         if (Device.RuntimePlatform == Device.Android)
                             DependencyService.Get<INotifyAndroid>().NotifyArguments(list3[i], i);
+                        else
+                            DependencyService.Get<INotifyiOS>().NotifyArguments(list3[i]);
                     }  
                 }
 
@@ -71,6 +73,7 @@ namespace Registro
                 getRequest.RequestUri = new Uri(User.school.argsUrl);
                 getRequest.Headers.Add("Cookie", cookies);
                 getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                getRequest.Headers.Add("Refer", User.school.loginUrl);
                 //getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
                 HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
@@ -126,8 +129,15 @@ namespace Registro
 
             Dictionary<String, String> subjects = new Dictionary<String, String>();
             Supremes.Nodes.Element selector = doc.Select("body > div.contenuto > form > table > tbody > tr > td > select").First;
+            Elements options;
+            try { options = selector.GetElementsByTag("option"); }
+            catch { return false; }
 
-            foreach (Supremes.Nodes.Element option in selector.GetElementsByTag("option"))
+
+            if (options == null)
+                return false;
+
+            foreach (Supremes.Nodes.Element option in options)
             {
                 if (option.Attributes["value"] != null)
                 {

@@ -52,6 +52,8 @@ namespace Registro.Classes.HttpRequests
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
+                    else
+                        DependencyService.Get<INotifyiOS>().NotifyAbsence(list3[i]);
                 }
             }
 

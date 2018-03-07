@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -15,7 +16,11 @@ namespace Registro.Pages
             GC.Collect();
             InitializeComponent();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);       //Page saetup
+            if(Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
+
+
 
             if (DateTime.Now.CompareTo(App.periodChange) <= 0)
             {
@@ -110,7 +115,7 @@ namespace Registro.Pages
             InfoList2.ItemTapped += (sender, e) => { ItemTapped(e); };
 
             var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { };
+            settingTapGesture.Tapped += (sender, args) => { Navigation.PushAsync(new SettingsPage()); };
             Setting.GestureRecognizers.Add(settingTapGesture);
 
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
@@ -160,8 +165,9 @@ namespace Registro.Pages
         {
             InfoList.IsRefreshing = true;
             InfoList2.IsRefreshing = true;
-            
-            Task.Run(async () => await new MarksRequests().refreshMarks())
+            Boolean success = true;
+
+            Task.Run(async () => success = await new MarksRequests().refreshMarks())
             .ContinueWith((end) =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -170,14 +176,17 @@ namespace Registro.Pages
                     {
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
-                        ContentPage page;
-                        if (InfoList2.IsVisible)
-                            page = new MarksPage(2);
-                        else
-                            page = new MarksPage(1);
 
-                        Navigation.InsertPageBefore(page, this);
-                        Navigation.PopAsync(false);                     
+                        if(success)
+                        {
+                            ContentPage page;
+                            if (InfoList2.IsVisible)
+                                page = new MarksPage(2);
+                            else
+                                page = new MarksPage(1);
+                            Navigation.InsertPageBefore(page, this);
+                            Navigation.PopAsync(false); 
+                        }
                     }
                     catch{}
 

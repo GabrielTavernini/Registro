@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.gabriel.Registro">
 	<uses-sdk android:minSdkVersion="15" />
-	<!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 	<application android:label="Registro">
-		<!--<receiver android:name="com.gabriel.Registro.Droid.BootReciver">
+		<!--<receiver android:name=".BootReciver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>

@@ -14,7 +14,6 @@
             <BoxView x:Name="MainImage" Color="#E15BBB"/>
         </StackLayout>
 
-        <Image x:Name="Setting" Source="settings_icon.png" Aspect="AspectFit" HorizontalOptions="End" VerticalOptions="Start" HeightRequest="32" WidthRequest="32" Margin="0, 10, 10, 0"/>
         <Image x:Name="Back" Source="back_margin.png" Aspect="Fill" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="32" WidthRequest="64" Margin="10, 15, 0, 0"/>
 
         <Grid x:Name="MenuGrid" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="50, 0, 50, 0">
