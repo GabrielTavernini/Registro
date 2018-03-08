@@ -10,92 +10,108 @@ namespace Registro.iOS.Renders
     {
         public void NotifyMark(Grade g)
         {
-            var notification = new UILocalNotification();
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
 
-            // configure the alert
-            notification.AlertAction = "Nuovo Voto";
-            notification.AlertBody = String.Format("Hai preso {0} di {1}", g.gradeString, g.subject.name);
+                // configure the alert
+                notification.AlertTitle = "Nuovo Voto";
+                notification.AlertBody = String.Format("Hai preso {0} di {1}", g.gradeString, g.subject.name);
 
-            // modify the badge
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                // modify the badge
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
 
-            // set the sound to be the default sound
-            notification.SoundName = UILocalNotification.DefaultSoundName;
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
 
-            // schedule it
-            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
-            Console.WriteLine("Scheduled...");
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");
+            });
         }
 
         public void NotifyNotes(Note n)
         {
-            var notification = new UILocalNotification();
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
 
-            // configure the alert
-            notification.AlertAction = "Nuova Nota";
-            notification.AlertBody = String.Format("Hai preso una nota da {0}", n.Nome);
+                // configure the alert
+                notification.AlertTitle = "Nuova Nota";
+                notification.AlertBody = String.Format("Hai preso una nota da {0}", n.Nome);
 
-            // modify the badge
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                // modify the badge
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
 
-            // set the sound to be the default sound
-            notification.SoundName = UILocalNotification.DefaultSoundName;
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
 
-            // schedule it
-            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
-            Console.WriteLine("Scheduled..."); 
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");
+            });
         }
 
         public void NotifyAbsence(Absence a)
         {
-            var notification = new UILocalNotification();
-
-            // configure the alert
-            if (a.Type == "Assenza")
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
             {
-                notification.AlertAction = "Nuova Assenza";
-                notification.AlertBody = String.Format("Sei stato assente il {0}", a.date);
-            }
-            else if (a.Type == "Uscita")
-            {
-                notification.AlertAction = "Nuova Uscita Anticipata";
-                notification.AlertBody = String.Format("Sei uscito in anticipo il {0}", a.date);
-            }
-            else if (a.Type == "Ritardo")
-            {
-                notification.AlertAction = "Nuova Entrata in Ritardo";
-                notification.AlertBody = String.Format("Sei entrato in ritardo il {0}", a.date);
-            }
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
+
+                // configure the alert
+                if (a.Type == "Assenza")
+                {
+                    notification.AlertTitle = "Nuova Assenza";
+                    notification.AlertBody = String.Format("Sei stato assente il {0}", a.date);
+                }
+                else if (a.Type == "Uscita")
+                {
+                    notification.AlertTitle = "Nuova Uscita Anticipata";
+                    notification.AlertBody = String.Format("Sei uscito in anticipo il {0}", a.date);
+                }
+                else if (a.Type == "Ritardo")
+                {
+                    notification.AlertTitle = "Nuova Entrata in Ritardo";
+                    notification.AlertBody = String.Format("Sei entrato in ritardo il {0}", a.date);
+                }
 
 
-            // modify the badge
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                // modify the badge
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
 
-            // set the sound to be the default sound
-            notification.SoundName = UILocalNotification.DefaultSoundName;
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
 
-            // schedule it
-            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
-            Console.WriteLine("Scheduled..."); 
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");
+            });
         }
 
         public void NotifyArguments(Arguments a)
         {
-            var notification = new UILocalNotification();
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
 
-            // configure the alert
-            notification.AlertAction = String.Format("Nuovo Argomento di {0}", a.subject);
-            notification.AlertBody = a.Argument;
+                // configure the alert
+                notification.AlertTitle = String.Format("Nuovo Argomento di {0}", a.subject);
+                notification.AlertBody = a.Argument;
 
-            // modify the badge
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                // modify the badge
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
 
-            // set the sound to be the default sound
-            notification.SoundName = UILocalNotification.DefaultSoundName;
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
 
-            // schedule it
-            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
-            Console.WriteLine("Scheduled..."); 
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");             
+            });
         }
 
         public void StopAlarm()
