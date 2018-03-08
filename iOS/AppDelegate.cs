@@ -60,7 +60,7 @@ namespace Registro.iOS
             UIAlertController okayAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
             okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
 
-            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
+            //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
 
             // reset our badge
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;

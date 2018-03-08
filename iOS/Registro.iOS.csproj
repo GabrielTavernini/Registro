@@ -147,7 +147,6 @@
     <Compile Include="Renders\Notifications.cs" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\gradient_launch.jpg" />
     <BundleResource Include="Resources\icon_transparent.png" />
     <BundleResource Include="Resources\icon.png" />
     <BundleResource Include="Resources\HomeHead.png" />
@@ -163,6 +162,19 @@
     <BundleResource Include="Resources\back_arrow.png" />
     <BundleResource Include="Resources\PasswordIcon.png" />
     <BundleResource Include="Resources\back_margin.png" />
+    <BundleResource Include="Resources\ArgomentiIcon%402x.png" />
+    <BundleResource Include="Resources\ArgomentiIcon%403x.png" />
+    <BundleResource Include="Resources\AssenzeIcon%402x.png" />
+    <BundleResource Include="Resources\AssenzeIcon%403x.png" />
+    <BundleResource Include="Resources\gradient_launch.png" />
+    <BundleResource Include="Resources\gradient_launch%402x.png" />
+    <BundleResource Include="Resources\gradient_launch%403x.png" />
+    <BundleResource Include="Resources\MedieIcon%402x.png" />
+    <BundleResource Include="Resources\MedieIcon%403x.png" />
+    <BundleResource Include="Resources\NoteIcon%402x.png" />
+    <BundleResource Include="Resources\NoteIcon%403x.png" />
+    <BundleResource Include="Resources\VotiIcon%402x.png" />
+    <BundleResource Include="Resources\VotiIcon%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />

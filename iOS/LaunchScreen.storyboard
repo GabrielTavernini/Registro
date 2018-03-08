@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2563" translatesAutoresizingMaskIntoConstraints="NO" image="gradient_launch.jpg">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2563" translatesAutoresizingMaskIntoConstraints="NO" image="gradient_launch.png">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2564" translatesAutoresizingMaskIntoConstraints="NO" image="icon_transparent.png">
@@ -53,7 +53,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gradient_launch.jpg" width="1600" height="1600"/>
         <image name="icon_transparent.png" width="133" height="133"/>
         <image name="icon.png" width="72" height="72"/>
         <image name="HomeHead.png" width="1080" height="748"/>
@@ -68,5 +67,6 @@
         <image name="back_arrow.png" width="32" height="32"/>
         <image name="PasswordIcon.png" width="110" height="110"/>
         <image name="back_margin.png" width="1024" height="512"/>
+        <image name="gradient_launch.png" width="720" height="720"/>
     </resources>
 </document>

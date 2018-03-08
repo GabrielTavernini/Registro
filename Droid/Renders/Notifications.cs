@@ -32,7 +32,7 @@ namespace Registro.Droid
                 //.SetContentIntent(pe)
                 .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
                 .SetContentTitle("Nuovo Voto")               // Display the count in the Content Info
-                .SetSmallIcon(Resource.Drawable.icon_transparent)
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
                 .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon))// Display this icon
                 .SetContentText(String.Format(
                     "Hai preso {0} di {1}", g.gradeString, g.subject.name)); // The message to display.
@@ -54,7 +54,7 @@ namespace Registro.Droid
                 //.SetContentIntent(pe)
                 .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
                 .SetContentTitle("Nuova Nota")               // Display the count in the Content Info
-                .SetSmallIcon(Resource.Drawable.icon_transparent)
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
                 .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon))// Display this icon
                 .SetContentText(String.Format(
                     "Hai preso una nota da {0}", n.Nome)); // The message to display.
@@ -75,7 +75,7 @@ namespace Registro.Droid
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
                 //.SetContentIntent(pe)
                 .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
-                .SetSmallIcon(Resource.Drawable.icon_transparent)
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
                 .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon));// Display this icon
 
             if (a.Type == "Assenza")
@@ -123,7 +123,7 @@ namespace Registro.Droid
                 //.SetContentIntent(pe)
                 .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
                 .SetContentTitle(String.Format("Nuovo Argomento di {0}", a.subject))               // Display the count in the Content Info
-                .SetSmallIcon(Resource.Drawable.icon_transparent)
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
                 .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon))
                 .SetStyle(new NotificationCompat.BigTextStyle()
                           .BigText(sb.ToString()));
