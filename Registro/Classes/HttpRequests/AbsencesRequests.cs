@@ -18,15 +18,20 @@ namespace Registro.Classes.HttpRequests
         
         public async Task<String> extractAllAbsences()
         {
-            String absencesPage = await getAbsencesPageAsync();
+            try
+            {
+                String absencesPage = await getAbsencesPageAsync();
 
-            extratAbsences(absencesPage);
-            System.Diagnostics.Debug.WriteLine(absencesPage);
+                extratAbsences(absencesPage);
+                System.Diagnostics.Debug.WriteLine(absencesPage);
 
-            App.Absences = tempAbsences;
-            tempAbsences = new List<Absence>();
+                App.Absences = tempAbsences;
+                tempAbsences = new List<Absence>();
 
-            return absencesPage;
+                return absencesPage;
+                
+            }
+            catch { return "failed"; }
         }
 
         public async Task<Boolean> refreshAbsence()
@@ -36,32 +41,32 @@ namespace Registro.Classes.HttpRequests
                 return false;
 
 
-            String Page = await getAbsencesPageAsync();
-            if (Page == "failed")
-                return false;
-
-            extratAbsences(Page);
-            if (!tempAbsences.Any())
-                return false;
-
-
-            if (App.Settings.notifyAbsences)
+            try
             {
-                List<Absence> list3 = tempAbsences.Except(App.Absences, new AbsencesComparer()).ToList();
-                for (int i = 0; i < list3.Count(); i++)
+                String Page = await getAbsencesPageAsync();
+                extratAbsences(Page);
+
+
+                if (App.Settings.notifyAbsences)
                 {
-                    if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotifyAndroid>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
-                    else
-                        DependencyService.Get<INotifyiOS>().NotifyAbsence(list3[i]);
+                    List<Absence> list3 = tempAbsences.Except(App.Absences, new AbsencesComparer()).ToList();
+                    for (int i = 0; i < list3.Count(); i++)
+                    {
+                        if (Device.RuntimePlatform == Device.Android)
+                            DependencyService.Get<INotifyAndroid>().NotifyAbsence(list3[i], i - 9999); //-9999 offset from others notifications
+                        else
+                            DependencyService.Get<INotifyiOS>().NotifyAbsence(list3[i]);
+                    }
                 }
+
+
+                App.Absences = tempAbsences;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
+                return true;
             }
+            catch { return false; }
 
-
-            App.Absences = tempAbsences;
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["absences"] = JsonConvert.SerializeObject(App.Absences, Formatting.Indented, jsonSettings);
-            return true;
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
@@ -69,25 +74,21 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<string> getAbsencesPageAsync()
         {
-            try
-            {
-                string pageSource;
-                HttpRequestMessage getRequest = new HttpRequestMessage();
-                getRequest.RequestUri = new Uri(User.school.absencesUrl);
-                getRequest.Headers.Add("Cookie", cookies);
-                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            string pageSource;
+            HttpRequestMessage getRequest = new HttpRequestMessage();
+            getRequest.RequestUri = new Uri(User.school.absencesUrl);
+            getRequest.Headers.Add("Cookie", cookies);
+            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-                pageSource = await getResponse.Content.ReadAsStringAsync();
+            pageSource = await getResponse.Content.ReadAsStringAsync();
 
-                getRequest.Dispose();
-                getResponse.Dispose();
+            getRequest.Dispose();
+            getResponse.Dispose();
 
-                return pageSource;
-            }
-            catch { return "failed"; }
+            return pageSource;
 
         }
 

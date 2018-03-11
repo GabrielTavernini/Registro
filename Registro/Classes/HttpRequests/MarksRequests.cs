@@ -19,17 +19,21 @@ namespace Registro
 
         public async Task<String> extractAllMarks()
         {
-            String marksPage = await getMarksPageAsync();
-            extratMarks(marksPage);
-            System.Diagnostics.Debug.WriteLine(marksPage);
+            try
+            {
+                String marksPage = await getMarksPageAsync();
+                extratMarks(marksPage);
+                System.Diagnostics.Debug.WriteLine(marksPage);
 
-            App.Grades = tempGrade;
-            App.Subjects = tempSubject;
+                App.Grades = tempGrade;
+                App.Subjects = tempSubject;
 
-            tempGrade = new List<Grade>();
-            tempSubject = new Dictionary<String, Subject>();
+                tempGrade = new List<Grade>();
+                tempSubject = new Dictionary<String, Subject>();
 
-            return marksPage;
+                return marksPage;
+            }
+            catch { return "failed"; }
         }
 
         public async Task<Boolean> refreshMarks()
@@ -38,36 +42,38 @@ namespace Registro
             tempSubject.Clear();
             if (!await LoginAsync())
                 return false;
-
-            String marksPage = await getMarksPageAsync();
-            if (marksPage == "failed")
-                return false;
-            
-            extratMarks(marksPage);
-            if (!tempGrade.Any())
-                return false;
-
-            //done checking for errors! 
-            //let's save and notify new data
-            if(App.Settings.notifyMarks)
+            try
             {
-                List<Grade> list3 = tempGrade.Except(App.Grades, new GradesComparer()).ToList();
+                String marksPage = await getMarksPageAsync();
+                extratMarks(marksPage);
 
-                for (int i = 0; i < list3.Count(); i++)
+                //done checking for errors! 
+                //let's save and notify new data
+                if (App.Settings.notifyMarks)
                 {
-                    if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotifyAndroid>().NotifyMark(list3[i], -i);
-                    else
-                        DependencyService.Get<INotifyiOS>().NotifyMark(list3[i]);
-                } 
+                    List<Grade> list3 = tempGrade.Except(App.Grades, new GradesComparer()).ToList();
+
+                    if(list3.Count < 6)
+                    {
+                        for (int i = 0; i < list3.Count(); i++)
+                        {
+                            if (Device.RuntimePlatform == Device.Android)
+                                DependencyService.Get<INotifyAndroid>().NotifyMark(list3[i], -i);
+                            else
+                                DependencyService.Get<INotifyiOS>().NotifyMark(list3[i]);
+                        }  
+                    }
+                }
+
+
+                App.Grades = tempGrade;
+                App.Subjects = tempSubject;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
+                return true;
             }
+            catch { return false; }
 
-
-            App.Grades = tempGrade;
-            App.Subjects = tempSubject;
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["grades"] = JsonConvert.SerializeObject(App.Grades, Formatting.Indented, jsonSettings);
-            return true;
         }
 
 
@@ -77,25 +83,21 @@ namespace Registro
 
         public async Task<string> getMarksPageAsync()
         {
-            try
-            {
-                string pageSource;
-                HttpRequestMessage getRequest = new HttpRequestMessage();
-                getRequest.RequestUri = new Uri(User.school.marksUrl);
-                getRequest.Headers.Add("Cookie", cookies);
-                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            string pageSource;
+            HttpRequestMessage getRequest = new HttpRequestMessage();
+            getRequest.RequestUri = new Uri(User.school.marksUrl);
+            getRequest.Headers.Add("Cookie", cookies);
+            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-                pageSource = await getResponse.Content.ReadAsStringAsync();
+            pageSource = await getResponse.Content.ReadAsStringAsync();
 
-                getRequest.Dispose();
-                getResponse.Dispose();
+            getRequest.Dispose();
+            getResponse.Dispose();
 
-                return pageSource;
-            }
-            catch { return "failed"; }
+            return pageSource;
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------

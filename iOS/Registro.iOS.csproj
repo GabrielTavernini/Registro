@@ -149,7 +149,6 @@
   <ItemGroup>
     <BundleResource Include="Resources\icon_transparent.png" />
     <BundleResource Include="Resources\icon.png" />
-    <BundleResource Include="Resources\HomeHead.png" />
     <BundleResource Include="Resources\ArgomentiIcon.png" />
     <BundleResource Include="Resources\AssenzeIcon.png" />
     <BundleResource Include="Resources\VotiIcon.png" />
@@ -158,7 +157,6 @@
     <BundleResource Include="Resources\NoteIcon.png" />
     <BundleResource Include="Resources\settings_icon.png" />
     <BundleResource Include="Resources\double_up.png" />
-    <BundleResource Include="Resources\VotiHead.png" />
     <BundleResource Include="Resources\back_arrow.png" />
     <BundleResource Include="Resources\PasswordIcon.png" />
     <BundleResource Include="Resources\back_margin.png" />
@@ -175,6 +173,12 @@
     <BundleResource Include="Resources\NoteIcon%403x.png" />
     <BundleResource Include="Resources\VotiIcon%402x.png" />
     <BundleResource Include="Resources\VotiIcon%403x.png" />
+    <BundleResource Include="Resources\PasswordIcon%402x.png" />
+    <BundleResource Include="Resources\PasswordIcon%403x.png" />
+    <BundleResource Include="Resources\icon%402x.png" />
+    <BundleResource Include="Resources\icon%403x.png" />
+    <BundleResource Include="Resources\icon_transparent%402x.png" />
+    <BundleResource Include="Resources\icon_transparent%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />

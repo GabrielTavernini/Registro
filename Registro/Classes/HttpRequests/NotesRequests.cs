@@ -18,16 +18,20 @@ namespace Registro.Classes.HttpRequests
         
         public async Task<String> extractAllNotes()
         {
-            String notesPage = await getNotesPageAsync();
+            try
+            {
+                String notesPage = await getNotesPageAsync();
 
-            extratNotesIndiv(notesPage);
-            extratNotesClass(notesPage);
-            System.Diagnostics.Debug.WriteLine(notesPage);
+                extratNotesIndiv(notesPage);
+                extratNotesClass(notesPage);
+                System.Diagnostics.Debug.WriteLine(notesPage);
 
-            App.Notes = tempNotes;
-            tempNotes = new List<Note>();
+                App.Notes = tempNotes;
+                tempNotes = new List<Note>();
 
-            return notesPage;
+                return notesPage;
+            }
+            catch { return "failed"; }
         }
 
         public async Task<Boolean> refreshNotes()
@@ -36,35 +40,41 @@ namespace Registro.Classes.HttpRequests
             if (!await LoginAsync())
                 return false;
 
-            String Page = await getNotesPageAsync();
-            if (Page == "failed")
-                return false;
 
-            extratNotesIndiv(Page);
-            extratNotesClass(Page);
-            if (!tempNotes.Any())
-                return false;
-            
-            //done checking for errors! 
-            //let's save and notify new data
-            if(App.Settings.notifyNotes)
+
+            try
             {
-                List<Note> list3 = tempNotes.Except(App.Notes, new NotesComparer()).ToList();
+                String Page = await getNotesPageAsync();
+                extratNotesIndiv(Page);
+                extratNotesClass(Page);
 
-                for (int i = 0; i < list3.Count(); i++)
+                //done checking for errors! 
+                //let's save and notify new data
+                if (App.Settings.notifyNotes)
                 {
-                    if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotifyAndroid>().NotifyNotes(list3[i], i + 9999);//9999 offset from others notifications
-                    else
-                        DependencyService.Get<INotifyiOS>().NotifyNotes(list3[i]);
-                }  
-            }
+                    List<Note> list3 = tempNotes.Except(App.Notes, new NotesComparer()).ToList();
 
+                    if(list3.Count < 6)
+                    {
+                        for (int i = 0; i < list3.Count(); i++)
+                        {
+                            if (Device.RuntimePlatform == Device.Android)
+                                DependencyService.Get<INotifyAndroid>().NotifyNotes(list3[i], i + 9999);//9999 offset from others notifications
+                            else
+                                DependencyService.Get<INotifyiOS>().NotifyNotes(list3[i]);
+                        }   
+                    }
+                }
+
+
+                App.Notes = tempNotes;
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                Xamarin.Forms.Application.Current.Properties["notes"] = JsonConvert.SerializeObject(App.Notes, Formatting.Indented, jsonSettings);
+                return true;
+            }
+            catch { return false; }
             
-            App.Notes = tempNotes;
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            Xamarin.Forms.Application.Current.Properties["notes"] = JsonConvert.SerializeObject(App.Notes, Formatting.Indented, jsonSettings);
-            return true;
+
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getMarksPage-----------------------------------------------------------
@@ -72,25 +82,21 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<string> getNotesPageAsync()
         {
-            try
-            {
-                string pageSource;
-                HttpRequestMessage getRequest = new HttpRequestMessage();
-                getRequest.RequestUri = new Uri(User.school.noteUrl);
-                getRequest.Headers.Add("Cookie", cookies);
-                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            string pageSource;
+            HttpRequestMessage getRequest = new HttpRequestMessage();
+            getRequest.RequestUri = new Uri(User.school.noteUrl);
+            getRequest.Headers.Add("Cookie", cookies);
+            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-                pageSource = await getResponse.Content.ReadAsStringAsync();
+            pageSource = await getResponse.Content.ReadAsStringAsync();
 
-                getRequest.Dispose();
-                getResponse.Dispose();
+            getRequest.Dispose();
+            getResponse.Dispose();
 
-                return pageSource;
-            }
-            catch { return "failed"; }
+            return pageSource;
 
         }
 

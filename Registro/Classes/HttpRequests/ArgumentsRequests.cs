@@ -19,46 +19,52 @@ namespace Registro
         
         public async Task<String> extractAllArguments()
         {
-            String argsPage = await getArgsPageAsync();
-            await extratArgsAsync(argsPage);
-            App.Arguments = tempArgs;
-            tempArgs = new List<Arguments>();
-            return argsPage;
+            try
+            {
+                String argsPage = await getArgsPageAsync();
+                await extratArgsAsync(argsPage);
+                App.Arguments = tempArgs;
+                tempArgs = new List<Arguments>();
+                return argsPage;
+                
+            }
+            catch { return "failed"; }
         }
 
         public async Task<Boolean> refreshArguments()
         {
             if (!await LoginAsync())
                 return false;
-
-            String Page = await getArgsPageAsync();
-            if (Page == "failed")
-                return false;
-
-
-            if(await extratArgsAsync(Page))
+            try
             {
+                String Page = await getArgsPageAsync();
+                await extratArgsAsync(Page);
+
                 //done checking for errors! 
                 //let's save and notify new data
-                if(App.Settings.notifyArguments)
+                if (App.Settings.notifyArguments)
                 {
                     List<Arguments> list3 = tempArgs.Except(App.Arguments, new ArgumentsComparer()).ToList();
 
-                    for (int i = 0; i < list3.Count(); i++)
+                    if(list3.Count < 6)
                     {
-                        if (Device.RuntimePlatform == Device.Android)
-                            DependencyService.Get<INotifyAndroid>().NotifyArguments(list3[i], i);
-                        else
-                            DependencyService.Get<INotifyiOS>().NotifyArguments(list3[i]);
-                    }  
+                        for (int i = 0; i < list3.Count(); i++)
+                        {
+                            if (Device.RuntimePlatform == Device.Android)
+                                DependencyService.Get<INotifyAndroid>().NotifyArguments(list3[i], i);
+                            else
+                                DependencyService.Get<INotifyiOS>().NotifyArguments(list3[i]);
+                        }   
+                    }
                 }
 
                 App.Arguments = tempArgs;
                 JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
                 Xamarin.Forms.Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(App.Arguments, Formatting.Indented, jsonSettings);
-                return true; 
+                return true;
             }
-            return false;
+            catch { return false; }
+ 
         }
         //------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------getArgsPage-----------------------------------------------------------
@@ -66,26 +72,22 @@ namespace Registro
 
         public async Task<String> getArgsPageAsync()
         {
-            try
-            {
-                string pageSource;
-                HttpRequestMessage getRequest = new HttpRequestMessage();
-                getRequest.RequestUri = new Uri(User.school.argsUrl);
-                getRequest.Headers.Add("Cookie", cookies);
-                getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                getRequest.Headers.Add("Refer", User.school.loginUrl);
-                //getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
+            string pageSource;
+            HttpRequestMessage getRequest = new HttpRequestMessage();
+            getRequest.RequestUri = new Uri(User.school.argsUrl);
+            getRequest.Headers.Add("Cookie", cookies);
+            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            getRequest.Headers.Add("Refer", User.school.loginUrl);
+            //getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-                HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
+            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
 
-                pageSource = await getResponse.Content.ReadAsStringAsync();
+            pageSource = await getResponse.Content.ReadAsStringAsync();
 
-                getRequest.Dispose();
-                getResponse.Dispose();
+            getRequest.Dispose();
+            getResponse.Dispose();
 
-                return pageSource;
-            }
-            catch { return "failed"; }
+            return pageSource;
         }
 
         public async Task<String> getArgsSubPageAsync(String id)
@@ -106,16 +108,11 @@ namespace Registro
             req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
             req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            String pageSource;
-            try
-            {
-                HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-                pageSource = await resp.Content.ReadAsStringAsync();
-                resp.Dispose();
-                req.Dispose();
-                return pageSource;
-            }
-            catch { return "failed"; }
+            HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+            String pageSource = await resp.Content.ReadAsStringAsync();
+            resp.Dispose();
+            req.Dispose();
+            return pageSource;
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -130,8 +127,7 @@ namespace Registro
             Dictionary<String, String> subjects = new Dictionary<String, String>();
             Supremes.Nodes.Element selector = doc.Select("body > div.contenuto > form > table > tbody > tr > td > select").First;
             Elements options;
-            try { options = selector.GetElementsByTag("option"); }
-            catch { return false; }
+            options = selector.GetElementsByTag("option");
 
 
             if (options == null)
@@ -150,9 +146,6 @@ namespace Registro
             foreach (KeyValuePair<String, String> KVp in subjects)
             {
                 String s = await getArgsSubPageAsync(KVp.Key);
-                if(s == "failed")
-                    return false;
-                    
                 extratArgsTable(s, KVp.Value);
             }
 
