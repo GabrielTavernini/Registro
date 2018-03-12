@@ -74,7 +74,7 @@ namespace Registro.Pages
                 if(Device.RuntimePlatform == Device.iOS)
                     DependencyService.Get<INotifyiOS>().NotifyMark(App.Grades[new Random().Next(0, App.Grades.Count - 1)]);
                 else
-                    DependencyService.Get<INotifyAndroid>().NotifyArguments(App.Arguments[new Random().Next(0, App.Arguments.Count - 1)], DateTime.Now.Millisecond);
+                    DependencyService.Get<INotifyAndroid>().NotifyMark(App.Grades[new Random().Next(0, App.Grades.Count - 1)], DateTime.Now.Millisecond);
             };
 
 

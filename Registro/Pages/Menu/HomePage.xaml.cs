@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
@@ -14,22 +15,12 @@ namespace Registro.Pages
         bool isFirstTime = false;
         public static bool generalRefresh = false;
 
-        public HomePage(User user, string firstPage)
+        public HomePage(User user)
         {
             this.user = user;
             HttpRequest.User = user;
             this.isFirstTime = true;
             initialize();
-
-
-            if (firstPage == "MarksPage")
-                Navigation.PushAsync(new MarksPage());
-            else if (firstPage == "NotesPage")
-                Navigation.PushAsync(new NotesPage());
-            else if (firstPage == "ArgsPage")
-                Navigation.PushAsync(new ArgumentsPage());
-            else if(firstPage == "AbsencesPage")
-                Navigation.PushAsync(new AbsencesPage());
         }
 
         public HomePage()
@@ -87,6 +78,41 @@ namespace Registro.Pages
                         });                    
                 }
             }
+
+            if (App.firstPage != "" && App.firstPage != null)
+            {
+                if (App.firstPage == "ArgsPage")
+                {
+                    App.firstPage = "";
+                    Navigation.PushAsync(new ArgumentsPage());
+                }
+                else if (App.firstPage == "NotesPage")
+                {
+                    App.firstPage = "";
+                    Navigation.PushAsync(new NotesPage());
+                }
+                else if (App.firstPage == "AbsencesPage")
+                {
+                    App.firstPage = "";
+                    Navigation.PushAsync(new AbsencesPage());
+                }
+                else
+                {
+                    String s = App.firstPage.Split('/')[0].Replace("/", "");
+                    String d = App.firstPage.Split('/')[1].Replace("/", "");
+
+                    DateTime date = new DateTime();
+                    try { date = DateTime.ParseExact(d, "dd/MM/yyyy", CultureInfo.InvariantCulture); }
+                    catch { }
+
+                    App.firstPage = "";
+                    if (date.CompareTo(App.periodChange) <= 0)
+                        Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 1));
+                    else
+                        Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 2));
+                }
+            }
+
         }
 
         public void settings()

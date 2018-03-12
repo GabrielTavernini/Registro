@@ -14,13 +14,14 @@ namespace Registro.iOS.Renders
             {
                 var notification = new UILocalNotification();
                 notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
+                notification.Category = String.Format("{0}/{1}", g.subject.name, g.date);
 
                 // configure the alert
                 notification.AlertTitle = "Nuovo Voto";
                 notification.AlertBody = String.Format("Hai preso {0} di {1}", g.gradeString, g.subject.name);
 
                 // modify the badge
-                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                notification.ApplicationIconBadgeNumber = 1;
 
                 // set the sound to be the default sound
                 notification.SoundName = UILocalNotification.DefaultSoundName;
@@ -43,7 +44,7 @@ namespace Registro.iOS.Renders
                 notification.AlertBody = String.Format("Hai preso una nota da {0}", n.Nome);
 
                 // modify the badge
-                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                notification.ApplicationIconBadgeNumber = 1;
 
                 // set the sound to be the default sound
                 notification.SoundName = UILocalNotification.DefaultSoundName;
@@ -80,7 +81,7 @@ namespace Registro.iOS.Renders
 
 
                 // modify the badge
-                UIApplication.SharedApplication.ApplicationIconBadgeNumber++;
+                notification.ApplicationIconBadgeNumber = 1;
 
                 // set the sound to be the default sound
                 notification.SoundName = UILocalNotification.DefaultSoundName;

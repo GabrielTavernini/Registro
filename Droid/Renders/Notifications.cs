@@ -25,7 +25,7 @@ namespace Registro.Droid
         {
             Context c = MainActivity.Instance;
             Intent inte = new Intent(c, typeof(MainActivity));
-            inte.PutExtra("page", "MarksPage");
+            inte.SetAction(String.Format("{0}/{1}", g.subject.name, g.date));
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
@@ -49,7 +49,7 @@ namespace Registro.Droid
         {
             Context c = MainActivity.Instance;
             Intent inte = new Intent(c, typeof(MainActivity));
-            inte.PutExtra("page", "NotesPage");
+            inte.SetAction("NotesPage");
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
@@ -73,7 +73,7 @@ namespace Registro.Droid
         {
             Context c = MainActivity.Instance;
             Intent inte = new Intent(c, typeof(MainActivity));
-            inte.PutExtra("page", "AbsencesPage");
+            inte.SetAction("AbsencesPage");
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
@@ -111,7 +111,7 @@ namespace Registro.Droid
         {
             Context c = MainActivity.Instance;
             Intent inte = new Intent(c, typeof(MainActivity));
-            inte.PutExtra("page", "ArgsPage");
+            inte.SetAction("ArgsPage");
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
             StringBuilder sb = new StringBuilder();

@@ -12,10 +12,11 @@ using Java.Lang;
 using Android.App.Job;
 using Android.Gms.Common;
 using Registro.Pages;
+using Xamarin.Forms;
 
 namespace Registro.Droid
 {
-    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
@@ -41,8 +42,7 @@ namespace Registro.Droid
             XFGloss.Droid.Library.Init(this, savedInstanceState);
         }
 
-
-        protected override void OnPause()
+		protected override void OnPause()
         {
             base.OnPause();
             if (manager == null)
@@ -56,7 +56,13 @@ namespace Registro.Droid
                 manager.Cancel(pendingIntent);
         }
 
-        internal static void StartAlarm(Context context)
+		protected override void OnNewIntent(Intent intent)
+		{
+            base.OnNewIntent(intent);
+            App.firstPage = intent.Action;//intent.GetStringExtra("page");
+		}
+
+		internal static void StartAlarm(Context context)
         {
             manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
             Intent myIntent;
@@ -72,12 +78,3 @@ namespace Registro.Droid
         }
     }
 }
-
-
-
-
-
-
-
-/*
-*/
