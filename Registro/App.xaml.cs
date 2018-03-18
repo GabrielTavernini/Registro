@@ -14,9 +14,52 @@ namespace Registro
 {
     public partial class App : Application
     {
+        public static string[] schoolsUrls = {
+            "https://www.lampschool.it/hosting_rete_17_18/",
+            "https://www.lampschool.it/hosting_trentino_17_18/",
+            "http://www.salesianisb.net/registro_2017_2018/",
+            "http://www.iccasaleone.gov.it/registroinf/",
+            "http://www.icviadantevoghera.gov.it/res2017/",
+            "http://www.liceibelluno.gov.it/registro/",
+            "https://www.icscaprinoveronese.it/registroonline/201718/secondaria201718_1/",
+            "https://www.icscaprinoveronese.it/registroonline/201718/primaria201718/",
+            "http://www.buonconsigliotorino.it/Registro_201718/",
+            "http://www.comprensivoviguzzolo.gov.it/rep2017/",
+            "http://www.istitutomnicomprensivotrivento.gov.it/lampschool-code_2017/",
+            "http://www.istitutopadrepioispica.it/regimedia2017/",
+            "https://istitutocomprensivocortina.it/lampschool_2017_18/",
+            "http://www.icsanguinetto.gov.it/registrosec/",
+            "https://www.comprensivovr11.it/registro2017-2018/",
+            "https://www.isdimaggio.it/lampschool/",
+            "http://www.primocircolosestu.gov.it/Lampschool_inf_1718/",
+            "http://www.primocircolosestu.gov.it/Lampschool_2017_18/",
+            "http://www.icsmalcesine.gov.it/registro_elettronico/ls_17_18/",
+            "http://www.icpapanice.gov.it/registrosecondaria2017-18/",
+            "http://www.icpapanice.gov.it/registroprimaria2017-18/",
+            "http://www.istitutogiberti.it/registro17_18/",
+            "http://www.alberghierorosmini.it/Registro/AS_2017_18/",
+            "https://www.piccolacasa.org/registro_2017_18/",
+            "https://www.icripalimosani.gov.it/registro_2017-2018/",
+            "http://www.istitutocomprensivolagonegro.it/lamp17_18/",
+            "https://www.icsoave.gov.it/registro/",
+            "http://www.csdalbenga.it/registro/",
+            "http://www.icmatteottiaprilia.gov.it/registro/",
+            "http://www.icmontecchiaronca.gov.it/registro_2017_2018/",
+            "http://www.associazionegiuseppeverdimilazzo.it/lampschool/registroelettronico/2017-2018/",
+            "http://www.scuolapitagora.com/registro-elettronico/",
+            "http://212.237.17.99/registro/",
+            "https://www.ic5verona.gov.it/registro17-18/",
+            "http://www.istitutodivinaprovvidenza.it/reg2017-18/",
+            "http://www.icsgi.com/registro_2017_2018/",
+            "http://scuolaagazzi.it/registroelettronico/primaria/as_2017-2018/",
+            "http://lnx.istruzionemonteforte.gov.it/zanella/",
+            "http://www.iscolevi.it/registro17-18p/",
+            "http://www.ciofascuola.it/registro_2017_2018/"};
         public static string firstPage = "";
+        public static bool notify = false;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
+        public static DateTime lastRefresh;
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
@@ -26,7 +69,9 @@ namespace Registro
         private static List<Note> notes = new List<Note>();
         private static List<Absence> absences = new List<Absence>();
         private static Settings settings = new Settings();
+        private static Dictionary<String, School> schools = new Dictionary<String, School>();
 
+        internal static Dictionary<string, School> Schools { get => schools; set => schools = value; }
         internal static Settings Settings { get => settings; set => settings = value; }
         internal static List<Absence> Absences { get => absences; set => absences = value; }
         internal static List<Note> Notes { get => notes; set => notes = value; }
@@ -43,20 +88,17 @@ namespace Registro
 
         protected override void OnStart()
         {
-            //Deserialize object lists
-            DeserializeObjects();
-            System.Diagnostics.Debug.WriteLine("Count App: {0}", App.Grades.Count());
-
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
-                Application.Current.Properties.ContainsKey("school"))
+                Application.Current.Properties.ContainsKey("school") && 
+                Application.Current.Properties.ContainsKey("schoolurl")) 
             {
+                //Deserialize object lists
+                DeserializeObjects();
+                System.Diagnostics.Debug.WriteLine("Count App: {0}", App.Grades.Count());
 
-                School school = new School(
-                    "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
-                     "Dro"
-                 );
+                School school = new School(Application.Current.Properties["schoolurl"] as string, Application.Current.Properties["school"] as string);
 
                 string username = Application.Current.Properties["username"] as string;
                 string password = Application.Current.Properties["password"] as string;
@@ -67,6 +109,7 @@ namespace Registro
             }
             else
             {
+                periodChange = GetPeriodChange();
                 MainPage = new NavigationPage(new FirstPage());//new HomePage());
             }
 
@@ -75,10 +118,12 @@ namespace Registro
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            HomePage.isFirstTime = true;
+            notify = false;
         }
 
-        protected override void OnResume()
-        {
+		protected override void OnResume()
+		{
             // Handle when your app resumes
             if(firstPage != "" && firstPage != null)
                 MainPage = new NavigationPage(new HomePage());
@@ -86,14 +131,10 @@ namespace Registro
 
         private DateTime GetPeriodChange()
         {
-            if(DateTime.Now.Month > 7)
-            {
+            if (DateTime.Now.Month > 7)
                 return new DateTime(DateTime.Now.Year + 1, 1, 31);
-            }
             else
-            {
                 return new DateTime(DateTime.Now.Year, 1, 31);
-            }
         }
 
         public void DeserializeObjects()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
@@ -12,14 +13,13 @@ namespace Registro.Pages
     public partial class HomePage : ContentPage
     {
         User user;
-        bool isFirstTime = false;
+        static public bool isFirstTime = false;
         public static bool generalRefresh = false;
 
         public HomePage(User user)
         {
             this.user = user;
             HttpRequest.User = user;
-            this.isFirstTime = true;
             initialize();
         }
 
@@ -60,8 +60,9 @@ namespace Registro.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            App.notify = true;
 
-            if(isFirstTime)
+            if(isFirstTime && (DateTime.Now - App.lastRefresh).Minutes > 5)
             {
                 isFirstTime = false;
                 if (App.Settings.startupUpdate)
@@ -98,8 +99,11 @@ namespace Registro.Pages
                 }
                 else
                 {
-                    String s = App.firstPage.Split('/')[0].Replace("/", "");
-                    String d = App.firstPage.Split('/')[1].Replace("/", "");
+                    String[] sd = App.firstPage.Split(':');
+                    String s = sd.First();
+                    String d = sd.Last();
+
+                    System.Diagnostics.Debug.WriteLine("{0} -|- {1}", s, d);
 
                     DateTime date = new DateTime();
                     try { date = DateTime.ParseExact(d, "dd/MM/yyyy", CultureInfo.InvariantCulture); }

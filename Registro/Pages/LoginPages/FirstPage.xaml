@@ -32,7 +32,13 @@
 
         
             <StackLayout x:Name="buttonStack" Spacing="0" Grid.Row="2" VerticalOptions="End">
-                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="CONTINUA"
+                <ActivityIndicator x:Name="LoadingIndicator" IsVisible="false" IsRunning="false" Color="White" HorizontalOptions="Center"
+                    VerticalOptions="EndAndExpand" />
+
+                <Label x:Name="LodingLabel" Text="Caricamento Scuole..." IsVisible="false"  FontSize="Medium"
+                    XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
+                
+                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="LOGIN"
                     VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
                     Clicked="AuthButtonClicked" />
             </StackLayout>

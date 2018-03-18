@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0D1F41ED-FB9F-4F59-A0DA-86A642BD4DC0" automaticSigning="False" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
+    <Files>
+      <File FileName="Registro/App.xaml.cs" Line="126" Column="4" />
+      <File FileName="Registro Status" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Android_Accelerated_Nougat" />
+  <MultiItemStartupConfigurations />
+</Properties>

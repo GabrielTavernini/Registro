@@ -9,16 +9,10 @@ namespace Registro.Pages
     {
         School school;
 
-        public LoginPage(String schoolString)
+        public LoginPage(School selectedSchool)
         {
             Initialize();
-            if(schoolString == "IC Valle dei Laghi Dro - SSPG Dro")
-            {
-                school = new School(
-                    "https://www.lampschool.it/hosting_trentino_17_18/login/login.php?suffisso=scuola_27",
-                     "Dro"
-                 ); 
-            }
+            school = selectedSchool;
         }
 
         protected void Initialize()
@@ -68,14 +62,16 @@ namespace Registro.Pages
             LoadingIndicator.IsRunning = false;
             LodingLabel.IsVisible = false;
 
+            Application.Current.Properties["username"] = UserEntry.Text;
+            Application.Current.Properties["password"] = PassEntry.Text;
+            Application.Current.Properties["school"] = school.name;
+            Application.Current.Properties["schoolurl"] = school.loginUrl;
+
             await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            Application.Current.Properties["username"] = UserEntry.Text;
-            Application.Current.Properties["password"] = PassEntry.Text;
-            Application.Current.Properties["school"] = school.name;
-
+            await Application.Current.SavePropertiesAsync();
             await Navigation.PushAsync(new HomePage());
         }
 

@@ -25,7 +25,7 @@ namespace Registro.Droid
         {
             Context c = MainActivity.Instance;
             Intent inte = new Intent(c, typeof(MainActivity));
-            inte.SetAction(String.Format("{0}/{1}", g.subject.name, g.date));
+            inte.SetAction(String.Format("{0}:{1}", g.subject.name, g.date));
             PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
@@ -155,7 +155,8 @@ namespace Registro.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            Task.Run(async () => await HttpRequest.RefreshAsync());
+            if(App.notify)
+                Task.Run(async () => await HttpRequest.RefreshAsync());
         }
     }
 

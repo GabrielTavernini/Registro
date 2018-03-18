@@ -13,6 +13,7 @@ using ModernHttpClient;
 using System.Collections;
 using System.Net.Http.Headers;
 using Registro.Classes.HttpRequests;
+using Xamarin.Forms;
 
 namespace Registro
 {
@@ -44,23 +45,23 @@ namespace Registro
                 return false;
 
 
-                await new MarksRequests().refreshMarks();
-                await new NotesRequests().refreshNotes();
-                await new AbsencesRequests().refreshAbsence();
-                await new ArgumentsRequests().refreshArguments();
+            await new MarksRequests().refreshMarks();
+            await new NotesRequests().refreshNotes();
+            await new AbsencesRequests().refreshAbsence();
+            await new ArgumentsRequests().refreshArguments();
 
-                System.Diagnostics.Debug.WriteLine(App.Arguments.Last().Argument);
+            System.Diagnostics.Debug.WriteLine(App.Arguments.Last().Argument);
 
-                App.SerializeObjects();
-                return true;
-
+            App.SerializeObjects();
+            App.lastRefresh = DateTime.Now;
+            return true;
         }
 
         static public async Task<Boolean> LoginAsync()
         {
-            if(cookies == null)
-                if( await getCookiesAsync() == "failed")
-                    return false;
+            seed = null; cookies = null; //reset cookies and seed
+            if( await getCookiesAndSeed() == "failed")
+                return false;
             
             try
             {
@@ -159,9 +160,42 @@ namespace Registro
             return cookies;
         }
 
+        static public async Task<string> getCookiesAndSeed()
+        {
+            string cookieHeader = "";
+            string url = User.school.loginUrl;
+            HttpRequestMessage req = new HttpRequestMessage();
+            req.RequestUri = new Uri(url);
+
+            HttpResponseMessage resp = new HttpResponseMessage();
+            try
+            {
+                resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+                HttpHeaders headers = resp.Headers;
+                IEnumerable<string> values;
+                if (headers.TryGetValues("Set-Cookie", out values))
+                {
+                    cookieHeader = values.First();
+                }
+
+                var page = await resp.Content.ReadAsStringAsync();
+                seed = page.Split(new[] { "seme='" }, StringSplitOptions.None)[1].Substring(0, 32);
+            }
+            catch { return "failed"; }
+
+            String[] temp = cookieHeader.Split(';');
+            cookies = temp[0];
+
+            req.Dispose();
+            resp.Dispose();
+            System.Diagnostics.Debug.WriteLine("<--------------------------------Cookies--------------------------------->");
+            System.Diagnostics.Debug.WriteLine(cookies);
+            return cookies; 
+        }
+
         static public async Task<string> cryptPasswordAsync(String password)
         {
-            await getSeedAsync();
+            //await getSeedAsync();
             return hex_md5(hex_md5(hex_md5(password)) + seed);
         }
 

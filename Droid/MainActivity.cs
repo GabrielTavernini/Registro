@@ -74,7 +74,8 @@ namespace Registro.Droid
 
         internal static void StopAlarm()
         {
-            manager.Cancel(pendingIntent);
+            if(manager != null)
+                manager.Cancel(pendingIntent);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Registro.Pages
             InitializeComponent();
             Title = "Scuola";
 
+            SchoolPicker.ItemsSource = new List<string>(App.Schools.Keys);
             label1.Scale = 0;
             SchoolPicker.Scale = 0;
             buttonStack.Scale = 0;
@@ -35,7 +36,7 @@ namespace Registro.Pages
             await SchoolPicker.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            await Navigation.PushAsync(new LoginPage((string) SchoolPicker.SelectedItem));
+            await Navigation.PushAsync(new LoginPage(App.Schools[(string)SchoolPicker.SelectedItem]));
         }
 
         protected async override void OnAppearing()
