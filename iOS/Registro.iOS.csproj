@@ -129,7 +129,6 @@
     <ImageAsset Include="Assets.xcassets\Contents.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Renders\" />
   </ItemGroup>
   <ItemGroup>
@@ -147,36 +146,36 @@
     <Compile Include="Renders\Notifications.cs" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\icon_transparent.png" />
-    <BundleResource Include="Resources\icon.png" />
     <BundleResource Include="Resources\ArgomentiIcon.png" />
-    <BundleResource Include="Resources\AssenzeIcon.png" />
-    <BundleResource Include="Resources\VotiIcon.png" />
-    <BundleResource Include="Resources\LaunchView.xml" />
-    <BundleResource Include="Resources\MedieIcon.png" />
-    <BundleResource Include="Resources\NoteIcon.png" />
-    <BundleResource Include="Resources\settings_icon.png" />
-    <BundleResource Include="Resources\double_up.png" />
-    <BundleResource Include="Resources\back_arrow.png" />
-    <BundleResource Include="Resources\PasswordIcon.png" />
-    <BundleResource Include="Resources\back_margin.png" />
     <BundleResource Include="Resources\ArgomentiIcon%402x.png" />
     <BundleResource Include="Resources\ArgomentiIcon%403x.png" />
+    <BundleResource Include="Resources\AssenzeIcon.png" />
     <BundleResource Include="Resources\AssenzeIcon%402x.png" />
     <BundleResource Include="Resources\AssenzeIcon%403x.png" />
+    <BundleResource Include="Resources\LaunchView.xml" />
+    <BundleResource Include="Resources\MedieIcon.png" />
+    <BundleResource Include="Resources\MedieIcon%402x.png" />
+    <BundleResource Include="Resources\MedieIcon%403x.png" />
+    <BundleResource Include="Resources\NoteIcon.png" />
+    <BundleResource Include="Resources\NoteIcon%402x.png" />
+    <BundleResource Include="Resources\NoteIcon%403x.png" />
+    <BundleResource Include="Resources\PasswordIcon.png" />
+    <BundleResource Include="Resources\PasswordIcon%402x.png" />
+    <BundleResource Include="Resources\PasswordIcon%403x.png" />
+    <BundleResource Include="Resources\VotiIcon.png" />
+    <BundleResource Include="Resources\VotiIcon%402x.png" />
+    <BundleResource Include="Resources\VotiIcon%403x.png" />
+    <BundleResource Include="Resources\back_arrow.png" />
+    <BundleResource Include="Resources\back_margin.png" />
+    <BundleResource Include="Resources\double_up.png" />
     <BundleResource Include="Resources\gradient_launch.png" />
     <BundleResource Include="Resources\gradient_launch%402x.png" />
     <BundleResource Include="Resources\gradient_launch%403x.png" />
-    <BundleResource Include="Resources\MedieIcon%402x.png" />
-    <BundleResource Include="Resources\MedieIcon%403x.png" />
-    <BundleResource Include="Resources\NoteIcon%402x.png" />
-    <BundleResource Include="Resources\NoteIcon%403x.png" />
-    <BundleResource Include="Resources\VotiIcon%402x.png" />
-    <BundleResource Include="Resources\VotiIcon%403x.png" />
-    <BundleResource Include="Resources\PasswordIcon%402x.png" />
-    <BundleResource Include="Resources\PasswordIcon%403x.png" />
+    <BundleResource Include="Resources\icon.png" />
     <BundleResource Include="Resources\icon%402x.png" />
     <BundleResource Include="Resources\icon%403x.png" />
+    <BundleResource Include="Resources\settings_icon.png" />
+    <BundleResource Include="Resources\icon_transparent.png" />
     <BundleResource Include="Resources\icon_transparent%402x.png" />
     <BundleResource Include="Resources\icon_transparent%403x.png" />
   </ItemGroup>
