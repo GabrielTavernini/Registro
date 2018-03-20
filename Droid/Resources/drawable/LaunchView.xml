@@ -3,12 +3,17 @@
     <item
         android:drawable="@drawable/gradient_launch" />
     <item
-        android:width="92dp"
-        android:height="92dp"
+        android:width="84dp"
+        android:height="84dp"
         android:gravity="center">
         <bitmap
             android:src="@drawable/icon_transparent"
             android:alpha="77"
             android:gravity="fill_horizontal|fill_vertical"/>
     </item>
+
+    <!--<item
+        android:bottom="16dp"
+        android:gravity="bottom|center_horizontal"
+        android:drawable="@drawable/vd_vector" />-->
 </layer-list>

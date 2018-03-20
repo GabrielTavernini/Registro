@@ -127,12 +127,34 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-60.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-58.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-80.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-180.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-152.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-167.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-1024.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-48.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-55.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-88.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-172.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-196.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-16.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-32.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-64.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-128.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-256.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-512.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />
-  </ItemGroup>
-  <ItemGroup>
-    <InterfaceDefinition Include="LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -152,7 +174,6 @@
     <BundleResource Include="Resources\AssenzeIcon.png" />
     <BundleResource Include="Resources\AssenzeIcon%402x.png" />
     <BundleResource Include="Resources\AssenzeIcon%403x.png" />
-    <BundleResource Include="Resources\LaunchView.xml" />
     <BundleResource Include="Resources\MedieIcon.png" />
     <BundleResource Include="Resources\MedieIcon%402x.png" />
     <BundleResource Include="Resources\MedieIcon%403x.png" />
@@ -171,13 +192,17 @@
     <BundleResource Include="Resources\gradient_launch.png" />
     <BundleResource Include="Resources\gradient_launch%402x.png" />
     <BundleResource Include="Resources\gradient_launch%403x.png" />
-    <BundleResource Include="Resources\icon.png" />
-    <BundleResource Include="Resources\icon%402x.png" />
-    <BundleResource Include="Resources\icon%403x.png" />
     <BundleResource Include="Resources\settings_icon.png" />
     <BundleResource Include="Resources\icon_transparent.png" />
     <BundleResource Include="Resources\icon_transparent%402x.png" />
     <BundleResource Include="Resources\icon_transparent%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />

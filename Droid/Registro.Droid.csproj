@@ -160,12 +160,14 @@
     <Compile Include="Renders\CloseRender.cs" />
     <Compile Include="Renders\Notifications.cs" />
     <Compile Include="Renders\ThemeChanger.cs" />
+    <Compile Include="Renders\Email.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
+    <None Include="Resources\NotificationsIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
@@ -181,12 +183,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\NoteIcon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\VotiIcon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\gradient_launch.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\ArgomentiIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\AssenzeIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\MedieIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\NoteIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\VotiIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\gradient_launch.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ArgomentiIcon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\AssenzeIcon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\MedieIcon.png" />
@@ -210,19 +206,15 @@
     <AndroidResource Include="Resources\drawable\double_up.png" />
     <AndroidResource Include="Resources\drawable\settings_icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\PasswordIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\PasswordIcon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\PasswordIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\PasswordIcon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\PasswordIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\icon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\NotificationsIcon.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon_transparent.png" />
-    <AndroidResource Include="Resources\drawable-ldpi\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable-mdpi\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_transparent.png" />
@@ -236,6 +228,10 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\gradient_launch.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\name.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\LaunchScreen.storyboard" />
+    <AndroidResource Include="Resources\drawable\vd_vector.xml" />
+    <AndroidResource Include="Resources\drawable\name.svg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />

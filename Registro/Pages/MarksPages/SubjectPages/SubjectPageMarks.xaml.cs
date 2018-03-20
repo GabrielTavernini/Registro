@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -23,6 +24,10 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
+
+
             if (period == 1)
             {
                 Selector2.BackgroundColor = Color.FromHex("#00B1D4");
@@ -58,6 +63,12 @@ namespace Registro.Pages
                 Setting.Margin = new Thickness(0, 20, 0, 0);
                 Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+            else
+            {
+                Setting.Margin = new Thickness(0, 32, 0, 0);
+                Back.Margin = new Thickness(0, 32, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
             }
 
         }

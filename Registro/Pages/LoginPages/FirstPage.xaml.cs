@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -35,7 +39,7 @@ namespace Registro.Pages
 
             if (App.Schools.Count < 1)
             {
-                if (!await SchoolRequests.extractAllSchoolsAsync())
+                /*if (!await SchoolRequests.extractAllSchoolsAsync())
                 {
                     System.Diagnostics.Debug.WriteLine("Connection Error!");
                     LoadingIndicator.IsVisible = false;
@@ -46,6 +50,22 @@ namespace Registro.Pages
                     await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
                     return;
                 }
+                System.Diagnostics.Debug.WriteLine(App.Schools.Count);*/
+                var assembly = typeof(FirstPage).GetTypeInfo().Assembly;
+                Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.schools.json");
+
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    var json = reader.ReadToEnd();
+                    Dictionary<string, string> temp = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+                    foreach(KeyValuePair<string, string> kv in temp)
+                    {
+                        School s = new School(kv.Key, true);
+                        s.setUrl(kv.Value);
+                    }
+                }
+
                 System.Diagnostics.Debug.WriteLine(App.Schools.Count);
             }
 

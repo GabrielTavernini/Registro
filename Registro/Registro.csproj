@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="schools.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -164,6 +165,7 @@
     <Compile Include="Controls\Notifications.cs" />
     <Compile Include="Controls\AndroidThemes.cs" />
     <Compile Include="Classes\HttpRequests\SchoolsRequests.cs" />
+    <Compile Include="Controls\Mails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="XFGloss">

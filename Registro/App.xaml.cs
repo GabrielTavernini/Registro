@@ -105,7 +105,15 @@ namespace Registro
 
                 User user = new User(username, password, school);
 
-                MainPage = new NavigationPage(new HomePage(user));
+                if(username != null && password != null && school.loginUrl != null)
+                {
+                    MainPage = new NavigationPage(new HomePage(user));
+                }
+                else
+                {
+                    periodChange = GetPeriodChange();
+                    MainPage = new NavigationPage(new FirstPage());//new HomePage());  
+                }
             }
             else
             {

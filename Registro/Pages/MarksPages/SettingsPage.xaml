@@ -30,17 +30,23 @@
                     </TableSection>
 
                     <TableSection x:Name="GeneralSection" Title="Generali">
-                        <TextCell x:Name="Info" Text="Ulteriori informazioni" TextColor="Black"/>
                         <models:DatePickerCell DataChanged="DataChanged"/>
                     </TableSection>
 
+                    <TableSection x:Name="InfoSection" Title="Informazioni">
+                        <TextCell x:Name="Info" Text="Ulteriori informazioni" TextColor="Black"/>
+                        <TextCell x:Name="Bug" Text="Segnala problema" TextColor="Black"/>
+                        <TextCell x:Name="Credits" Text="Crediti" TextColor="Black"/>
+                        <TextCell x:Name="Me" Text="Sviluppata da Gabriel Tavernini" TextColor="Black"/>
+                    </TableSection>
+                    
                     <TableSection x:Name="LoginSection" Title="Login">
-                        <TextCell Text="Cambia Password"  TextColor="Black"/>
+                        <!--<TextCell Text="Cambia Password"  TextColor="Black"/>-->
                     </TableSection>
                 </TableRoot>
             </TableView>
+        </StackLayout>
 
-            <!--<Label Text="Developed by Gabriel Tavernini" VerticalOptions="End" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" FontSize="14"/>-->
-    </StackLayout>
+        <!--<Label Text="Sviluppata da Gabriel Tavernini" VerticalOptions="End" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" FontSize="14"/>-->
   </controls:LayoutTouchListner>
 </ContentPage>

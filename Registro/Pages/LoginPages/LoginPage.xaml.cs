@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -18,6 +19,9 @@ namespace Registro.Pages
         protected void Initialize()
         {
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setSettingsTheme(); 
+            
             InitializeComponent();
             Title = "Login";
 

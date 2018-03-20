@@ -31,10 +31,10 @@ namespace Registro
 
         public static async Task<List<string>> getSchoolsPageAsync()
         {
-            try
+            List<string> schoolsPages = new List<string>();
+            for (int i = 0; i < App.schoolsUrls.Length; i++)
             {
-                List<string> schoolsPages = new List<string>();
-                for (int i = 0; i < App.schoolsUrls.Length; i++)
+                try
                 {
                     HttpClient client = new HttpClient(new NativeMessageHandler());
                     using (client)
@@ -47,11 +47,12 @@ namespace Registro
                                 schoolsPages.Add(page);
                             }
                         }
-                    }                    
+                    }
                 }
-                return schoolsPages;
+                catch { }
             }
-            catch { return new List<string>{"failed"}; }
+
+            return schoolsPages;
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,41 +63,45 @@ namespace Registro
         {
             for (int x = 0; x < htmls.Count; x++)
             {
-                string html = htmls[x];
-                System.Diagnostics.Debug.WriteLine(html);
-                Document doc = Dcsoup.ParseBodyFragment(html, "");
-
-                School currentSchool = new School(false);
-
-                int Column = 1;
-                for (int i = 2; ; i++)
+                try
                 {
-                    Supremes.Nodes.Element table = doc.Select("body > table > tbody > tr:nth-child(" + i + ")").First;
+                    string html = htmls[x];
+                    System.Diagnostics.Debug.WriteLine(html);
+                    Document doc = Dcsoup.ParseBodyFragment(html, "");
 
-                    if (table == null) break;
+                    School currentSchool = new School(false);
 
-                    Elements inputElements = table.GetElementsByTag("td");
-
-
-                    foreach (Supremes.Nodes.Element inputElement in inputElements)
+                    int Column = 1;
+                    for (int i = 2; ; i++)
                     {
-                        if (Column == 1)
+                        Supremes.Nodes.Element table = doc.Select("body > table > tbody > tr:nth-child(" + i + ")").First;
+
+                        if (table == null) break;
+
+                        Elements inputElements = table.GetElementsByTag("td");
+
+
+                        foreach (Supremes.Nodes.Element inputElement in inputElements)
                         {
-                            currentSchool = new School(inputElement.Text, true);
-                            Column++;
-                        }
-                        else if (Column == 2)
-                        {
-                            Column++;
-                        }
-                        else if (Column == 3)
-                        {
-                            System.Diagnostics.Debug.WriteLine(inputElement.Text);
-                            currentSchool.setUrl(App.schoolsUrls[x] + inputElement.GetElementsByTag("a").Attr("href"));
-                            Column = 1;
+                            if (Column == 1)
+                            {
+                                currentSchool = new School(inputElement.Text, true);
+                                Column++;
+                            }
+                            else if (Column == 2)
+                            {
+                                Column++;
+                            }
+                            else if (Column == 3)
+                            {
+                                System.Diagnostics.Debug.WriteLine(inputElement.Text);
+                                currentSchool.setUrl(App.schoolsUrls[x] + inputElement.GetElementsByTag("a").Attr("href"));
+                                Column = 1;
+                            }
                         }
                     }
                 }
+                catch { }
             }
 
         }

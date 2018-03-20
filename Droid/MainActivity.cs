@@ -13,22 +13,23 @@ using Android.App.Job;
 using Android.Gms.Common;
 using Registro.Pages;
 using Xamarin.Forms;
+using static Android.Content.Res.Resources;
 
 namespace Registro.Droid
 {
-    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme.Base", LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
         private static AlarmManager manager;
         private static PendingIntent pendingIntent;
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Instance = this;
             App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density); // real pixels
             App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density); // real pixels
-
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;

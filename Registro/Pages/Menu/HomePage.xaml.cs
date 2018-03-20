@@ -7,6 +7,7 @@ using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -51,18 +52,20 @@ namespace Registro.Pages
 
             if (Device.RuntimePlatform == Device.iOS)
                 Setting.Margin = new Thickness(0, 20, 0, 0); */
-            
+
             if (Device.RuntimePlatform == Device.iOS)
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
-           
+            else
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            App.notify = true;
+            App.notify = true; //per non chiamare l'allarm reciver all'avvio
 
-            if(isFirstTime && (DateTime.Now - App.lastRefresh).Minutes > 5)
+
+            if(isFirstTime && (DateTime.Now - App.lastRefresh).Minutes > 15)
             {
                 isFirstTime = false;
                 if (App.Settings.startupUpdate)
@@ -128,7 +131,7 @@ namespace Registro.Pages
         {
             MenuOption mo = e.Item as MenuOption;
 
-            await Task.Delay(100);
+            await Task.Delay(50);
             if (mo.title == "Voti")
                 await Navigation.PushAsync(new MarksPage());
 

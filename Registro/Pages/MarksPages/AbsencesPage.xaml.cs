@@ -58,6 +58,12 @@ namespace Registro.Pages
                 Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             }
+            else
+            {
+                Setting.Margin = new Thickness(0, 32, 0, 0);
+                Back.Margin = new Thickness(0, 32, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
+            }
         }
 
         public AbsencesPage(int period)
@@ -100,6 +106,12 @@ namespace Registro.Pages
                 Setting.Margin = new Thickness(0, 20, 0, 0);
                 Back.Margin = new Thickness(10, 30, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+            else
+            {
+                Setting.Margin = new Thickness(0, 32, 0, 0);
+                Back.Margin = new Thickness(0, 32, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
             }
         }
 

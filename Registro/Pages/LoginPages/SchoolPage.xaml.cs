@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Registro.Controls.AndroidThemes;
 
 namespace Registro.Pages
 {
@@ -15,6 +16,9 @@ namespace Registro.Pages
         protected void Initialize()
         {
             NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setArgumentsTheme();  //Android Themes
+            
             InitializeComponent();
             Title = "Scuola";
 
@@ -32,11 +36,14 @@ namespace Registro.Pages
 
         async void AuthButtonClicked(object sender, EventArgs e)
         {
-            await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
-            await SchoolPicker.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
-            await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+            if((string)SchoolPicker.SelectedItem != null)
+            {
+                await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+                await SchoolPicker.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+                await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            await Navigation.PushAsync(new LoginPage(App.Schools[(string)SchoolPicker.SelectedItem]));
+                await Navigation.PushAsync(new LoginPage(App.Schools[(string)SchoolPicker.SelectedItem]));
+            }
         }
 
         protected async override void OnAppearing()

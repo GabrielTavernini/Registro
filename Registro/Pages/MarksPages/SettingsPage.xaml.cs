@@ -8,6 +8,7 @@ using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
+using static Registro.Controls.Mails;
 using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
@@ -69,19 +70,28 @@ namespace Registro.Pages
             LoginSection.Add(exitCell);
 
 
-            Info.Tapped += (sender, e) => 
+            Credits.Tapped += (sender, e) => 
             {
-                if(Device.RuntimePlatform == Device.iOS)
-                    DependencyService.Get<INotifyiOS>().NotifyMark(App.Grades[new Random().Next(0, App.Grades.Count - 1)]);
-                else
-                    DependencyService.Get<INotifyAndroid>().NotifyMark(App.Grades[new Random().Next(0, App.Grades.Count - 1)], DateTime.Now.Millisecond);
+                DisplayAlert("Crediti", "Sviluppata utilizzando:\n+XFGloss\n+ModernHttpClient\n+Nexsoft.Json\n+Dcsoup\n+XFShapeView", "Ok");
             };
 
+            Bug.Tapped += (sender, e) =>
+            {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<IMailAndroid>().SendEmail();
+                else
+                    DependencyService.Get<IMailiOS>().SendEmail();
+            };
 
             if (Device.RuntimePlatform == Device.iOS)
             {
                 Back.Margin = new Thickness(0, 25, 0, 0);
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
+            }
+            else
+            {
+                Back.Margin = new Thickness(0, 32, 0, 0);
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
             }
         }
 
@@ -128,7 +138,16 @@ namespace Registro.Pages
             
             if(answer)
             {
+                Application.Current.Properties["username"] = null;
                 Application.Current.Properties.Clear();
+                App.Arguments.Clear();
+                App.Absences.Clear();
+                App.Grades.Clear();
+                App.Notes.Clear();
+                App.Subjects.Clear();
+                HttpRequest.User = null;
+                App.Settings = new Settings();
+                App.notify = false;
 
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().StopAlarm();

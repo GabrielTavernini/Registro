@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.Content;
+using Android.Content.Res;
 using Registro.Droid;
 using static Registro.Controls.AndroidThemes;
 
@@ -15,7 +16,7 @@ namespace Registro.Droid
 
         public void setAveragesTheme()
         {
-            MainActivity.Instance.SetTheme(Resource.Style.MarksTheme);
+            MainActivity.Instance.SetTheme(Resource.Style.AveragesTheme);
         }
 
         public void setAbsencesTheme()
@@ -37,6 +38,5 @@ namespace Registro.Droid
         {
             MainActivity.Instance.SetTheme(Resource.Style.SettingsTheme);
         }
-
     }
 }

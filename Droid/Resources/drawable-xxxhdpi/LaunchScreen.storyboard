@@ -25,12 +25,21 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2564" translatesAutoresizingMaskIntoConstraints="NO" image="icon_transparent.png">
-                                <rect key="frame" x="159" y="320" width="96" height="96"/>
+                                <rect key="frame" x="153" y="314" width="108" height="108"/>
                                 <constraints>
-                                    <constraint id="2774" firstItem="2564" firstAttribute="height" constant="96"/>
-                                    <constraint id="2775" firstItem="2564" firstAttribute="width" constant="96"/>
+                                    <constraint id="2774" firstItem="2564" firstAttribute="height" constant="108"/>
+                                    <constraint id="2775" firstItem="2564" firstAttribute="width" constant="108"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gabriel Tavernini" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4653" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="27" y="684" width="360" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28" weight="heavy"/>
+                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <constraints>
+                                    <constraint id="5861" firstItem="4653" firstAttribute="height" constant="32"/>
+                                </constraints>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint id="2763" firstItem="2563" firstAttribute="trailing" secondItem="2562" secondAttribute="trailingMargin" constant="20"/>
@@ -39,6 +48,9 @@
                             <constraint id="2766" firstItem="2563" firstAttribute="bottom" secondItem="2562" secondAttribute="bottom"/>
                             <constraint id="2771" firstItem="2564" firstAttribute="centerY" secondItem="2563" secondAttribute="centerY"/>
                             <constraint id="2773" firstItem="2564" firstAttribute="centerX" secondItem="2563" secondAttribute="centerX"/>
+                            <constraint id="5643" firstItem="2563" firstAttribute="bottom" secondItem="4653" secondAttribute="bottom" constant="20"/>
+                            <constraint id="5773" firstItem="2563" firstAttribute="trailing" secondItem="4653" secondAttribute="trailing" constant="27"/>
+                            <constraint id="5794" firstItem="4653" firstAttribute="leading" secondItem="2563" secondAttribute="leading" constant="27"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -53,7 +65,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon.png" width="360" height="360"/>
         <image name="ArgomentiIcon.png" width="154" height="154"/>
         <image name="AssenzeIcon.png" width="160" height="161"/>
         <image name="VotiIcon.png" width="154" height="154"/>
@@ -65,6 +76,6 @@
         <image name="PasswordIcon.png" width="155" height="154"/>
         <image name="back_margin.png" width="1024" height="512"/>
         <image name="gradient_launch.png" width="720" height="720"/>
-        <image name="icon_transparent.png" width="270" height="235"/>
+        <image name="icon_transparent.png" width="270" height="270"/>
     </resources>
 </document>
