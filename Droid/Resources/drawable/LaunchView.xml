@@ -3,8 +3,8 @@
     <item
         android:drawable="@drawable/gradient_launch" />
     <item
-        android:width="84dp"
-        android:height="84dp"
+        android:width="72dp"
+        android:height="72dp"
         android:gravity="center">
         <bitmap
             android:src="@drawable/icon_transparent"

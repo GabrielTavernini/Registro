@@ -65,7 +65,7 @@ namespace Registro.Pages
             App.notify = true; //per non chiamare l'allarm reciver all'avvio
 
 
-            if(isFirstTime && (DateTime.Now - App.lastRefresh).Minutes > 15)
+            if(isFirstTime && ((DateTime.Now - App.lastRefresh).Minutes > 15 || App.lastRefresh.Ticks == 0))
             {
                 isFirstTime = false;
                 if (App.Settings.startupUpdate)

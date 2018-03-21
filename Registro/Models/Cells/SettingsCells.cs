@@ -140,6 +140,48 @@ namespace Registro.Models
         }
     }
 
+    public class NumberCell : ViewCell
+    {
+        public NumberCell()
+        {
+            StackLayout sl = new StackLayout()
+            {
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            Label l = new Label()
+            {
+                Text = "Fine primo periodo: ",
+                TextColor = Color.Black,
+                FontSize = 14,
+                VerticalTextAlignment = TextAlignment.Center,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                Margin = new Thickness(15, 0, 0, 0)
+            };
+
+            Entry ne = new Entry()
+            {
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.EndAndExpand,
+                Margin = new Thickness(0, 0, 0, 0),
+                Keyboard = Keyboard.Numeric,
+                Scale = 0.9
+            };
+
+            ne.TextChanged += (sender, e) => { TextChanged(sender, e); };
+
+            sl.Children.Add(l);
+            sl.Children.Add(ne);
+
+            View = sl;
+        }
+
+
+        public event EventHandler TextChanged;
+    }
+
     public class Settings
     {
         public Boolean notifyMarks { get; set; } = true;

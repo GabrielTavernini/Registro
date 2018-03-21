@@ -65,10 +65,11 @@ namespace Registro.Pages
 
             GeneralSection.Add(startupUpdate);
 
+            User.Text = String.Format("Accesso effettuato come: {0}", HttpRequest.User.username);
+
             exitCell = new CustomExitCell();
             exitCell.Tapped += (sender, e) => {TappedExitAsync();};
             LoginSection.Add(exitCell);
-
 
             Credits.Tapped += (sender, e) => 
             {
@@ -81,6 +82,16 @@ namespace Registro.Pages
                     DependencyService.Get<IMailAndroid>().SendEmail();
                 else
                     DependencyService.Get<IMailiOS>().SendEmail();
+            };
+
+            Info.Tapped += (sender, e) =>
+            {
+                Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+            };
+
+            Me.Tapped += (sender, e) =>
+            {
+                Device.OpenUri(new Uri("http://gabrieltavernini.github.io/"));
             };
 
             if (Device.RuntimePlatform == Device.iOS)

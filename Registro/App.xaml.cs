@@ -59,7 +59,7 @@ namespace Registro
         public static bool notify = false;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
-        public static DateTime lastRefresh;
+        public static DateTime lastRefresh = new DateTime(0);
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
@@ -99,7 +99,7 @@ namespace Registro
                 System.Diagnostics.Debug.WriteLine("Count App: {0}", App.Grades.Count());
 
                 School school = new School(Application.Current.Properties["schoolurl"] as string, Application.Current.Properties["school"] as string);
-
+                System.Diagnostics.Debug.WriteLine(school.absencesUrl);
                 string username = Application.Current.Properties["username"] as string;
                 string password = Application.Current.Properties["password"] as string;
 
@@ -107,6 +107,7 @@ namespace Registro
 
                 if(username != null && password != null && school.loginUrl != null)
                 {
+                    HomePage.isFirstTime = true;
                     MainPage = new NavigationPage(new HomePage(user));
                 }
                 else

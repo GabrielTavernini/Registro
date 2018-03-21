@@ -40,7 +40,7 @@
     
     
     <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">#FF4081</item>
+        <item name="colorAccent">#E15BBB</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat.NoActionBar">

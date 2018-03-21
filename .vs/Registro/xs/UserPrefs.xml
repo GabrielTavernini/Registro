@@ -2,11 +2,15 @@
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0D1F41ED-FB9F-4F59-A0DA-86A642BD4DC0" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="81" Column="55" />
-      <File FileName="Registro/Controls/Mails.cs" Line="8" Column="27" />
-      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml" Line="40" Column="45" />
-      <File FileName="Droid/Renders/Email.cs" Line="20" Column="112" />
-      <File FileName="Droid/Renders/Notifications.cs" Line="19" Column="52" />
+      <File FileName="Droid/Renders/Email.cs" Line="17" Column="80" />
+      <File FileName="Registro/Pages/Menu/HomePage.xaml.cs" Line="156" Column="27" />
+      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml.cs" Line="201" Column="24" />
+      <File FileName="Droid/Properties/AndroidManifest.xml" Line="11" Column="17" />
+      <File FileName="Registro/Models/Cells/SettingsCells.cs" Line="50" Column="30" />
+      <File FileName="Droid/Resources/values/styles.xml" Line="37" Column="41" />
+      <File FileName="Droid/Resources/drawable/LaunchView.xml" Line="6" Column="26" />
+      <File FileName="Registro/Pages/Menu/HomePage.xaml" Line="12" Column="55" />
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="96" Column="13" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>

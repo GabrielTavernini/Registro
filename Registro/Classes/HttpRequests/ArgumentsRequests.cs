@@ -126,12 +126,15 @@ namespace Registro
 
             Dictionary<String, String> subjects = new Dictionary<String, String>();
             Supremes.Nodes.Element selector = doc.Select("body > div.contenuto > form > table > tbody > tr > td > select").First;
+
+            if (selector == null)
+                return false;
+
             Elements options;
             options = selector.GetElementsByTag("option");
 
 
-            if (options == null)
-                return false;
+
 
             foreach (Supremes.Nodes.Element option in options)
             {

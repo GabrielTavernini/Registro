@@ -36,12 +36,12 @@
                     <TableSection x:Name="InfoSection" Title="Informazioni">
                         <TextCell x:Name="Info" Text="Ulteriori informazioni" TextColor="Black"/>
                         <TextCell x:Name="Bug" Text="Segnala problema" TextColor="Black"/>
-                        <TextCell x:Name="Credits" Text="Crediti" TextColor="Black"/>
+                        <TextCell x:Name="Credits" Text="Crediti Librerie" TextColor="Black"/>
                         <TextCell x:Name="Me" Text="Sviluppata da Gabriel Tavernini" TextColor="Black"/>
                     </TableSection>
                     
                     <TableSection x:Name="LoginSection" Title="Login">
-                        <!--<TextCell Text="Cambia Password"  TextColor="Black"/>-->
+                        <TextCell x:Name="User" TextColor="Black"/>
                     </TableSection>
                 </TableRoot>
             </TableView>

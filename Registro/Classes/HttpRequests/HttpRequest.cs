@@ -35,6 +35,7 @@ namespace Registro
             await new AbsencesRequests().extractAllAbsences();
 
             App.SerializeObjects();
+            App.lastRefresh = DateTime.Now;
             return true;
         }
 
@@ -50,8 +51,6 @@ namespace Registro
             await new AbsencesRequests().refreshAbsence();
             await new ArgumentsRequests().refreshArguments();
 
-            System.Diagnostics.Debug.WriteLine(App.Arguments.Last().Argument);
-
             App.SerializeObjects();
             App.lastRefresh = DateTime.Now;
             return true;
@@ -59,9 +58,10 @@ namespace Registro
 
         static public async Task<Boolean> LoginAsync()
         {
-            seed = null; cookies = null; //reset cookies and seed
-            if( await getCookiesAndSeed() == "failed")
-                return false;
+            //seed = null; cookies = null; //reset cookies and seed
+            if(cookies == null)
+                if( await getCookiesAndSeed() == "failed")
+                    return false;
             
             try
             {
@@ -81,8 +81,9 @@ namespace Registro
                 req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
                 req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-
                 HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
+                System.Diagnostics.Debug.WriteLine(User.school.formUrl);
+                System.Diagnostics.Debug.WriteLine(await resp.Content.ReadAsStringAsync());
                 resp.Dispose();
                 req.Dispose();
                 return true;
