@@ -214,10 +214,6 @@
     <AndroidResource Include="Resources\drawable-mdpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\NotificationsIcon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\NotificationsIcon.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\icon_transparent.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\icon_transparent.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\icon_transparent.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ArgomentiIcon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\AssenzeIcon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\MedieIcon.png" />
@@ -227,11 +223,15 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\VotiIcon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\gradient_launch.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\icon_transparent.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\name.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\LaunchScreen.storyboard" />
     <AndroidResource Include="Resources\drawable\vd_vector.xml" />
     <AndroidResource Include="Resources\drawable\name.svg" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icon_transparent.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renders\" />
