@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
+using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
 {
@@ -43,6 +44,11 @@ namespace Registro.Pages
                 await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
                 await Navigation.PushAsync(new LoginPage(App.Schools[(string)SchoolPicker.SelectedItem]));
+            }
+            else
+            {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Seleziona una scuola"); 
             }
         }
 

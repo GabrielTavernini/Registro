@@ -147,6 +147,11 @@ namespace Registro.Droid
         {
             MainActivity.StopAlarm();
         }
+
+        public void DisplayToast(string text)
+        {
+            Toast.MakeText(MainActivity.Instance, text, ToastLength.Short).Show();
+        }
     }
 
 

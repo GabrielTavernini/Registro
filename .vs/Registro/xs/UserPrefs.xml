@@ -2,9 +2,6 @@
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0D1F41ED-FB9F-4F59-A0DA-86A642BD4DC0" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Droid/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="Droid/Resources/drawable/LaunchView.xml" Line="17" Column="11" />
-      <File FileName="Droid/Resources/values/styles.xml" Line="53" Column="13" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
@@ -18,6 +15,6 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.1215fc5575060d04" />
   <MultiItemStartupConfigurations />
 </Properties>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
+using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
 {
@@ -52,6 +53,9 @@ namespace Registro.Pages
             HttpRequest.User = user;
             if(!await HttpRequest.extractAllAsync())
             {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Autenticazione non riuscita");
+                
                 System.Diagnostics.Debug.WriteLine("Connection Error!");
                 LoadingIndicator.IsVisible = false;
                 LoadingIndicator.IsRunning = false;

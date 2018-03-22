@@ -10,6 +10,7 @@ namespace Registro.Controls
             void NotifyAbsence(Absence a, int id);
             void NotifyArguments(Arguments a, int id);
             void StopAlarm();
+            void DisplayToast(string text);
         }
 
         public interface INotifyiOS
