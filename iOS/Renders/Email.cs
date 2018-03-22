@@ -22,6 +22,13 @@ namespace Registro.iOS.Renders
                 mailController.SetMessageBody("SEGNALAZIONE PROBLEMA per l'app LAMPSCHOOL (iOS: " 
                                               + UIDevice.CurrentDevice.SystemVersion 
                                               + "):\n\n", false);
+
+                mailController.Finished += (object s, MFComposeResultEventArgs args) => {
+                    Console.WriteLine(args.Result.ToString());
+                    args.Controller.DismissViewController(true, null);
+                };
+
+                UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(mailController, true, null);
             }
         }
     }

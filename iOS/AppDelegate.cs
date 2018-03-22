@@ -7,12 +7,16 @@ using Registro;
 using Foundation;
 using UIKit;
 using System.Threading.Tasks;
+using Xamarin.Forms.Platform.iOS;
+using MessageUI;
 
 namespace Registro.iOS
 {
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        public static AppDelegate Instance;
+        
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             global::Xamarin.Forms.Forms.Init();
@@ -52,6 +56,7 @@ namespace Registro.iOS
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.iOS.Library.Init();
             ShapeRenderer.Init();
+            Instance = this;
 
             try
             {

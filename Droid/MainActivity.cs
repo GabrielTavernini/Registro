@@ -14,6 +14,8 @@ using Android.Gms.Common;
 using Registro.Pages;
 using Xamarin.Forms;
 using static Android.Content.Res.Resources;
+using System.Linq;
+using System.Reflection;
 
 namespace Registro.Droid
 {

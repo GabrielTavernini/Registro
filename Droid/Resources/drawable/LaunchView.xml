@@ -2,16 +2,24 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@drawable/gradient_launch" />
-    <item
+
+    <!--<item
         android:width="72dp"
-        android:height="72dp"
-        android:gravity="center">
+        android:height="72dp">
         <bitmap
             android:src="@drawable/icon_transparent"
             android:alpha="77"
+            android:width="72dp"
+            android:height="72dp"
             android:gravity="fill_horizontal|fill_vertical"/>
-    </item>
+    </item>-->
 
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/icon_transparent"/>
+    </item>
+    
     <!--<item
         android:bottom="16dp"
         android:gravity="bottom|center_horizontal"

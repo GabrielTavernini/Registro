@@ -60,7 +60,11 @@ namespace Registro
         {
             //seed = null; cookies = null; //reset cookies and seed
             if(cookies == null)
-                if( await getCookiesAndSeed() == "failed")
+                if( await getCookiesAsync() == "failed")
+                    return false;
+
+            if (seed == null)
+                if (await getSeedAsync() == "failed")
                     return false;
             
             try
@@ -161,6 +165,7 @@ namespace Registro
             return cookies;
         }
 
+        /*
         static public async Task<string> getCookiesAndSeed()
         {
             string cookieHeader = "";
@@ -192,7 +197,7 @@ namespace Registro
             System.Diagnostics.Debug.WriteLine("<--------------------------------Cookies--------------------------------->");
             System.Diagnostics.Debug.WriteLine(cookies);
             return cookies; 
-        }
+        }*/
 
         static public async Task<string> cryptPasswordAsync(String password)
         {
