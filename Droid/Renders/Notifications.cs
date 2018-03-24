@@ -184,7 +184,10 @@ namespace Registro.Droid
 
         public void DisplayToast(string text)
         {
-            Toast.MakeText(MainActivity.Instance, text, ToastLength.Short).Show();
+            MainActivity.Instance.RunOnUiThread(() => 
+            {
+                Toast.MakeText(MainActivity.Instance, text, ToastLength.Short).Show();
+            });
         }
     }
 

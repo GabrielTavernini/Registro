@@ -20,6 +20,8 @@ namespace Registro.Models
             this.date = a.date;
             this.Type = "Assenza";
             this.Preview = "Assenza giornaliera";
+            if (a.justified)
+                this.Preview += " giustificata";
             this.FirstLetter = Type.Substring(0, 1);
             this.dateTime = a.dateTime;
             this.Id = id;
@@ -40,42 +42,22 @@ namespace Registro.Models
         {
             this.date = l.date;
             this.Type = "Ritardo";
-            this.Preview = String.Format("Entrata in ritardo alle {0}", l.entryHour);
+            if (l.justified)
+                this.Preview += " giustificata";
+            this.Preview = "Entrata in ritardo alle " + l.entryHour;
             this.FirstLetter = Type.Substring(0, 1);
             this.dateTime = l.dateTime;
             this.Id = id;
-        }
-
-        public AbsenceModel(LateEntry l, int id, Color c)
-        {
-            this.date = l.date;
-            this.Type = "Ritardo";
-            this.Preview = String.Format("Entrata in ritardo alle {0}", l.entryHour);
-            this.FirstLetter = Type.Substring(0, 1);
-            this.dateTime = l.dateTime;
-            this.Id = id;
-            this.color = c;
         }
 
         public AbsenceModel(EarlyExit e, int id)
         {
             this.date = e.date;
             this.Type = "Uscita";
-            this.Preview = "Uscita anticipata";
+            this.Preview = "Uscita anticipata alle " + e.exitHour;
             this.FirstLetter = Type.Substring(0, 1);
             this.dateTime = e.dateTime;
             this.Id = id;
-        }
-
-        public AbsenceModel(EarlyExit e, int id, Color c)
-        {
-            this.date = e.date;
-            this.Type = "Uscita";
-            this.Preview = "Uscita anticipata";
-            this.FirstLetter = Type.Substring(0, 1);
-            this.dateTime = e.dateTime;
-            this.Id = id;
-            this.color = c;
         }
     }
 }

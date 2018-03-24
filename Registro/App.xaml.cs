@@ -69,7 +69,6 @@ namespace Registro
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
 
-
         private static List<Grade> grades = new List<Grade>();
         private static Dictionary<String, Subject> subjects = new Dictionary<string, Subject>();
         private static List<Arguments> arguments = new List<Arguments>();
@@ -97,6 +96,7 @@ namespace Registro
 
         protected override void OnStart()
         {
+            NavigationPage navigationPage;
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
@@ -117,20 +117,22 @@ namespace Registro
                 if(username != null && password != null && school.loginUrl != null)
                 {
                     HomePage.isFirstTime = true;
-                    MainPage = new NavigationPage(new HomePage(user));
+                    navigationPage = new NavigationPage(new HomePage(user));
                 }
                 else
                 {
                     periodChange = GetPeriodChange();
-                    MainPage = new NavigationPage(new FirstPage());//new HomePage());  
+                    navigationPage = new NavigationPage(new FirstPage());//new HomePage());  
                 }
             }
             else
             {
                 periodChange = GetPeriodChange();
-                MainPage = new NavigationPage(new FirstPage());//new HomePage());
+                navigationPage = new NavigationPage(new FirstPage());//new HomePage());
             }
 
+            navigationPage.Popped += (sender, e) => { firstPage = null; };
+            MainPage = navigationPage;
         }
 
         protected override void OnSleep()
@@ -212,6 +214,18 @@ namespace Registro
                 String str = Application.Current.Properties["absences"] as String;
                 absences = JsonConvert.DeserializeObject<List<Absence>>(str);
             }
+
+            if (Application.Current.Properties.ContainsKey("lateentries"))
+            {
+                String str = Application.Current.Properties["lateentries"] as String;
+                lateEntries = JsonConvert.DeserializeObject<List<LateEntry>>(str);
+            }
+
+            if (Application.Current.Properties.ContainsKey("earlyexits"))
+            {
+                String str = Application.Current.Properties["earlyexits"] as String;
+                earlyExits = JsonConvert.DeserializeObject<List<EarlyExit>>(str);
+            }
         }
 
         static public void SerializeObjects()
@@ -222,6 +236,9 @@ namespace Registro
             Application.Current.Properties["arguments"] = JsonConvert.SerializeObject(arguments, Formatting.Indented, jsonSettings);
             Application.Current.Properties["notes"] = JsonConvert.SerializeObject(notes, Formatting.Indented, jsonSettings);
             Application.Current.Properties["absences"] = JsonConvert.SerializeObject(absences, Formatting.Indented, jsonSettings);
+            Application.Current.Properties["lateentries"] = JsonConvert.SerializeObject(lateEntries, Formatting.Indented, jsonSettings);
+            Application.Current.Properties["earlyexits"] = JsonConvert.SerializeObject(earlyExits, Formatting.Indented, jsonSettings);
+
         }
     }
 }

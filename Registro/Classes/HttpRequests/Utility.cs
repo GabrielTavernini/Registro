@@ -262,7 +262,7 @@ namespace Registro.Classes.HttpRequests
             {
                 return 0;
             }
-            String s = co.date + co.justified;
+            String s = co.date + co.justified + co.entryHour;
             return s.GetHashCode();
         }
 
@@ -292,7 +292,7 @@ namespace Registro.Classes.HttpRequests
             {
                 return 0;
             }
-            String s = co.date;
+            String s = co.date + co.exitHour;
             return s.GetHashCode();
         }
 
@@ -305,7 +305,8 @@ namespace Registro.Classes.HttpRequests
 
 
 
-            if (x.date == y.date)
+            if (x.date == y.date
+                && x.exitHour == y.exitHour)
                 return true;
             else
                 return false;

@@ -23,7 +23,11 @@ namespace Registro.Classes.JsonRequest
                 return false;
 
             if ((DateTime.Now - lastRequest).Minutes < 1)
+            {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
                 return false;
+            }
             
             String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
                                     "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
@@ -31,9 +35,15 @@ namespace Registro.Classes.JsonRequest
             System.Diagnostics.Debug.WriteLine(json);
 
             if (json.Contains("Tempo basso"))
+            {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato"); 
                 return false;
+            }
+                
             
             lastRequest = DateTime.Now;
+            App.lastRefresh = lastRequest;
             dati = JObject.Parse(json);
 
             App.Subjects = getMaterieFromJson();
@@ -57,6 +67,9 @@ namespace Registro.Classes.JsonRequest
             App.LateEntries = ritardi;
             App.EarlyExits = uscite;
             App.Arguments = lezioni;
+
+            if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato"); 
 
             App.SerializeObjects();
             return true;
