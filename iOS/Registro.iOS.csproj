@@ -90,9 +90,6 @@
     <Reference Include="XFGloss.iOS">
       <HintPath>..\packages\Ansuria.XFGloss.1.0.6.59\lib\Xamarin.iOS10\XFGloss.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Supremes">
-      <HintPath>..\packages\dcsoup.1.0.0\lib\netstandard1.3\Supremes.dll</HintPath>
-    </Reference>
     <Reference Include="ModernHttpClient">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
     </Reference>
