@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
@@ -20,7 +21,8 @@ namespace Registro.Pages
         public HomePage(User user)
         {
             this.user = user;
-            HttpRequest.User = user;
+            //HttpRequest.User = user;
+            JsonRequest.user = user;
             initialize();
         }
 
@@ -72,7 +74,7 @@ namespace Registro.Pages
                 {
                     InfoList.IsRefreshing = true;
                     generalRefresh = true;
-                    Task.Run(async () => await HttpRequest.RefreshAsync())
+                    Task.Run(async () => await JsonRequest.JsonLogin())//await HttpRequest.RefreshAsync())
                         .ContinueWith((end) => {
                             Device.BeginInvokeOnMainThread(() =>
                             {
@@ -154,7 +156,7 @@ namespace Registro.Pages
         private void Refresh()
         {
             generalRefresh = true;
-            Task.Run(async () => await HttpRequest.RefreshAsync())
+            Task.Run(async () => await JsonRequest.JsonLogin())//await HttpRequest.RefreshAsync())
                 .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => { InfoList.IsRefreshing = false; generalRefresh = false; }); });
         }
 

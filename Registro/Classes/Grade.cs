@@ -4,13 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json.Linq;
 
 namespace Registro
 {
     public class Grade
     {
-        public String date { get; set; } = "";
+		public String date { get; set; } = "";
         public String Description { get; set; } = "";
         public String type { get; set; } = "";
         public float grade { get; set; } = 0.0f;
@@ -32,7 +32,7 @@ namespace Registro
 
         public Grade(){}
 
-        public void setGrade(String grade)
+		public void setGrade(String grade)
         {
             this.grade = convertGrade(grade);
             this.gradeString = grade;

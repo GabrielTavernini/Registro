@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
 using Newtonsoft.Json;
+using Registro.Classes.HttpRequests;
 using Supremes;
 using Supremes.Nodes;
 using Xamarin.Forms;
@@ -23,7 +24,6 @@ namespace Registro
             {
                 String marksPage = await getMarksPageAsync();
                 extratMarks(marksPage);
-                System.Diagnostics.Debug.WriteLine(marksPage);
 
                 App.Grades = tempGrade;
                 App.Subjects = tempSubject;
@@ -40,8 +40,10 @@ namespace Registro
         {
             tempGrade.Clear();
             tempSubject.Clear();
-            if (!await LoginAsync())
-                return false;
+            if (!globalRefresh)
+                if (!await LoginAsync())
+                    return false;
+            
             try
             {
                 String marksPage = await getMarksPageAsync();
@@ -83,20 +85,10 @@ namespace Registro
 
         public async Task<string> getMarksPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.marksUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
-
-            pageSource = await getResponse.Content.ReadAsStringAsync();
-
-            getRequest.Dispose();
-            getResponse.Dispose();
-
+            String pageSource = await Utility.GetPageAsync(User.school.marksUrl);
+            if (pageSource.Contains("Warning") || pageSource.Contains("Fatal error"))
+                throw new System.InvalidOperationException("Wrong Page");
+            
             return pageSource;
         }
 
@@ -106,7 +98,6 @@ namespace Registro
 
         public void extratMarks(String html)
         {
-            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Subject currentSubject = new Subject("");
@@ -161,35 +152,4 @@ namespace Registro
 
     }
 
-    public class GradesComparer : IEqualityComparer<Grade>
-    {
-        public int GetHashCode(Grade co)
-        {
-            if (co == null)
-            {
-                return 0;
-            }
-            String s = co.gradeString + co.subject.name + co.date + co.type + co.Description;
-            return s.GetHashCode();
-        }
-
-        public bool Equals(Grade x, Grade y)
-        {
-            if (x == null && y == null)
-                return true;
-            else if (x == null || y == null)
-                return false;
-
-
-
-            if (x.gradeString == y.gradeString
-                && x.subject.name == y.subject.name
-                && x.date == y.date
-                && x.type == y.type
-                && x.Description == y.Description)
-                return true;
-            else
-                return false;
-        }
-    }
 }

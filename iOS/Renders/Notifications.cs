@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundation;
+using Registro.Classes;
 using UIKit;
 using static Registro.Controls.Notifications;
 
@@ -63,21 +64,57 @@ namespace Registro.iOS.Renders
                 notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
 
                 // configure the alert
-                if (a.Type == "Assenza")
-                {
-                    notification.AlertTitle = "Nuova Assenza";
-                    notification.AlertBody = String.Format("Sei stato assente il {0}", a.date);
-                }
-                else if (a.Type == "Uscita")
-                {
-                    notification.AlertTitle = "Nuova Uscita Anticipata";
-                    notification.AlertBody = String.Format("Sei uscito in anticipo il {0}", a.date);
-                }
-                else if (a.Type == "Ritardo")
-                {
-                    notification.AlertTitle = "Nuova Entrata in Ritardo";
-                    notification.AlertBody = String.Format("Sei entrato in ritardo il {0}", a.date);
-                }
+                notification.AlertTitle = "Nuova Assenza";
+                notification.AlertBody = String.Format("Sei stato assente il {0}", a.date);
+
+
+                // modify the badge
+                notification.ApplicationIconBadgeNumber = 1;
+
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
+
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");
+            });
+        }
+
+        public void NotifyLateEntry(LateEntry a)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
+
+                // configure the alert
+                notification.AlertTitle = "Nuova Entrata in Ritardo";
+                notification.AlertBody = String.Format("Sei entrato in ritardo il {0}", a.date);
+
+
+                // modify the badge
+                notification.ApplicationIconBadgeNumber = 1;
+
+                // set the sound to be the default sound
+                notification.SoundName = UILocalNotification.DefaultSoundName;
+
+                // schedule it
+                UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                Console.WriteLine("Scheduled...");
+            });
+        }
+
+        public void NotifyEarlyExit(EarlyExit a)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                var notification = new UILocalNotification();
+                notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
+
+                // configure the alert
+
+                notification.AlertTitle = "Nuova Uscita Anticipata";
+                notification.AlertBody = String.Format("Sei uscito in anticipo il {0}", a.date);
 
 
                 // modify the badge

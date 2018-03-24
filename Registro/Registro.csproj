@@ -101,7 +101,6 @@
       <DependentUpon>SchoolPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Grade.cs" />
-    <Compile Include="Classes\MD5.cs" />
     <Compile Include="Classes\Subject.cs" />
     <Compile Include="Classes\School.cs" />
     <Compile Include="Classes\User.cs" />
@@ -127,9 +126,6 @@
       <DependentUpon>ArgumentsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ArgsModel.cs" />
-    <Compile Include="Classes\HttpRequests\HttpRequest.cs" />
-    <Compile Include="Classes\HttpRequests\ArgumentsRequests.cs" />
-    <Compile Include="Classes\HttpRequests\MarksRequests.cs" />
     <Compile Include="Pages\MarksPages\SubjectPages\SubjectPageMarks.xaml.cs">
       <DependentUpon>SubjectPageMarks.xaml</DependentUpon>
     </Compile>
@@ -140,13 +136,11 @@
     <Compile Include="Pages\MarksPages\SlidePages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\HttpRequests\NotesRequests.cs" />
     <Compile Include="Classes\Note.cs" />
     <Compile Include="Pages\MarksPages\NotesPage.xaml.cs">
       <DependentUpon>NotesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\NoteModel.cs" />
-    <Compile Include="Classes\HttpRequests\AbsencesRequests.cs" />
     <Compile Include="Classes\Absence.cs" />
     <Compile Include="Models\Cells\ArgsCell.cs" />
     <Compile Include="Models\Cells\MarkCell.cs" />
@@ -164,8 +158,12 @@
     <Compile Include="Models\Cells\SettingsCells.cs" />
     <Compile Include="Controls\Notifications.cs" />
     <Compile Include="Controls\AndroidThemes.cs" />
-    <Compile Include="Classes\HttpRequests\SchoolsRequests.cs" />
     <Compile Include="Controls\Mails.cs" />
+    <Compile Include="Classes\HttpRequests\Utility.cs" />
+    <Compile Include="Classes\JsonRequest\JsonRequest.cs" />
+    <Compile Include="Classes\LateEntry.cs" />
+    <Compile Include="Classes\EarlyExit.cs" />
+    <Compile Include="Classes\HttpRequests\MD5.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Supremes">
@@ -207,6 +205,7 @@
     <Folder Include="Pages\MarksPages\SubjectPages\" />
     <Folder Include="Pages\MarksPages\SlidePages\" />
     <Folder Include="Models\Cells\" />
+    <Folder Include="Classes\JsonRequest\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

@@ -23,6 +23,7 @@ namespace Registro
 
         static public String seed;
         static public String cookies;
+        static public bool globalRefresh;
 
         static public async Task<Boolean> extractAllAsync()
         {
@@ -41,11 +42,10 @@ namespace Registro
 
         static public async Task<Boolean> RefreshAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Count App Refresh: {0}", App.Grades.Count());
             if (!await LoginAsync())
                 return false;
 
-
+            globalRefresh = true;
             await new MarksRequests().refreshMarks();
             await new NotesRequests().refreshNotes();
             await new AbsencesRequests().refreshAbsence();
@@ -58,47 +58,25 @@ namespace Registro
 
         static public async Task<Boolean> LoginAsync()
         {
-            //seed = null; cookies = null; //reset cookies and seed
-            if(cookies == null)
-                if( await getCookiesAsync() == "failed")
+            System.Diagnostics.Debug.WriteLine("Login");
+            
+            if (cookies == null)
+                if (await getCookiesAsync() == "failed")
                     return false;
 
-            if (seed == null)
-                if (await getSeedAsync() == "failed")
-                    return false;
-            
             try
             {
-                string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + await cryptPasswordAsync(User.password);
-
-                HttpRequestMessage req = new HttpRequestMessage();
-                Uri uri = new Uri(User.school.formUrl);
-                req.RequestUri = uri;
-                req.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-                req.Headers.Add("Cookie", cookies);
-                req.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                req.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-                req.Headers.Add("Referer", User.school.loginUrl);
-                req.Method = HttpMethod.Post;
-
-                byte[] bytes = Encoding.UTF8.GetBytes(formParams);
-                req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
-                req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
-
-                HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-                System.Diagnostics.Debug.WriteLine(User.school.formUrl);
-                System.Diagnostics.Debug.WriteLine(await resp.Content.ReadAsStringAsync());
-                resp.Dispose();
-                req.Dispose();
-                return true;
+                string formParams = "utente=" + User.username + "&pass=&OK=Accedi&password=" + cryptPasswordAsync(User.password);
+                await Utility.PostPageAsync(User.school.formUrl, formParams, User.school.loginUrl);
             }
-            catch{
-                seed = null;
+            catch
+            {
                 cookies = null;
-                return false; 
+                return false;
             }
-        }
 
+            return true;
+        }
 
 
 
@@ -111,57 +89,35 @@ namespace Registro
         //--------------------------------------------------------------------TechnicalStuff-----------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------------------------------
 
-        static public async Task<string> getSeedAsync()
+        #region stuff
+
+        static private void getSeedAsync()
         {
-            HttpClient client = new HttpClient(new NativeMessageHandler());
-
-            try
-            {
-                using (client)
-                {
-                    using (HttpResponseMessage response = await client.GetAsync(User.school.loginUrl))
-                    {
-                        using (HttpContent content = response.Content)
-                        {
-                            var page = await content.ReadAsStringAsync();
-                            seed = page.Split(new[] { "seme='" }, StringSplitOptions.None)[1].Substring(0, 32);
-                            response.Dispose();
-                        }
-
-                    }
-                }
-                return seed;
-            }
-            catch { return "failed"; }
+            String s = DateTime.Now.ToString("yyyy-MM-dd");
+            System.Diagnostics.Debug.WriteLine(s);
+            seed = hex_md5(s);
         }
 
-        static public async Task<string> getCookiesAsync()
+        static private async Task<string> getCookiesAsync()
         {
-            string cookieHeader = "";
-            string url = User.school.loginUrl;
-            HttpRequestMessage req = new HttpRequestMessage();
-            req.RequestUri = new Uri(url);
-
-            HttpResponseMessage resp = new HttpResponseMessage();
             try
-            {                
+            {
+                string url = User.school.loginUrl;
+                HttpRequestMessage req = new HttpRequestMessage();
+                req.RequestUri = new Uri(url);
+                HttpResponseMessage resp = new HttpResponseMessage();
                 resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-                HttpHeaders headers = resp.Headers;
+
                 IEnumerable<string> values;
-                if (headers.TryGetValues("Set-Cookie", out values))
+                if (resp.Headers.TryGetValues("Set-Cookie", out values))
                 {
-                    cookieHeader = values.First();
+                    String[] temp = values.First().Split(';');
+                    cookies = temp[0];
                 }
+                req.Dispose();
+                resp.Dispose();
             }
             catch { return "failed"; }
-
-            String[] temp = cookieHeader.Split(';');
-            cookies = temp[0];
-
-            req.Dispose();
-            resp.Dispose();
-            System.Diagnostics.Debug.WriteLine("<--------------------------------Cookies--------------------------------->");
-            System.Diagnostics.Debug.WriteLine(cookies);
             return cookies;
         }
 
@@ -199,13 +155,13 @@ namespace Registro
             return cookies; 
         }*/
 
-        static public async Task<string> cryptPasswordAsync(String password)
+        static private string cryptPasswordAsync(String password)
         {
-            //await getSeedAsync();
+            getSeedAsync();
             return hex_md5(hex_md5(hex_md5(password)) + seed);
         }
 
-        static public string hex_md5(string input)
+        static private string hex_md5(string input)
 
         {
 
@@ -230,7 +186,8 @@ namespace Registro
             }
 
             return sb.ToString();
-
         }
+
+        #endregion
     }
 }

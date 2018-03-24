@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ModernHttpClient;
 using Newtonsoft.Json;
+using Registro.Classes.HttpRequests;
 using Supremes;
 using Supremes.Nodes;
 using Xamarin.Forms;
@@ -33,8 +34,10 @@ namespace Registro
 
         public async Task<Boolean> refreshArguments()
         {
-            if (!await LoginAsync())
-                return false;
+            tempArgs.Clear();
+            if (!globalRefresh)
+                if (!await LoginAsync())
+                    return false;
             try
             {
                 String Page = await getArgsPageAsync();
@@ -72,47 +75,16 @@ namespace Registro
 
         public async Task<String> getArgsPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.argsUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("Refer", User.school.loginUrl);
-            //getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
-
-            pageSource = await getResponse.Content.ReadAsStringAsync();
-
-            getRequest.Dispose();
-            getResponse.Dispose();
+            String pageSource = await Utility.GetPageAsync(User.school.argsUrl);
+            if (pageSource.Contains("Warning") || pageSource.Contains("Fatal error"))
+                throw new System.InvalidOperationException("Wrong Page");
 
             return pageSource;
         }
 
         public async Task<String> getArgsSubPageAsync(String id)
         {
-            string formParams = "idmateria=" + id;
-
-            HttpRequestMessage req = new HttpRequestMessage();
-            Uri uri = new Uri(User.school.argsUrl);
-            req.RequestUri = uri;
-            req.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-            req.Headers.Add("Cookie", cookies);
-            req.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            req.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-            req.Headers.Add("Referer", User.school.argsUrl);
-            req.Method = HttpMethod.Post;
-
-            byte[] bytes = Encoding.UTF8.GetBytes(formParams);
-            req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
-            req.Content = new StringContent(formParams, Encoding.UTF8, "application/x-www-form-urlencoded");
-
-            HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req);
-            String pageSource = await resp.Content.ReadAsStringAsync();
-            resp.Dispose();
-            req.Dispose();
-            return pageSource;
+            return await Utility.PostPageAsync(User.school.argsUrl, "idmateria=" + id, User.school.argsUrl);
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -121,7 +93,6 @@ namespace Registro
 
         public async Task<Boolean> extratArgsAsync(String html)
         {
-            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Dictionary<String, String> subjects = new Dictionary<String, String>();
@@ -142,9 +113,7 @@ namespace Registro
                 {
                     subjects.Add(option.Attributes["value"], option.Text);
                 }
-                System.Diagnostics.Debug.WriteLine(option.Attributes["value"] + "    " + option.Text);
             }
-
 
             foreach (KeyValuePair<String, String> KVp in subjects)
             {
@@ -157,6 +126,7 @@ namespace Registro
 
         public void extratArgsTable(String html, String currentSubject)
         {
+            
             Document doc = Dcsoup.ParseBodyFragment(html, "");
             //Arguments currentArgument = new Arguments();
 
@@ -193,34 +163,5 @@ namespace Registro
     }
 
 
-    public class ArgumentsComparer : IEqualityComparer<Arguments>
-    {
-        public int GetHashCode(Arguments co)
-        {
-            if (co == null)
-            {
-                return 0;
-            }
-            String s = co.Argument + co.Activity + co.subject + co.date;
-            return s.GetHashCode();
-        }
 
-        public bool Equals(Arguments x, Arguments y)
-        {
-            if (x == null && y == null)
-                return true;
-            else if (x == null || y == null)
-                return false;
-
-
-
-            if (x.Activity == y.Activity
-                && x.Argument == y.Argument
-                && x.subject == y.subject
-                && x.date == y.date)
-                return true;
-            else
-                return false;
-        }
-    }
 }

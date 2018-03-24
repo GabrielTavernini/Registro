@@ -1,34 +1,25 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Registro
+namespace Registro.Classes
 {
-    public class Absence
+    public class LateEntry
     {
-        public String Type { get; set; } = "";
+        public String entryHour { get; set; } = "";
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
         public bool justified { get; set; } = false;
 
-        public Absence(String Type, String date, bool justified)
+        public LateEntry(String date, String entryHour, bool justified)
         {
             this.justified = justified;
+            this.entryHour = entryHour;
             this.date = date;
-            this.Type = Type;
             if (date != "")
                 this.dateTime = ConvertDate(date);
         }
 
-        public Absence(String Type, String date)
-        {
-            this.date = date;
-            this.Type = Type;
-            System.Diagnostics.Debug.WriteLine(Type + " " + date);
-            if (date != "")
-                this.dateTime = ConvertDate(date);
-        }
-
-        public Absence() { }
+        public LateEntry() { }
 
         public void setDate(String date)
         {

@@ -21,9 +21,7 @@ namespace Registro.Classes.HttpRequests
             try
             {
                 String absencesPage = await getAbsencesPageAsync();
-
                 extratAbsences(absencesPage);
-                System.Diagnostics.Debug.WriteLine(absencesPage);
 
                 App.Absences = tempAbsences;
                 tempAbsences = new List<Absence>();
@@ -37,8 +35,9 @@ namespace Registro.Classes.HttpRequests
         public async Task<Boolean> refreshAbsence()
         {
             tempAbsences.Clear();
-            if (!await LoginAsync())
-                return false;
+            if (!globalRefresh)
+                if (!await LoginAsync())
+                    return false;
 
 
             try
@@ -74,22 +73,11 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<string> getAbsencesPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.absencesUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
-
-            pageSource = await getResponse.Content.ReadAsStringAsync();
-
-            getRequest.Dispose();
-            getResponse.Dispose();
-
+            String pageSource = await Utility.GetPageAsync(User.school.absencesUrl);
+            if (pageSource.Contains("Warning") || pageSource.Contains("Fatal error"))
+                throw new System.InvalidOperationException("Wrong Page");
+            
             return pageSource;
-
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------
@@ -98,7 +86,6 @@ namespace Registro.Classes.HttpRequests
 
         public void extratAbsences(String html)
         {
-            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Supremes.Nodes.Element table = doc.Select("body > div.contenuto > table:nth-child(6) > tbody > tr:nth-child(6)").First;
@@ -114,7 +101,6 @@ namespace Registro.Classes.HttpRequests
                 {
                     foreach(String s in inputElement.Text.Split(' '))
                     {
-                        System.Diagnostics.Debug.WriteLine(s);
                         if (s != "" && s != null && s.Length > 4)
                             tempAbsences.Add(new Absence("Assenza", s));
                     }
@@ -140,35 +126,6 @@ namespace Registro.Classes.HttpRequests
                 }
 
             }
-        }
-    }
-
-    public class AbsencesComparer : IEqualityComparer<Absence>
-    {
-        public int GetHashCode(Absence co)
-        {
-            if (co == null)
-            {
-                return 0;
-            }
-            String s = co.Type + co.date;
-            return s.GetHashCode();
-        }
-
-        public bool Equals(Absence x, Absence y)
-        {
-            if (x == null && y == null)
-                return true;
-            else if (x == null || y == null)
-                return false;
-
-
-
-            if (x.Type == y.Type
-                && x.date == y.date)
-                return true;
-            else
-                return false;
         }
     }
 }

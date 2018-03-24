@@ -33,8 +33,8 @@ namespace Registro.Pages
 
             NavigationPage.SetHasNavigationBar(this, false);
 
-            HttpRequest.User = user; 
-            await HttpRequest.extractAllAsync();
+            //HttpRequest.User = user; 
+            //await HttpRequest.extractAllAsync();
 
             Children.Add(new TestPage("Voti", Color.FromHex("#00B1D4"), 72, 1));
             Children.Add(new TestPage("Medie", Color.FromHex("#61DDDD"), 72, 2));

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Registro.Classes;
 using Registro.Models;
 using Registro.Pages;
 using Xamarin.Forms;
@@ -55,6 +56,10 @@ namespace Registro
             "http://lnx.istruzionemonteforte.gov.it/zanella/",
             "http://www.iscolevi.it/registro17-18p/",
             "http://www.ciofascuola.it/registro_2017_2018/"};
+        private static Dictionary<String, School> schools = new Dictionary<String, School>();
+        internal static Dictionary<string, School> Schools { get => schools; set => schools = value; }
+
+
         public static string firstPage = "";
         public static bool notify = false;
         public static uint AnimationSpeed = 75;
@@ -63,15 +68,19 @@ namespace Registro
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
+
+
         private static List<Grade> grades = new List<Grade>();
         private static Dictionary<String, Subject> subjects = new Dictionary<string, Subject>();
         private static List<Arguments> arguments = new List<Arguments>();
         private static List<Note> notes = new List<Note>();
         private static List<Absence> absences = new List<Absence>();
         private static Settings settings = new Settings();
-        private static Dictionary<String, School> schools = new Dictionary<String, School>();
+        private static List<LateEntry> lateEntries = new List<LateEntry>();
+        private static List<EarlyExit> earlyExits = new List<EarlyExit>();
 
-        internal static Dictionary<string, School> Schools { get => schools; set => schools = value; }
+        internal static List<EarlyExit> EarlyExits { get => earlyExits; set => earlyExits = value; }
+        internal static List<LateEntry> LateEntries { get => lateEntries; set => lateEntries = value; }
         internal static Settings Settings { get => settings; set => settings = value; }
         internal static List<Absence> Absences { get => absences; set => absences = value; }
         internal static List<Note> Notes { get => notes; set => notes = value; }
@@ -134,8 +143,16 @@ namespace Registro
 		protected override void OnResume()
 		{
             // Handle when your app resumes
-            if(firstPage != "" && firstPage != null)
-                MainPage = new NavigationPage(new HomePage());
+            //Search for login data
+            if (Application.Current.Properties.ContainsKey("username") &&
+                Application.Current.Properties.ContainsKey("password") &&
+                Application.Current.Properties.ContainsKey("school") &&
+                Application.Current.Properties.ContainsKey("schoolurl"))
+            {
+                //Deserialize object lists
+                if (firstPage != "" && firstPage != null)
+                    MainPage = new NavigationPage(new HomePage());
+            }
         }
 
         private DateTime GetPeriodChange()

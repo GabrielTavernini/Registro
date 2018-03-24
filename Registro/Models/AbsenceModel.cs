@@ -1,4 +1,5 @@
 ﻿using System;
+using Registro.Classes;
 using Xamarin.Forms;
 
 namespace Registro.Models
@@ -14,37 +15,67 @@ namespace Registro.Models
         public String Preview { get; set; } = "";
         public String FirstLetter { get; set; } = "";
 
-        public AbsenceModel(Absence n, int id)
+        public AbsenceModel(Absence a, int id)
         {
-            this.date = n.date;
-            this.Type = n.Type;
-            this.Preview = getPreview(n.Type);
+            this.date = a.date;
+            this.Type = "Assenza";
+            this.Preview = "Assenza giornaliera";
             this.FirstLetter = Type.Substring(0, 1);
-            this.dateTime = n.dateTime;
+            this.dateTime = a.dateTime;
             this.Id = id;
         }
 
-        public AbsenceModel(Absence n, int id, Color c)
+        public AbsenceModel(Absence a, int id, Color c)
         {
-            this.date = n.date;
-            this.Type = n.Type;
-            this.Preview = getPreview(n.Type);
+            this.date = a.date;
+            this.Type = "Assenza";
+            this.Preview = "Assenza giornaliera";
             this.FirstLetter = Type.Substring(0, 1);
-            this.dateTime = n.dateTime;
+            this.dateTime = a.dateTime;
             this.Id = id;
             this.color = c;
         }
 
-        private string getPreview(String type)
+        public AbsenceModel(LateEntry l, int id)
         {
-            if (type == "Ritardo")
-                return "Entrata in ritardo";
-            else if (type == "Assenza")
-                return "Assenza giornaliera";
-            else if (type == "Uscita")
-                return "Uscita anticipata";
-            else
-                return "";
+            this.date = l.date;
+            this.Type = "Ritardo";
+            this.Preview = String.Format("Entrata in ritardo alle {0}", l.entryHour);
+            this.FirstLetter = Type.Substring(0, 1);
+            this.dateTime = l.dateTime;
+            this.Id = id;
+        }
+
+        public AbsenceModel(LateEntry l, int id, Color c)
+        {
+            this.date = l.date;
+            this.Type = "Ritardo";
+            this.Preview = String.Format("Entrata in ritardo alle {0}", l.entryHour);
+            this.FirstLetter = Type.Substring(0, 1);
+            this.dateTime = l.dateTime;
+            this.Id = id;
+            this.color = c;
+        }
+
+        public AbsenceModel(EarlyExit e, int id)
+        {
+            this.date = e.date;
+            this.Type = "Uscita";
+            this.Preview = "Uscita anticipata";
+            this.FirstLetter = Type.Substring(0, 1);
+            this.dateTime = e.dateTime;
+            this.Id = id;
+        }
+
+        public AbsenceModel(EarlyExit e, int id, Color c)
+        {
+            this.date = e.date;
+            this.Type = "Uscita";
+            this.Preview = "Uscita anticipata";
+            this.FirstLetter = Type.Substring(0, 1);
+            this.dateTime = e.dateTime;
+            this.Id = id;
+            this.color = c;
         }
     }
 }

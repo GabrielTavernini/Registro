@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Registro.Classes;
 using Registro.Classes.HttpRequests;
+using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
@@ -183,7 +185,7 @@ namespace Registro.Pages
             InfoList2.IsRefreshing = true;
             Boolean success = true;
 
-            Task.Run(async () => success = await new AbsencesRequests().refreshAbsence())
+            Task.Run(async () => success = await JsonRequest.JsonLogin())//await new AbsencesRequests().refreshAbsence())
                 .ContinueWith((end) =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
@@ -303,6 +305,18 @@ namespace Registro.Pages
                 if (n.dateTime.CompareTo(App.periodChange) <= 0)
                     list.Add(new AbsenceModel(n, 0));
             }
+
+            foreach (LateEntry n in App.LateEntries)
+            {
+                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new AbsenceModel(n, 0));
+            }
+
+            foreach (EarlyExit n in App.EarlyExits)
+            {
+                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                    list.Add(new AbsenceModel(n, 0));
+            }
             list.Sort(new CustomDataTimeComparerAbsence());
 
             int j = 1;
@@ -329,6 +343,18 @@ namespace Registro.Pages
         {
             List<AbsenceModel> list = new List<AbsenceModel>();
             foreach (Absence n in App.Absences)
+            {
+                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new AbsenceModel(n, 0));
+            }
+
+            foreach (LateEntry n in App.LateEntries)
+            {
+                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                    list.Add(new AbsenceModel(n, 0));
+            }
+
+            foreach (EarlyExit n in App.EarlyExits)
             {
                 if (n.dateTime.CompareTo(App.periodChange) > 0)
                     list.Add(new AbsenceModel(n, 0));

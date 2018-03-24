@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Registro.Classes.JsonRequest;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
 using static Registro.Controls.Notifications;
@@ -50,8 +51,9 @@ namespace Registro.Pages
 
             User user = new User(UserEntry.Text, PassEntry.Text, school);
 
-            HttpRequest.User = user;
-            if(!await HttpRequest.extractAllAsync())
+            //HttpRequest.User = user;
+            JsonRequest.user = user;
+            if(!await JsonRequest.JsonLogin())//!await HttpRequest.extractAllAsync())
             {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Autenticazione non riuscita");

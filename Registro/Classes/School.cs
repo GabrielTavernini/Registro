@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Registro
@@ -12,9 +12,9 @@ namespace Registro
         public String argsUrl { get; set; }
         public String noteUrl { get; set; }
         public String absencesUrl { get; set; }
-
         public String baseUrl { get; set; }
         public String name { get; set; }
+        public String suffisso { get { return loginUrl.Split(new[] { "suffisso=" }, StringSplitOptions.None).Last(); } }
 
         public School(String loginUrl, String name)
         {

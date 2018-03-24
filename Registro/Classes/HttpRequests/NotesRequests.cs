@@ -24,7 +24,6 @@ namespace Registro.Classes.HttpRequests
 
                 extratNotesIndiv(notesPage);
                 extratNotesClass(notesPage);
-                System.Diagnostics.Debug.WriteLine(notesPage);
 
                 App.Notes = tempNotes;
                 tempNotes = new List<Note>();
@@ -37,8 +36,9 @@ namespace Registro.Classes.HttpRequests
         public async Task<Boolean> refreshNotes()
         {
             tempNotes.Clear();
-            if (!await LoginAsync())
-                return false;
+            if(!globalRefresh)
+                if (!await LoginAsync())
+                    return false;
 
 
 
@@ -82,19 +82,9 @@ namespace Registro.Classes.HttpRequests
 
         public async Task<string> getNotesPageAsync()
         {
-            string pageSource;
-            HttpRequestMessage getRequest = new HttpRequestMessage();
-            getRequest.RequestUri = new Uri(User.school.noteUrl);
-            getRequest.Headers.Add("Cookie", cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
-
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest);
-
-            pageSource = await getResponse.Content.ReadAsStringAsync();
-
-            getRequest.Dispose();
-            getResponse.Dispose();
+            String pageSource = await Utility.GetPageAsync(User.school.noteUrl);
+            if (pageSource.Contains("Warning") || pageSource.Contains("Fatal error"))
+                throw new System.InvalidOperationException("Wrong Page");
 
             return pageSource;
 
@@ -106,7 +96,6 @@ namespace Registro.Classes.HttpRequests
 
         public void extratNotesIndiv(String html)
         {
-            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Note currentNote = new Note();
@@ -135,7 +124,6 @@ namespace Registro.Classes.HttpRequests
                     }
                     else if (Column == 3)
                     {
-                        System.Diagnostics.Debug.WriteLine(inputElement.Text);
                         currentNote.Text = (inputElement.Text);
                         Column++;
                     }
@@ -152,7 +140,6 @@ namespace Registro.Classes.HttpRequests
 
         public void extratNotesClass(String html)
         {
-            System.Diagnostics.Debug.WriteLine(html);
             Document doc = Dcsoup.ParseBodyFragment(html, "");
 
             Note currentNote = new Note();
@@ -181,7 +168,6 @@ namespace Registro.Classes.HttpRequests
                     }
                     else if (Column == 3)
                     {
-                        System.Diagnostics.Debug.WriteLine(inputElement.Text);
                         currentNote.Text = (inputElement.Text);
                         Column++;
                     }
@@ -193,37 +179,6 @@ namespace Registro.Classes.HttpRequests
 
                 }
             }
-        }
-    }
-
-    public class NotesComparer : IEqualityComparer<Note>
-    {
-        public int GetHashCode(Note co)
-        {
-            if (co == null)
-            {
-                return 0;
-            }
-            String s = co.Text + co.Nome + co.Measures + co.date;
-            return s.GetHashCode();
-        }
-
-        public bool Equals(Note x, Note y)
-        {
-            if (x == null && y == null)
-                return true;
-            else if (x == null || y == null)
-                return false;
-
-
-
-            if (x.Nome == y.Nome
-                && x.Measures == y.Measures
-                && x.Text == y.Text
-                && x.date == y.date)
-                return true;
-            else
-                return false;
         }
     }
 }

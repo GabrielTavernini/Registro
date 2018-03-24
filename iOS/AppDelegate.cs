@@ -9,6 +9,7 @@ using UIKit;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.iOS;
 using MessageUI;
+using Registro.Classes.JsonRequest;
 
 namespace Registro.iOS
 {
@@ -25,6 +26,8 @@ namespace Registro.iOS
             App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
 
             //notifications stuff
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
                 var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
@@ -74,7 +77,7 @@ namespace Registro.iOS
         public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
             Boolean success = true;
-            Task.Run(async () => success = await HttpRequest.RefreshAsync());
+            Task.Run(async () => success = await JsonRequest.JsonLogin());//await HttpRequest.RefreshAsync());
 
             if (success)
                 completionHandler(UIBackgroundFetchResult.NewData);

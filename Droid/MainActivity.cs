@@ -16,10 +16,13 @@ using Xamarin.Forms;
 using static Android.Content.Res.Resources;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using Registro.Classes.HttpRequests;
 
 namespace Registro.Droid
 {
-    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme.Base", LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Registro.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme.Base", LaunchMode = LaunchMode.SingleTop,
+              ScreenOrientation = ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
@@ -45,7 +48,7 @@ namespace Registro.Droid
             XFGloss.Droid.Library.Init(this, savedInstanceState);
         }
 
-		protected override void OnPause()
+        protected override void OnPause()
         {
             base.OnPause();
             if (manager == null)
@@ -59,13 +62,13 @@ namespace Registro.Droid
                 manager.Cancel(pendingIntent);
         }
 
-		protected override void OnNewIntent(Intent intent)
-		{
+        protected override void OnNewIntent(Intent intent)
+        {
             base.OnNewIntent(intent);
             App.firstPage = intent.Action;//intent.GetStringExtra("page");
-		}
+        }
 
-		internal static void StartAlarm(Context context)
+        internal static void StartAlarm(Context context)
         {
             manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
             Intent myIntent;
@@ -77,7 +80,7 @@ namespace Registro.Droid
 
         internal static void StopAlarm()
         {
-            if(manager != null)
+            if (manager != null)
                 manager.Cancel(pendingIntent);
         }
     }

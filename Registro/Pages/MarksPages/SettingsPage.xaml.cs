@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Registro.Classes.HttpRequests;
+using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
@@ -39,60 +40,15 @@ namespace Registro.Pages
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
             gesturesSetup();
+            switchesSetup();
+            creditsSetup();
 
 
-            notifyMarks = new CustomSwitchCell("Notifiche per nuovi voti", App.Settings.notifyMarks);
-            notifyMarks.Appearing += (sender, e) => { SearchPageViewCellWithId_OnFirstApper(sender, e); };
-            notifyMarks.Disappearing += (sender, e) => { SearchPageViewCellWithId_OnFirstDisapp(sender, e); };
-            notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-
-            notifyNotes = new CustomSwitchCell("Notifiche per nuove note", App.Settings.notifyNotes);
-            notifyAbsences = new CustomSwitchCell("Notifiche per nuovi assenze", App.Settings.notifyAbsences);
-            notifyArguments = new CustomSwitchCell("Notifiche per nuovi argomenti", App.Settings.notifyArguments);
-
-            startupUpdate = new CustomSwitchCell("Aggiorna all'avvio", App.Settings.startupUpdate);
-
-            notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-            notifyNotes.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-            notifyAbsences.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-            notifyArguments.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-            startupUpdate.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
-
-            NotificationSection.Add(notifyMarks);
-            NotificationSection.Add(notifyNotes);
-            NotificationSection.Add(notifyAbsences);
-            NotificationSection.Add(notifyArguments);
-
-            GeneralSection.Add(startupUpdate);
-
-            User.Text = String.Format("Accesso effettuato come: {0}", HttpRequest.User.username);
+            User.Text = String.Format("Accesso effettuato come: {0}", JsonRequest.user.username);
 
             exitCell = new CustomExitCell();
             exitCell.Tapped += (sender, e) => {TappedExitAsync();};
             LoginSection.Add(exitCell);
-
-            Credits.Tapped += (sender, e) => 
-            {
-                DisplayAlert("Crediti", "Sviluppata utilizzando:\n+XFGloss\n+ModernHttpClient\n+Nexsoft.Json\n+Dcsoup\n+XFShapeView", "Ok");
-            };
-
-            Bug.Tapped += (sender, e) =>
-            {
-                if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<IMailAndroid>().SendEmail();
-                else
-                    DependencyService.Get<IMailiOS>().SendEmail();
-            };
-
-            Info.Tapped += (sender, e) =>
-            {
-                Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
-            };
-
-            Me.Tapped += (sender, e) =>
-            {
-                Device.OpenUri(new Uri("http://gabrieltavernini.github.io/"));
-            };
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -156,7 +112,8 @@ namespace Registro.Pages
                 App.Grades.Clear();
                 App.Notes.Clear();
                 App.Subjects.Clear();
-                HttpRequest.User = null;
+                //HttpRequest.User = null;
+                JsonRequest.user = null;
                 App.Settings = new Settings();
                 App.notify = false;
 
@@ -177,6 +134,58 @@ namespace Registro.Pages
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
             Back.GestureRecognizers.Add(backTapGesture);
+        }
+
+        public void switchesSetup()
+        {
+            notifyMarks = new CustomSwitchCell("Notifiche per nuovi voti", App.Settings.notifyMarks);
+            notifyMarks.Appearing += (sender, e) => { SearchPageViewCellWithId_OnFirstApper(sender, e); };
+            notifyMarks.Disappearing += (sender, e) => { SearchPageViewCellWithId_OnFirstDisapp(sender, e); };
+
+            notifyNotes = new CustomSwitchCell("Notifiche per nuove note", App.Settings.notifyNotes);
+            notifyAbsences = new CustomSwitchCell("Notifiche per nuovi assenze", App.Settings.notifyAbsences);
+            notifyArguments = new CustomSwitchCell("Notifiche per nuovi argomenti", App.Settings.notifyArguments);
+            startupUpdate = new CustomSwitchCell("Aggiorna all'avvio", App.Settings.startupUpdate);
+
+            notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            notifyNotes.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            notifyAbsences.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            notifyArguments.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            startupUpdate.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+
+            NotificationSection.Add(notifyMarks);
+            NotificationSection.Add(notifyNotes);
+            NotificationSection.Add(notifyAbsences);
+            NotificationSection.Add(notifyArguments);
+
+            GeneralSection.Add(startupUpdate);
+        }
+
+        public void creditsSetup()
+        {
+            Credits.Tapped += (sender, e) =>
+            {
+                DisplayAlert("Crediti", "Sviluppata utilizzando:\n+XFGloss\n+ModernHttpClient\n+Nexsoft.Json\n+Dcsoup\n+XFShapeView", "Ok");
+            };
+
+            Bug.Tapped += (sender, e) =>
+            {
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<IMailAndroid>().SendEmail();
+                else
+                    DependencyService.Get<IMailiOS>().SendEmail();
+            };
+
+            Info.Tapped += (sender, e) =>
+            {
+                Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+            };
+
+            Me.Tapped += (sender, e) =>
+            {
+                Device.OpenUri(new Uri("http://gabrieltavernini.github.io/"));
+            };
         }
 
         public void settings()

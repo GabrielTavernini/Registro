@@ -15,6 +15,8 @@ using Registro.Droid;
 using static Registro.Controls.Notifications;
 using Registro.Pages;
 using System.Text;
+using Registro.Classes.JsonRequest;
+using Registro.Classes;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Registro.Droid.Notifications))]
 namespace Registro.Droid
@@ -44,7 +46,6 @@ namespace Registro.Droid
             notificationManager.Notify(id, builder.Build());
         }
 
-
         public void NotifyNotes(Note n, int id)
         {
             Context c = MainActivity.Instance;
@@ -68,7 +69,6 @@ namespace Registro.Droid
             notificationManager.Notify(id, builder.Build());
         }
 
-
         public void NotifyAbsence(Absence a, int id)
         {
             Context c = MainActivity.Instance;
@@ -83,21 +83,8 @@ namespace Registro.Droid
                 .SetColor(Color.Argb(255, 0, 177, 212))
                 .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon));// Display this icon
 
-            if (a.Type == "Assenza")
-            {
-                builder.SetContentText(String.Format("Sei stato assente il {0}", a.date)); 
-                builder.SetContentTitle("Nuova Assenza");
-            }
-            else if (a.Type == "Uscita")
-            {
-                builder.SetContentText(String.Format("Sei uscito in anticipo il {0}", a.date)); 
-                builder.SetContentTitle("Nuova Uscita Anticipata");
-            }
-            else if (a.Type == "Ritardo")
-            {
-                builder.SetContentText(String.Format("Sei entrato in ritardo il {0}", a.date)); 
-                builder.SetContentTitle("Nuova Entrata in Ritardo");
-            }
+            builder.SetContentText(String.Format("Sei stato assente il {0}", a.date)); 
+            builder.SetContentTitle("Nuova Assenza");
                 
 
             // Finally, publish the notification:
@@ -106,6 +93,53 @@ namespace Registro.Droid
             notificationManager.Notify(id, builder.Build());
         }
 
+        public void NotifyLateEntry(LateEntry a, int id)
+        {
+            Context c = MainActivity.Instance;
+            Intent inte = new Intent(c, typeof(MainActivity));
+            inte.SetAction("AbsencesPage");
+            PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
+                .SetContentIntent(pe)
+                .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
+                .SetColor(Color.Argb(255, 0, 177, 212))
+                .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon));// Display this icon
+
+            builder.SetContentText(String.Format("Sei entrato in ritardo il {0}", a.date));
+            builder.SetContentTitle("Nuova Entrata in Ritardo");
+
+
+            // Finally, publish the notification:
+            NotificationManager notificationManager =
+                (NotificationManager)c.GetSystemService(Context.NotificationService);
+            notificationManager.Notify(id, builder.Build());
+        }
+
+        public void NotifyEarlyExit(EarlyExit a, int id)
+        {
+            Context c = MainActivity.Instance;
+            Intent inte = new Intent(c, typeof(MainActivity));
+            inte.SetAction("AbsencesPage");
+            PendingIntent pe = PendingIntent.GetActivity(c, 0, inte, PendingIntentFlags.UpdateCurrent);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
+                .SetContentIntent(pe)
+                .SetAutoCancel(true)  // Start 2nd activity when the intent is clicked.
+                .SetSmallIcon(Resource.Drawable.NotificationsIcon)
+                .SetColor(Color.Argb(255, 0, 177, 212))
+                .SetLargeIcon(BitmapFactory.DecodeResource(c.Resources, Resource.Drawable.icon));// Display this icon
+
+            builder.SetContentText(String.Format("Sei uscito in anticipo il {0}", a.date));
+            builder.SetContentTitle("Nuova Uscita Anticipata");
+
+
+            // Finally, publish the notification:
+            NotificationManager notificationManager =
+                (NotificationManager)c.GetSystemService(Context.NotificationService);
+            notificationManager.Notify(id, builder.Build());
+        }
 
         public void NotifyArguments(Arguments a, int id)
         {
@@ -160,8 +194,8 @@ namespace Registro.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            if(App.notify)
-                Task.Run(async () => await HttpRequest.RefreshAsync());
+            if (App.notify)
+                Task.Run(async () => await JsonRequest.JsonLogin());//await HttpRequest.RefreshAsync());
         }
     }
 

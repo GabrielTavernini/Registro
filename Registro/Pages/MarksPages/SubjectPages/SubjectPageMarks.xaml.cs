@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
@@ -143,7 +144,7 @@ namespace Registro.Pages
             InfoList2.IsRefreshing = true;
             Boolean success = true;
 
-            Task.Run(async () => await new MarksRequests().refreshMarks())
+            Task.Run(async () => await JsonRequest.JsonLogin())//await new MarksRequests().refreshMarks())
             .ContinueWith((end) =>
             {
                 Device.BeginInvokeOnMainThread(() =>
