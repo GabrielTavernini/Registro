@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Registro.Classes;
+using Registro.Classes.JsonRequest;
 using Registro.Models;
 using Registro.Pages;
 using Xamarin.Forms;
@@ -61,10 +62,11 @@ namespace Registro
 
 
         public static string firstPage = "";
-        public static bool notify = false;
+        //public static bool notify = false;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
         public static DateTime lastRefresh = new DateTime(0);
+        public static Boolean globalRefresh { get; set; } = true;
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
@@ -116,8 +118,8 @@ namespace Registro
 
                 if(username != null && password != null && school.loginUrl != null)
                 {
-                    HomePage.isFirstTime = true;
-                    navigationPage = new NavigationPage(new HomePage(user));
+                    JsonRequest.user = user;
+                    navigationPage = new NavigationPage(new HomePage());
                 }
                 else
                 {
@@ -138,8 +140,6 @@ namespace Registro
         protected override void OnSleep()
         {
             // Handle when your app sleeps
-            HomePage.isFirstTime = true;
-            notify = false;
         }
 
 		protected override void OnResume()
@@ -151,7 +151,7 @@ namespace Registro
                 Application.Current.Properties.ContainsKey("school") &&
                 Application.Current.Properties.ContainsKey("schoolurl"))
             {
-                //Deserialize object lists
+
                 if (firstPage != "" && firstPage != null)
                     MainPage = new NavigationPage(new HomePage());
             }

@@ -140,6 +140,9 @@
     <Reference Include="XFGloss.Droid">
       <HintPath>..\packages\Ansuria.XFGloss.1.1.2.89\lib\MonoAndroid10\XFGloss.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Supremes">
+      <HintPath>..\packages\dcsoup.1.0.0\lib\netstandard1.3\Supremes.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Registro\Registro.csproj">

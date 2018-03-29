@@ -33,7 +33,7 @@ namespace Registro
             await new MarksRequests().extractAllMarks();
             await new ArgumentsRequests().extractAllArguments();
             await new NotesRequests().extractAllNotes();
-            await new AbsencesRequests().extractAllAbsences();
+            //await new AbsencesRequests().extractAllAbsences();
 
             App.SerializeObjects();
             App.lastRefresh = DateTime.Now;
@@ -48,7 +48,7 @@ namespace Registro
             globalRefresh = true;
             await new MarksRequests().refreshMarks();
             await new NotesRequests().refreshNotes();
-            await new AbsencesRequests().refreshAbsence();
+            //await new AbsencesRequests().refreshAbsence();
             await new ArgumentsRequests().refreshArguments();
 
             App.SerializeObjects();

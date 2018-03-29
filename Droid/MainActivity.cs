@@ -26,6 +26,7 @@ namespace Registro.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
+        internal static bool IsForeground { get; private set; } = true;
         private static AlarmManager manager;
         private static PendingIntent pendingIntent;
 
@@ -33,6 +34,7 @@ namespace Registro.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Instance = this;
+            IsForeground = true;
             App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density); // real pixels
             App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density); // real pixels
 
@@ -51,11 +53,18 @@ namespace Registro.Droid
         protected override void OnPause()
         {
             base.OnPause();
+            IsForeground = false;
             if (manager == null)
                 StartAlarm(this);
         }
 
-        protected override void OnDestroy()
+		protected override void OnResume()
+		{
+            base.OnResume();
+            IsForeground = true;
+		}
+
+		protected override void OnDestroy()
         {
             base.OnDestroy();
             if (manager != null)

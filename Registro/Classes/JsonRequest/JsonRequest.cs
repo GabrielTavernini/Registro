@@ -14,6 +14,7 @@ namespace Registro.Classes.JsonRequest
     public class JsonRequest
     {
         static public User user;
+        static private String json;
         static private JObject dati;
         static private DateTime lastRequest;
 
@@ -26,25 +27,24 @@ namespace Registro.Classes.JsonRequest
             {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
+                else
+                    DependencyService.Get<INotifyiOS>().ShowToast("Già aggiornato");
                 return false;
             }
-            
-            String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
-                                    "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
-            String json = await Utility.GetPageAsync(QueryLogin);
-            System.Diagnostics.Debug.WriteLine(json);
 
-            if (json.Contains("Tempo basso"))
+            try
             {
-                if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato"); 
-                return false;
+                String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
+                                    "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
+                json = await Utility.GetPageAsync(QueryLogin);
+                System.Diagnostics.Debug.WriteLine(json);  
+                dati = JObject.Parse(json);
             }
+            catch { return await controllaTempoBassoAsync(); }
                 
             
             lastRequest = DateTime.Now;
             App.lastRefresh = lastRequest;
-            dati = JObject.Parse(json);
 
             App.Subjects = getMaterieFromJson();
             List<Grade> voti = getVotiFromJson();
@@ -69,10 +69,44 @@ namespace Registro.Classes.JsonRequest
             App.Arguments = lezioni;
 
             if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato"); 
+                DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
+            else
+                DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato"); 
 
             App.SerializeObjects();
             return true;
+        }
+
+        private static async Task<bool> controllaTempoBassoAsync()
+        {
+            if (json.Contains("Tempo basso"))
+            {
+                HttpRequest.User = user;
+                if (!await MarksRequests.RefreshAsync())
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
+                    else
+                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito");
+
+                    return false;
+                }
+
+                lastRequest = DateTime.Now;
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
+                else
+                    DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato");
+
+                return true;
+
+
+            }
+
+            return false;/*
+            if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
+            return false;*/
         }
 
         private static List<Grade> getVotiFromJson()
@@ -137,7 +171,7 @@ namespace Registro.Classes.JsonRequest
                 Boolean giustificata;
                 for (int i = 0; i < date.Count; i++)
                 {
-                    giustificata = !giustifiche[i].Equals("0");
+                    giustificata = !(giustifiche[i].ToString().Equals("0"));
 
                     Absence assenza = new Absence("", (string)date[i], giustificata);
                     assenze.Add(assenza);

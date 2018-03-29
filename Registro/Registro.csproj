@@ -164,6 +164,12 @@
     <Compile Include="Classes\LateEntry.cs" />
     <Compile Include="Classes\EarlyExit.cs" />
     <Compile Include="Classes\HttpRequests\MD5.cs" />
+    <Compile Include="Classes\HttpRequests\AbsencesRequests.cs" />
+    <Compile Include="Classes\HttpRequests\ArgumentsRequests.cs" />
+    <Compile Include="Classes\HttpRequests\HttpRequest.cs" />
+    <Compile Include="Classes\HttpRequests\MarksRequests.cs" />
+    <Compile Include="Classes\HttpRequests\NotesRequests.cs" />
+    <Compile Include="Classes\HttpRequests\SchoolsRequests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Supremes">

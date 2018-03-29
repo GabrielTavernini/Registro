@@ -19,9 +19,15 @@ namespace Registro.Models
         {
             this.date = a.date;
             this.Type = "Assenza";
+            if (a.justified)
+                this.Type += " Giustificata";
+            else
+                this.Type += " Non Giustificata";
             this.Preview = "Assenza giornaliera";
             if (a.justified)
                 this.Preview += " giustificata";
+            else
+                this.Preview += " non giustificata";
             this.FirstLetter = Type.Substring(0, 1);
             this.dateTime = a.dateTime;
             this.Id = id;
@@ -44,6 +50,8 @@ namespace Registro.Models
             this.Type = "Ritardo";
             if (l.justified)
                 this.Preview += " giustificata";
+            else
+                this.Preview += " non giustificata";
             this.Preview = "Entrata in ritardo alle " + l.entryHour;
             this.FirstLetter = Type.Substring(0, 1);
             this.dateTime = l.dateTime;

@@ -26,6 +26,7 @@ namespace Registro.Controls
             void NotifyEarlyExit(EarlyExit a);
             void NotifyArguments(Arguments a);
             void StopAlarm();
+            void ShowToast(string text);
         }
     }
 }

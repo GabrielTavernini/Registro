@@ -184,10 +184,13 @@ namespace Registro.Droid
 
         public void DisplayToast(string text)
         {
-            MainActivity.Instance.RunOnUiThread(() => 
+            if (MainActivity.IsForeground)
             {
-                Toast.MakeText(MainActivity.Instance, text, ToastLength.Short).Show();
-            });
+                MainActivity.Instance.RunOnUiThread(() =>
+                {
+                    Toast.MakeText(MainActivity.Instance, text, ToastLength.Short).Show();
+                });
+            }
         }
     }
 
@@ -197,23 +200,25 @@ namespace Registro.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            if (App.notify)
-                Task.Run(async () => await JsonRequest.JsonLogin());//await HttpRequest.RefreshAsync());
+            Task.Run(async () => await JsonRequest.JsonLogin());//await HttpRequest.RefreshAsync());
         }
     }
+}
 
+
+
+/*
     [BroadcastReceiver(Enabled = true, Exported = true)]
     public class BootReciver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            /*AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
             Intent myIntent;
             myIntent = new Intent(context, typeof(AlarmRefreshReceiver));
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(context, 0, myIntent, 0);
 
-            manager.SetInexactRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, 60 * 30 * 1000, pendingIntent);  */      
+            manager.SetInexactRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, 60 * 30 * 1000, pendingIntent);  
         }
     }
-
-}
+*/

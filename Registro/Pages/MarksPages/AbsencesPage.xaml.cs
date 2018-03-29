@@ -174,7 +174,7 @@ namespace Registro.Pages
             AbsenceModel g = e.Item as AbsenceModel;
             if (g.Type != "Nessuna Assenza")
             {
-                DisplayAlert("Assenza", g.Preview, "Ok");
+                DisplayAlert(g.Type, g.Preview, "Ok");
             }
                 
         }

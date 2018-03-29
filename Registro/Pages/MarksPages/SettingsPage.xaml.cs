@@ -115,7 +115,6 @@ namespace Registro.Pages
                 //HttpRequest.User = null;
                 JsonRequest.user = null;
                 App.Settings = new Settings();
-                App.notify = false;
 
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().StopAlarm();

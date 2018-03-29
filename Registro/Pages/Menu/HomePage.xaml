@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro"
              xmlns:models="clr-namespace:Registro.Models;assembly=Registro"
+             xmlns:local="clr-namespace:Registro;assembly=Registro"
+             xmlns:this="clr-namespace:Registro.Pages"
              x:Class="Registro.Pages.HomePage">
 
-  <controls:LayoutTouchListner x:Name="LayoutTouchListnerCtrl" Orientation="Vertical" TouchEvent="LayoutTouchListner_OnTouchEvent" Spacing="0">
+    <controls:LayoutTouchListner x:Name="LayoutTouchListnerCtrl" Orientation="Vertical" TouchEvent="LayoutTouchListner_OnTouchEvent" Spacing="0">
 
     <Grid Padding="0">
         <StackLayout x:Name="Head" VerticalOptions="StartAndExpand" BackgroundColor="#0082D4">

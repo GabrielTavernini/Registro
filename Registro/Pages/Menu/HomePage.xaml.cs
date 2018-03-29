@@ -14,18 +14,6 @@ namespace Registro.Pages
 {
     public partial class HomePage : ContentPage
     {
-        User user;
-        static public bool isFirstTime = false;
-        public static bool generalRefresh = false;
-
-        public HomePage(User user)
-        {
-            this.user = user;
-            //HttpRequest.User = user;
-            JsonRequest.user = user;
-            initialize();
-        }
-
         public HomePage()
         {
             initialize();
@@ -64,24 +52,23 @@ namespace Registro.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            App.notify = true; //per non chiamare l'allarm reciver all'avvio
 
-
-            if(isFirstTime && ((DateTime.Now - App.lastRefresh).Minutes > 15 || App.lastRefresh.Ticks == 0))
+            if (((DateTime.Now - App.lastRefresh).Minutes > 15 || App.lastRefresh.Ticks == 0))
             {
-                isFirstTime = false;
                 if (App.Settings.startupUpdate)
                 {
                     InfoList.IsRefreshing = true;
-                    generalRefresh = true;
-                    Task.Run(async () => await JsonRequest.JsonLogin())//await HttpRequest.RefreshAsync())
-                        .ContinueWith((end) => {
+
+                    Task.Run(async () => await JsonRequest.JsonLogin())//await new MarksRequests().refreshMarks())
+                        .ContinueWith((end) =>
+                        {
                             Device.BeginInvokeOnMainThread(() =>
                             {
-                                InfoList.IsRefreshing = false;
-                                generalRefresh = false;
+                                try { InfoList.IsRefreshing = false; }
+                                catch { }
+
                             });
-                        });                    
+                        });
                 }
             }
 
@@ -121,7 +108,6 @@ namespace Registro.Pages
                         Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 2));
                 }
             }
-
         }
 
         public void settings()
@@ -155,9 +141,8 @@ namespace Registro.Pages
 
         private void Refresh()
         {
-            generalRefresh = true;
             Task.Run(async () => await JsonRequest.JsonLogin())//await HttpRequest.RefreshAsync())
-                .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => { InfoList.IsRefreshing = false; generalRefresh = false; }); });
+                .ContinueWith((end) => { Device.BeginInvokeOnMainThread(() => { InfoList.IsRefreshing = false; }); });
         }
 
         protected override bool OnBackButtonPressed()

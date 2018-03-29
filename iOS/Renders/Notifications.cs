@@ -2,6 +2,7 @@
 using Foundation;
 using Registro.Classes;
 using UIKit;
+using Xamarin.Forms;
 using static Registro.Controls.Notifications;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Registro.iOS.Renders.Notifications))]
@@ -154,6 +155,30 @@ namespace Registro.iOS.Renders
 
         public void StopAlarm()
         {
+        }
+
+        public void ShowToast(String message)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(delegate
+            {
+                try
+                {
+                    var alertController = UIAlertController.Create(message, "", UIAlertControllerStyle.Alert);
+                    UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, false, null);
+                    Device.StartTimer(new TimeSpan(0, 0, 0, 0, 625), () => { return HideAlert(alertController); });
+                }
+                catch { }
+            });
+        }
+
+        private bool HideAlert(UIAlertController alert)
+        {
+            try
+            {
+                alert.DismissViewController(true, null);
+            }
+            catch{}
+            return false;
         }
     }
 

@@ -197,6 +197,7 @@ namespace Registro.Pages
                                 page = new MarksPage(2);
                             else
                                 page = new MarksPage(1);
+
                             Navigation.InsertPageBefore(page, this);
                             Navigation.PopAsync(false); 
                         }
