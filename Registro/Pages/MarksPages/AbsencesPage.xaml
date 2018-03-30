@@ -30,7 +30,7 @@
                 <Label x:Name="Selector2" Text="2° Periodo" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#E15B5C"/>
             </StackLayout>
 
-            <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+            <ListView x:Name="InfoList" CachingStrategy="RecycleElement" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
 
@@ -45,7 +45,7 @@
 
 
             
-            <ListView x:Name="InfoList2" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+            <ListView x:Name="InfoList2" CachingStrategy="RecycleElement" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
 

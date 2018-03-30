@@ -108,6 +108,15 @@ namespace Registro.Pages
                         Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 2));
                 }
             }
+
+            /*if(App.appLaunches == 10)
+            {
+                App.appLaunches++;
+                Application.Current.Properties["appLaunches"] = App.appLaunches.ToString();
+
+                //Ask for rate
+                DisplayAlert("Recensici l'app", "Se ti piace l'app recensiscila", "Rate", "Later");
+            }*/
         }
 
         public void settings()

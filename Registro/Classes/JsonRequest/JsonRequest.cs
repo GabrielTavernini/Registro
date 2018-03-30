@@ -16,7 +16,7 @@ namespace Registro.Classes.JsonRequest
         static public User user;
         static private String json;
         static private JObject dati;
-        static private DateTime lastRequest;
+        static public DateTime lastRequest;
 
         static public async Task<bool> JsonLogin()
         {

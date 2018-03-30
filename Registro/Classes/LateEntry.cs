@@ -9,11 +9,21 @@ namespace Registro.Classes
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
         public bool justified { get; set; } = false;
+        public bool justifiedUnknown = false;
 
         public LateEntry(String date, String entryHour, bool justified)
         {
             this.justified = justified;
             this.entryHour = entryHour;
+            this.justifiedUnknown = false;
+            this.date = date;
+            if (date != "")
+                this.dateTime = ConvertDate(date);
+        }
+
+        public LateEntry(String date)
+        {
+            this.justifiedUnknown = true;
             this.date = date;
             if (date != "")
                 this.dateTime = ConvertDate(date);

@@ -15,6 +15,9 @@ namespace Registro.Classes.HttpRequests
     public class AbsencesRequests : HttpRequest
     {
         private List<Absence> tempAbsences = new List<Absence>();
+        private List<LateEntry> tempLate = new List<LateEntry>();
+        private List<EarlyExit> tempExit = new List<EarlyExit>();
+
         
         public async Task<String> extractAllAbsences()
         {
@@ -24,7 +27,12 @@ namespace Registro.Classes.HttpRequests
                 extratAbsences(absencesPage);
 
                 App.Absences = tempAbsences;
+                App.EarlyExits = tempExit;
+                App.LateEntries = tempLate;
+
                 tempAbsences = new List<Absence>();
+                tempLate = new List<LateEntry>();
+                tempExit = new List<EarlyExit>();
 
                 return absencesPage;
                 
@@ -111,7 +119,7 @@ namespace Registro.Classes.HttpRequests
                     foreach (String s in inputElement.Text.Split(' '))
                     {
                         if (s != "" && s != null && s.Length > 4)
-                                    tempAbsences.Add(new Absence("Ritardo", s));
+                            tempLate.Add(new LateEntry(s));
                     }                    
                     Column++;
                 }
@@ -120,7 +128,7 @@ namespace Registro.Classes.HttpRequests
                     foreach (String s in inputElement.Text.Split(' '))
                     {
                         if (s != "" && s != null && s.Length > 4)
-                            tempAbsences.Add(new Absence("Uscita", s));
+                            tempExit.Add(new EarlyExit(s));
                     }                    
                     Column = 1;
                 }

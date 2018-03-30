@@ -9,10 +9,12 @@ namespace Registro
         public String date { get; set; } = "";
         public DateTime dateTime { get; set; }
         public bool justified { get; set; } = false;
+        public bool justifiedUnknown = false;
 
         public Absence(String Type, String date, bool justified)
         {
             this.justified = justified;
+            this.justifiedUnknown = false;
             this.date = date;
             this.Type = Type;
             if (date != "")
@@ -23,6 +25,7 @@ namespace Registro
         {
             this.date = date;
             this.Type = Type;
+            this.justifiedUnknown = true;
             System.Diagnostics.Debug.WriteLine(Type + " " + date);
             if (date != "")
                 this.dateTime = ConvertDate(date);

@@ -175,7 +175,7 @@ namespace Registro.iOS.Renders
         {
             try
             {
-                alert.DismissViewController(true, null);
+                alert.DismissViewController(false, null);
             }
             catch{}
             return false;

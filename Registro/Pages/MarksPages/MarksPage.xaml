@@ -35,7 +35,7 @@
 
 
             
-        <ListView x:Name="InfoList" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+        <ListView x:Name="InfoList" CachingStrategy="RecycleElement" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
             <ListView.ItemTemplate>
                 <DataTemplate>
 
@@ -48,7 +48,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <ListView x:Name="InfoList2" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
+        <ListView x:Name="InfoList2" CachingStrategy="RecycleElement" HorizontalOptions="CenterAndExpand" IsPullToRefreshEnabled="true" HasUnevenRows="True" SeparatorVisibility="None" VerticalOptions="FillAndExpand">
             <ListView.ItemTemplate>
                 <DataTemplate>
 

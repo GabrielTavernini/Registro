@@ -114,6 +114,7 @@ namespace Registro.Pages
                 App.Subjects.Clear();
                 //HttpRequest.User = null;
                 JsonRequest.user = null;
+                JsonRequest.lastRequest = new DateTime();
                 App.Settings = new Settings();
 
                 if (Device.RuntimePlatform == Device.Android)

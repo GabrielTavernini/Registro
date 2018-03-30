@@ -18,6 +18,13 @@ namespace Registro.Classes
                 this.dateTime = ConvertDate(date);
         }
 
+        public EarlyExit(String date)
+        {
+            this.date = date;
+            if (date != "")
+                this.dateTime = ConvertDate(date);
+        }
+
         public EarlyExit() { }
 
         public void setDate(String date)

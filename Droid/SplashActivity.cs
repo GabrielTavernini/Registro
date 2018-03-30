@@ -7,8 +7,8 @@ using XamarinForms.Droid;
 
 namespace Registro.Droid
 {
-    [Activity(MainLauncher = true, NoHistory = true, Icon = "@drawable/icon", Theme = "@style/LaunchTheme",
-             ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(MainLauncher = true, NoHistory = true, Icon = "@drawable/icon", Theme = "@style/LaunchTheme", 
+              ScreenOrientation = ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class LaunchActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
