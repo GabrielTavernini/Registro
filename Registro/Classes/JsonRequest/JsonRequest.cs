@@ -17,6 +17,7 @@ namespace Registro.Classes.JsonRequest
         static private String json;
         static private JObject dati;
         static public DateTime lastRequest;
+        static private Boolean retry;
 
         static public async Task<bool> JsonLogin()
         {
@@ -28,7 +29,7 @@ namespace Registro.Classes.JsonRequest
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
                 else
-                    DependencyService.Get<INotifyiOS>().ShowToast("Già aggiornato");
+                    DependencyService.Get<INotifyiOS>().ShowToast("Già aggiornato", 750);
                 return false;
             }
 
@@ -37,12 +38,58 @@ namespace Registro.Classes.JsonRequest
                 String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
                                     "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
                 json = await Utility.GetPageAsync(QueryLogin);
-                System.Diagnostics.Debug.WriteLine(json);  
+                System.Diagnostics.Debug.WriteLine(json);
                 dati = JObject.Parse(json);
             }
-            catch { return await controllaTempoBassoAsync(); }
-                
-            
+            catch
+            {
+                if(json == null || json == "")
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
+                    else
+                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito", 750);
+
+                    return false;
+                }
+                else if (json.Contains("Tempo basso"))
+                {
+                    await Task.Delay(1000);
+                    if (!retry)
+                    {
+                        if (Device.RuntimePlatform == Device.Android)
+                        {
+                            DependencyService.Get<INotifyAndroid>().DisplayToast("Aspetta...");
+                            Device.StartTimer(new TimeSpan(0,0,2), () => {
+                                DependencyService.Get<INotifyAndroid>().DisplayToast("Ci vorrà più del solito");
+                                return false;
+                            });
+                        }
+                        else
+                        {
+                            DependencyService.Get<INotifyiOS>().ShowToast("Aspetta...", 1000);
+                            Device.StartTimer(new TimeSpan(0, 0, 1), () => {
+                                DependencyService.Get<INotifyiOS>().ShowToast("Ci vorrà più del solito", 1500);
+                                return false;
+                            });
+                        }
+                    }
+
+                    retry = true;
+                    await JsonLogin();
+                }
+                else
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
+                    else
+                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito", 750);
+
+                    return false;
+                }
+            }
+
+            retry = false;
             lastRequest = DateTime.Now;
             App.lastRefresh = lastRequest;
 
@@ -71,7 +118,7 @@ namespace Registro.Classes.JsonRequest
             if (Device.RuntimePlatform == Device.Android)
                 DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
             else
-                DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato"); 
+                DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750); 
 
             App.SerializeObjects();
             return true;
@@ -87,7 +134,7 @@ namespace Registro.Classes.JsonRequest
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
                     else
-                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito");
+                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito", 750);
 
                     return false;
                 }
@@ -96,7 +143,7 @@ namespace Registro.Classes.JsonRequest
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
                 else
-                    DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato");
+                    DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750);
 
                 return true;
 

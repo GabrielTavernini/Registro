@@ -1,33 +1,15 @@
 ﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0D1F41ED-FB9F-4F59-A0DA-86A642BD4DC0" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/App.xaml.cs" Line="107" Column="14" />
-      <File FileName="Registro/Pages/Menu/HomePage.xaml.cs" Line="119" Column="16" />
-      <File FileName="iOS/Renders/Notifications.cs" Line="179" Column="14" />
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="126" Column="9" />
+      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="56" Column="1" />
+      <File FileName="Registro/Controls/SportButton.cs" Line="18" Column="1" />
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="107" Column="14" />
+      <File FileName="Registro/Classes/HttpRequests/Utility.cs" Line="85" Column="1" />
+      <File FileName="Source Not Available" />
       <File FileName="Registro Status" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Registro" expanded="True">
-            <Node name="Registro" expanded="True">
-              <Node name="Pages" expanded="True">
-                <Node name="Menu" expanded="True">
-                  <Node name="HomePage.xaml" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="App.xaml" expanded="True">
-                <Node name="App.xaml.cs" selected="True" />
-              </Node>
-            </Node>
-            <Node name="Registro.iOS" expanded="True">
-              <Node name="Renders" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

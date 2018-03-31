@@ -62,7 +62,6 @@ namespace Registro
 
 
         public static string firstPage = "";
-        //public static int appLaunches;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
         public static DateTime lastRefresh = new DateTime(0);
@@ -105,17 +104,6 @@ namespace Registro
                 Application.Current.Properties.ContainsKey("school") && 
                 Application.Current.Properties.ContainsKey("schoolurl")) 
             {
-                /*if(Application.Current.Properties.ContainsKey("appLaunches"))
-                {
-                    appLaunches = int.Parse(Application.Current.Properties["appLaunches"] as string);
-                    appLaunches++;
-                    Application.Current.Properties["appLaunches"] = appLaunches.ToString();
-                }
-                else
-                { 
-                    Application.Current.Properties["appLaunches"] = appLaunches.ToString();
-                }*/
-
                 DeserializeObjects();
 
                 School school = new School(Application.Current.Properties["schoolurl"] as string, Application.Current.Properties["school"] as string);

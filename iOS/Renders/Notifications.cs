@@ -157,7 +157,7 @@ namespace Registro.iOS.Renders
         {
         }
 
-        public void ShowToast(String message)
+        public void ShowToast(String message, int millis)
         {
             UIApplication.SharedApplication.InvokeOnMainThread(delegate
             {
@@ -165,7 +165,7 @@ namespace Registro.iOS.Renders
                 {
                     var alertController = UIAlertController.Create(message, "", UIAlertControllerStyle.Alert);
                     UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, false, null);
-                    Device.StartTimer(new TimeSpan(0, 0, 0, 0, 625), () => { return HideAlert(alertController); });
+                    Device.StartTimer(new TimeSpan(0, 0, 0, 0, millis), () => { return HideAlert(alertController); });
                 }
                 catch { }
             });
