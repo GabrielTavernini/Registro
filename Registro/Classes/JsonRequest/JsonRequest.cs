@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Registro.Classes.HttpRequests;
@@ -41,7 +42,7 @@ namespace Registro.Classes.JsonRequest
                 System.Diagnostics.Debug.WriteLine(json);
                 dati = JObject.Parse(json);
             }
-            catch
+            catch (Exception e)
             {
                 if(json == null || json == "")
                 {
@@ -78,8 +79,22 @@ namespace Registro.Classes.JsonRequest
                     retry = true;
                     await JsonLogin();
                 }
+                else if(json.Contains("Alunno non trovato!"))
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Alunno non trovato!");
+                    else
+                        DependencyService.Get<INotifyiOS>().ShowToast("Alunno non trovato!", 750);
+
+                    return false;
+                }
                 else
                 {
+                    var properties = new Dictionary<string, string> {
+                        { "Json", json }
+                    };
+                    Crashes.TrackError(e, properties);
+
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
                     else

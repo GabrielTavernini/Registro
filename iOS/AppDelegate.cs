@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms.Platform.iOS;
 using MessageUI;
 using Registro.Classes.JsonRequest;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Registro.iOS
 {
@@ -56,6 +59,7 @@ namespace Registro.iOS
             }
 
 
+            AppCenter.Start("ea6a4d0a-cf70-4bc8-a309-4a85ad0422db", typeof(Analytics), typeof(Crashes));
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.iOS.Library.Init();
             ShapeRenderer.Init();
@@ -68,6 +72,7 @@ namespace Registro.iOS
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
+                Crashes.TrackError(e);
             }
 
 

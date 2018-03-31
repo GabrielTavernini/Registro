@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Analytics;
 using Registro.Classes.JsonRequest;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
@@ -53,18 +54,19 @@ namespace Registro.Pages
 
             //HttpRequest.User = user;
             JsonRequest.user = user;
-            if(!await JsonRequest.JsonLogin())//!await HttpRequest.extractAllAsync())
+            if (!await JsonRequest.JsonLogin())//!await HttpRequest.extractAllAsync())
             {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Autenticazione non riuscita");
-                
+
                 System.Diagnostics.Debug.WriteLine("Connection Error!");
                 LoadingIndicator.IsVisible = false;
                 LoadingIndicator.IsRunning = false;
                 LodingLabel.IsVisible = false;
 
                 btnAuthenticate.IsVisible = true;
-                await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
+                try { await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn); }
+                catch { }
                 return;
             }
 
@@ -81,6 +83,7 @@ namespace Registro.Pages
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
+            Analytics.TrackEvent("Logged in");
             await Application.Current.SavePropertiesAsync();
             await Navigation.PushAsync(new HomePage());
         }

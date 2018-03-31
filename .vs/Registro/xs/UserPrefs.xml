@@ -1,17 +1,11 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0D1F41ED-FB9F-4F59-A0DA-86A642BD4DC0" automaticSigning="False" />
+﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch">
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.438DBC6F-33D6-45DB-898F-61C224F4D5F3" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="126" Column="9" />
-      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="56" Column="1" />
-      <File FileName="Registro/Controls/SportButton.cs" Line="18" Column="1" />
-      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="107" Column="14" />
-      <File FileName="Registro/Classes/HttpRequests/Utility.cs" Line="85" Column="1" />
-      <File FileName="Source Not Available" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />

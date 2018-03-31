@@ -18,6 +18,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Registro.Classes.HttpRequests;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Registro.Droid
 {
@@ -41,10 +44,19 @@ namespace Registro.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
+            AppCenter.Start("5af4ed93-4b11-48f3-a01f-752fc84be364", typeof(Analytics), typeof(Crashes));
             base.OnCreate(savedInstanceState);
-
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+
+            try
+            {
+                LoadApplication(new App());  
+            }
+            catch(System.Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                Crashes.TrackError(e);
+            }
 
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.Droid.Library.Init(this, savedInstanceState);
