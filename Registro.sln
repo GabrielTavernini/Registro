@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registro.iOS", "iOS\Registr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registro.Droid", "Droid\Registro.Droid.csproj", "{8299E2CD-2D72-4981-A625-ED37913D0468}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registro.UITest", "Registro.UITest\Registro.UITest.csproj", "{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +55,17 @@ Global
 		{8299E2CD-2D72-4981-A625-ED37913D0468}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{8299E2CD-2D72-4981-A625-ED37913D0468}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{8299E2CD-2D72-4981-A625-ED37913D0468}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|iPhone.Build.0 = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{6CDD06B7-7CD0-4E90-B6A4-122EA27D9EB8}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

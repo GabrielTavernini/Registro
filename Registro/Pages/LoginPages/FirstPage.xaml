@@ -38,7 +38,7 @@
                 <Label x:Name="LodingLabel" Text="Caricamento Scuole..." IsVisible="false"  FontSize="Medium"
                     XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
                 
-                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="LOGIN"
+                <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="INIZIA"
                     VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
                     Clicked="AuthButtonClicked" />
             </StackLayout>
