@@ -56,9 +56,6 @@ namespace Registro.Pages
             JsonRequest.user = user;
             if (!await JsonRequest.JsonLogin())//!await HttpRequest.extractAllAsync())
             {
-                if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotifyAndroid>().DisplayToast("Autenticazione non riuscita");
-
                 System.Diagnostics.Debug.WriteLine("Connection Error!");
                 LoadingIndicator.IsVisible = false;
                 LoadingIndicator.IsRunning = false;
