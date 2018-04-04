@@ -68,10 +68,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\MarksPages\SlidePages\TestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\MarksPages\NotesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -131,10 +127,6 @@
     </Compile>
     <Compile Include="Pages\MarksPages\SubjectPages\SubjectPageArgs.xaml.cs">
       <DependentUpon>SubjectPageArgs.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MarksPages\SlidePages\MainPage.cs" />
-    <Compile Include="Pages\MarksPages\SlidePages\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Note.cs" />
     <Compile Include="Pages\MarksPages\NotesPage.xaml.cs">
@@ -213,7 +205,6 @@
     <Folder Include="Models\" />
     <Folder Include="Classes\HttpRequests\" />
     <Folder Include="Pages\MarksPages\SubjectPages\" />
-    <Folder Include="Pages\MarksPages\SlidePages\" />
     <Folder Include="Models\Cells\" />
     <Folder Include="Classes\JsonRequest\" />
   </ItemGroup>

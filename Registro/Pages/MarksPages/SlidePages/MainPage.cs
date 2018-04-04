@@ -27,7 +27,7 @@ namespace Registro.Pages
             this.user = user;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 

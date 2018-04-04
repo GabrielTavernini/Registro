@@ -4,7 +4,6 @@
     <Files>
       <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="146" Column="10" />
       <File FileName="iOS/Renders/Notifications.cs" Line="169" Column="50" />
-      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="31" Column="18" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
