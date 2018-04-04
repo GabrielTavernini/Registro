@@ -44,7 +44,7 @@ namespace Registro.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            AppCenter.Start("5af4ed93-4b11-48f3-a01f-752fc84be364", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("09372489-f33f-4fcc-a58f-9c1a46d130c9", typeof(Analytics), typeof(Crashes));
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 

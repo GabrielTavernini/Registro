@@ -1,12 +1,14 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
-  <MonoDevelop.Ide.Workbench>
+﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch">
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.438DBC6F-33D6-45DB-898F-61C224F4D5F3" automaticSigning="False" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="50" Column="79" />
+      <File FileName="iOS/Renders/Notifications.cs" Line="169" Column="50" />
+      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="58" Column="14" />
       <File FileName="Registro Status" />
-      <File FileName="Registro/Pages/LoginPages/FirstPage.xaml" Line="25" Column="76" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />

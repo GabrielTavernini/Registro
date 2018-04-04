@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundation;
 using Registro.Classes;
+using TTGSnackBar;
 using UIKit;
 using Xamarin.Forms;
 using static Registro.Controls.Notifications;
@@ -163,9 +164,14 @@ namespace Registro.iOS.Renders
             {
                 try
                 {
-                    var alertController = UIAlertController.Create(message, "", UIAlertControllerStyle.Alert);
-                    UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, false, null);
-                    Device.StartTimer(new TimeSpan(0, 0, 0, 0, millis), () => { return HideAlert(alertController); });
+                    var snackbar = new TTGSnackbar(message);
+                    snackbar.Duration = new TimeSpan(millis * TimeSpan.TicksPerMillisecond);
+                    snackbar.CornerRadius = 8.0f;
+                    snackbar.MessageTextAlign = UITextAlignment.Center;
+                    snackbar.Show();
+                    //var alertController = UIAlertController.Create(message, "", UIAlertControllerStyle.Alert);
+                    //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, false, null);
+                    //Device.StartTimer(new TimeSpan(0, 0, 0, 0, millis), () => { return HideAlert(alertController); });
                 }
                 catch { }
             });

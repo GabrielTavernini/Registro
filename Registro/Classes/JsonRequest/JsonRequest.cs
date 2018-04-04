@@ -44,7 +44,7 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                if(json == null || json == "")
+                if (json == null || json == "")
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
@@ -61,7 +61,8 @@ namespace Registro.Classes.JsonRequest
                         if (Device.RuntimePlatform == Device.Android)
                         {
                             DependencyService.Get<INotifyAndroid>().DisplayToast("Aspetta...");
-                            Device.StartTimer(new TimeSpan(0,0,2), () => {
+                            Device.StartTimer(new TimeSpan(0, 0, 2), () =>
+                            {
                                 DependencyService.Get<INotifyAndroid>().DisplayToast("Ci vorrà più del solito");
                                 return false;
                             });
@@ -69,7 +70,8 @@ namespace Registro.Classes.JsonRequest
                         else
                         {
                             DependencyService.Get<INotifyiOS>().ShowToast("Aspetta...", 1000);
-                            Device.StartTimer(new TimeSpan(0, 0, 1), () => {
+                            Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+                            {
                                 DependencyService.Get<INotifyiOS>().ShowToast("Ci vorrà più del solito", 1500);
                                 return false;
                             });
@@ -79,7 +81,7 @@ namespace Registro.Classes.JsonRequest
                     retry = true;
                     await JsonLogin();
                 }
-                else if(json.Contains("Alunno non trovato!"))
+                else if (json.Contains("Alunno non trovato!"))
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Alunno non trovato!");
@@ -91,7 +93,7 @@ namespace Registro.Classes.JsonRequest
                 else
                 {
                     var properties = new Dictionary<string, string> {
-                        { "Json", json }
+                        { "Json", json}, {"School", user.school.loginUrl}
                     };
                     Crashes.TrackError(e, properties);
 
@@ -201,16 +203,17 @@ namespace Registro.Classes.JsonRequest
                             break;
                     }
 
-                    String votoString = Utility.votoToString(float.Parse((string)voto[i], CultureInfo.InvariantCulture));
-                    Subject s = Subject.getSubjectByString((string)denominazione[i]);
-                    Grade g = new Grade((string)data[i].ToString(), t, votoString, (string)giudizio[i], Subject.getSubjectByString((string)denominazione[i]));
+                    String votoString = Utility.votoToString(float.Parse(voto[i].ToString(), CultureInfo.InvariantCulture));
+                    Subject s = Subject.getSubjectByString(denominazione[i].ToString());
+                    Grade g = new Grade(data[i].ToString(), t, votoString, giudizio[i].ToString(), Subject.getSubjectByString(denominazione[i].ToString()));
                     s.grades.Add(g);
                     voti.Add(g);
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             foreach(Grade g in voti)
@@ -235,13 +238,14 @@ namespace Registro.Classes.JsonRequest
                 {
                     giustificata = !(giustifiche[i].ToString().Equals("0"));
 
-                    Absence assenza = new Absence("", (string)date[i], giustificata);
+                    Absence assenza = new Absence("", date[i].ToString(), giustificata);
                     assenze.Add(assenza);
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return assenze;
@@ -265,13 +269,14 @@ namespace Registro.Classes.JsonRequest
                 {
                     giustificata = !giustifiche[i].Equals("0");
 
-                    LateEntry ritardo = new LateEntry((string)date[i], (string)ora_ent[i], giustificata);
+                    LateEntry ritardo = new LateEntry(date[i].ToString(), ora_ent[i].ToString(), giustificata);
                     ritardi.Add(ritardo);
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return ritardi;
@@ -290,13 +295,14 @@ namespace Registro.Classes.JsonRequest
 
                 for (int i = 0; i < date.Count; i++)
                 {
-                    EarlyExit uscita = new EarlyExit((string)date[i], (string)ora_usc[i]);
+                    EarlyExit uscita = new EarlyExit(date[i].ToString(), ora_usc[i].ToString());
                     uscite.Add(uscita);
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return uscite;
@@ -316,7 +322,7 @@ namespace Registro.Classes.JsonRequest
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
-                    Note nota = new Note((string)cognomi[i] + nomi[i], (string)descrizioni[i], "", (string)date[i]);
+                    Note nota = new Note(cognomi[i].ToString() + nomi[i].ToString().ToString(), descrizioni[i].ToString(), "", date[i].ToString());
                     note.Add(nota);
                 }
 
@@ -327,14 +333,15 @@ namespace Registro.Classes.JsonRequest
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
-                    Note nota = new Note((string)cognomi[i] + nomi[i], (string)descrizioni[i], "", (string)date[i]);
+                    Note nota = new Note(cognomi[i].ToString() + nomi[i].ToString(), descrizioni[i].ToString(), "", date[i].ToString());
                     note.Add(nota);
                 }
 
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return note;
@@ -355,13 +362,14 @@ namespace Registro.Classes.JsonRequest
 
                 for (int i = 0; i < materie.Count; i++)
                 {
-                    Arguments lezione = new Arguments((string)argomenti[i], (string)attivita[i], (string)date[i], (string)materie[i]);
+                    Arguments lezione = new Arguments(argomenti[i].ToString(), attivita[i].ToString(), date[i].ToString(), materie[i].ToString());
                     lezioni.Add(lezione);
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return lezioni;
@@ -376,13 +384,14 @@ namespace Registro.Classes.JsonRequest
 
                 for (int i = 0; i < materie.Count; i++)
                 {
-                    if(!subjects.ContainsKey((string)materie[i]))
-                        subjects.Add((string)materie[i], new Subject((string)materie[i]));
+                    if(!subjects.ContainsKey(materie[i].ToString()))
+                        subjects.Add(materie[i].ToString(), new Subject(materie[i].ToString()));
                 }
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                Crashes.TrackError(e);
             }
 
             return subjects;
