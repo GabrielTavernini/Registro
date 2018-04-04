@@ -88,5 +88,9 @@
     "Primaria Lagonegro (PZ)": "http://www.istitutocomprensivolagonegro.it/lamp17_18/login/login.php?suffisso=pr_lag",
     "Scuola Secondaria Rivello": "http://www.istitutocomprensivolagonegro.it/lamp17_18/login/login.php?suffisso=sec_riv",
     "Scuola Primaria Rivello": "http: //www.istitutocomprensivolagonegro.it/lamp17_18/login/login.php?suffisso=pr_riv",
-    "Secondaria Primo Grado Lagonegro (PZ)": "http: //www.istitutocomprensivolagonegro.it/lamp17_18/login/login.php?suffisso=sec_lag"
+    "Secondaria Primo Grado Lagonegro (PZ)": "http: //www.istitutocomprensivolagonegro.it/lamp17_18/login/login.php?suffisso=sec_lag",
+    "Scuola Primaria Costa": "https://www.comprensivocosta.gov.it/costa1718/login/login.php?suffisso=costa",
+    "Scuola Primaria Manzoni": "https://www.comprensivocosta.gov.it/manzoni1718/login/login.php?suffisso=manzoni",
+    "Scuola Secondaria Morandi": "https://www.comprensivocosta.gov.it/morandi1718/login/login.php?suffisso=morandi",
+    "Istituto ’De Carnieri Dellai’ (sspg)": "http://www.registroistitutodecarnieridellai.pe.hu/registro_decarnieridellai/login/login.php?suffisso=decarnieridellai20172018"
 }

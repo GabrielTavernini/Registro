@@ -14,7 +14,7 @@ namespace Registro.Classes.HttpRequests
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
             getRequest.RequestUri = new Uri(url);
-            getRequest.Headers.Add("Cookie", HttpRequest.cookies);
+            //getRequest.Headers.Add("Cookie", HttpRequest.cookies);
             getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
             getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
@@ -34,7 +34,7 @@ namespace Registro.Classes.HttpRequests
             Uri uri = new Uri(url);
             req.RequestUri = uri;
             req.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-            req.Headers.Add("Cookie", HttpRequest.cookies);
+            //req.Headers.Add("Cookie", HttpRequest.cookies);
             req.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
             req.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
             req.Headers.Add("Referer", Referer);

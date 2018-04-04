@@ -39,6 +39,10 @@ namespace Registro.Classes.JsonRequest
                 String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
                                     "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
                 json = await Utility.GetPageAsync(QueryLogin);
+
+                if (json == null || json == "")
+                    throw new Exception("Null Json");
+
                 System.Diagnostics.Debug.WriteLine(json);
                 dati = JObject.Parse(json);
             }
@@ -141,12 +145,13 @@ namespace Registro.Classes.JsonRequest
             return true;
         }
 
+        /*
         private static async Task<bool> controllaTempoBassoAsync()
         {
             if (json.Contains("Tempo basso"))
             {
                 HttpRequest.User = user;
-                if (!await MarksRequests.RefreshAsync())
+                if (!await HttpRequest.RefreshAsync())
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
@@ -167,11 +172,11 @@ namespace Registro.Classes.JsonRequest
 
             }
 
-            return false;/*
+            return false;
             if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
-            return false;*/
-        }
+            return false;
+        }*/
 
         private static List<Grade> getVotiFromJson()
         {

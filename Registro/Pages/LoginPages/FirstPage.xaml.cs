@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Registro.Classes.JsonRequest;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
 using static Registro.Controls.AndroidThemes;
@@ -51,20 +52,7 @@ namespace Registro.Pages
                     return;
                 }
                 System.Diagnostics.Debug.WriteLine(App.Schools.Count);*/
-                var assembly = typeof(FirstPage).GetTypeInfo().Assembly;
-                Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.schools.json");
-
-                using (var reader = new System.IO.StreamReader(stream))
-                {
-                    var json = reader.ReadToEnd();
-                    Dictionary<string, string> temp = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-
-                    foreach(KeyValuePair<string, string> kv in temp)
-                    {
-                        School s = new School(kv.Key, true);
-                        s.setUrl(kv.Value);
-                    }
-                }
+                await SchoolsRequest.RequestSchools();
 
                 System.Diagnostics.Debug.WriteLine(App.Schools.Count);
             }

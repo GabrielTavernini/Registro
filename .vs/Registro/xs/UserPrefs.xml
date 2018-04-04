@@ -1,10 +1,10 @@
-﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch">
+﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.438DBC6F-33D6-45DB-898F-61C224F4D5F3" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="50" Column="79" />
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="146" Column="10" />
       <File FileName="iOS/Renders/Notifications.cs" Line="169" Column="50" />
-      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="58" Column="14" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="31" Column="18" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
@@ -18,7 +18,7 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.1215fc5575060d04" />
   <MonoDevelop.Ide.ItemProperties.Registro.UITest PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>
