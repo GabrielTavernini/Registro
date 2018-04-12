@@ -44,19 +44,10 @@ namespace Registro.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            AppCenter.Start("09372489-f33f-4fcc-a58f-9c1a46d130c9", typeof(Analytics), typeof(Crashes));
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            try
-            {
-                LoadApplication(new App());  
-            }
-            catch(System.Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-                Crashes.TrackError(e);
-            }
+            LoadApplication(new App());  
 
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.Droid.Library.Init(this, savedInstanceState);

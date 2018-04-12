@@ -144,7 +144,7 @@ namespace Registro.Pages
             InfoList2.IsRefreshing = true;
             Boolean success = true;
 
-            Task.Run(async () => await JsonRequest.JsonLogin())//await new MarksRequests().refreshMarks())
+            Task.Run(async () => success = await JsonRequest.JsonLogin())//await new MarksRequests().refreshMarks())
             .ContinueWith((end) =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -257,7 +257,7 @@ namespace Registro.Pages
 
 
         /// <summary>
-        /// Fake items for listView
+        /// First Period Items
         /// </summary>
         /// <returns></returns>
         private List<GradeModel> GetItems1()
@@ -287,14 +287,17 @@ namespace Registro.Pages
                 return returnList;
                 
 
-            returnList.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "0", "Non ci sono voti per questo periodo",
                           new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
-            returnList.Add(nope);
-            return returnList;
+            nope.gradeString = "N";
+            return new List<GradeModel>() { nope };
         }
 
+        /// <summary>
+        /// Second Period Items
+        /// </summary>
+        /// <returns></returns>
         private List<GradeModel> GetItems2()
         {
             List<GradeModel> list = new List<GradeModel>();
@@ -321,13 +324,12 @@ namespace Registro.Pages
             if (returnList.Count() > 0)
                 return returnList;
 
-            returnList.Clear();
+
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo", 
                           new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             nope.gradeString = "N";
-            returnList.Add(nope);
-            return returnList;
+            return new List<GradeModel>() { nope };
         }
     }
 }

@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using XamarinForms;
 using XamarinForms.Droid.Renderes;
 using Registro.Controls;
+using Android.Support.V4.View;
 
 [assembly: ExportRenderer(typeof(SportButton), typeof(CustomButtonRenderer))]
 namespace XamarinForms.Droid.Renderes
@@ -23,9 +24,9 @@ namespace XamarinForms.Droid.Renderes
                 roundableShape.SetStroke(1, Color.FromHex("#AFFF").ToAndroid());
                 roundableShape.SetColor(Element.BackgroundColor.ToAndroid());
                 roundableShape.SetCornerRadius(25);
-                Control.Background = roundableShape;
-                Control.TransformationMethod = null;
-                Control.Elevation = 0;
+                ViewCompat.SetBackground(Control, roundableShape);
+                //Control.TransformationMethod = null;
+                ViewCompat.SetElevation(Control, 0);
             }
             base.OnElementPropertyChanged(sender, e);
         }

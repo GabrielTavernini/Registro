@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Registro.Classes.HttpRequests;
+using Registro.Pages;
 using Xamarin.Forms;
 using static Registro.Controls.Notifications;
 
@@ -25,7 +29,7 @@ namespace Registro.Classes.JsonRequest
             if (user == null)
                 return false;
 
-            if ((DateTime.Now - lastRequest).Minutes < 1)
+            if ((DateTime.Now - lastRequest).Minutes < 1 && !App.isDebugMode)
             {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
@@ -37,13 +41,14 @@ namespace Registro.Classes.JsonRequest
             try
             {
                 String QueryLogin = user.school.baseUrl + "/lsapp/jsonlogin.php?utente=" + user.username +
-                                    "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso + "&versione=16";
+                                    "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso;
                 json = await Utility.GetPageAsync(QueryLogin);
 
                 if (json == null || json == "")
                     throw new Exception("Null Json");
 
-                System.Diagnostics.Debug.WriteLine(json);
+                Debug.WriteLine("\nQueryLogin:\n" + QueryLogin);
+                Debug.WriteLine("\nJson:\n" + json);
                 dati = JObject.Parse(json);
             }
             catch (Exception e)
@@ -65,7 +70,7 @@ namespace Registro.Classes.JsonRequest
                         if (Device.RuntimePlatform == Device.Android)
                         {
                             DependencyService.Get<INotifyAndroid>().DisplayToast("Aspetta...");
-                            Device.StartTimer(new TimeSpan(0, 0, 2), () =>
+                            Device.StartTimer(new TimeSpan(0, 0, 1), () =>
                             {
                                 DependencyService.Get<INotifyAndroid>().DisplayToast("Ci vorrà più del solito");
                                 return false;
@@ -96,9 +101,30 @@ namespace Registro.Classes.JsonRequest
                 }
                 else
                 {
+                    int start = json.IndexOf('{');
+                    int end = json.LastIndexOf('}');
+                    if(start >= 0 && end > 0)
+                    {
+                        String newJson = json.Substring(start, (end - start) + 1);
+                        if(newJson.Length > 2)
+                        {
+                            Debug.WriteLine("\nNewJson:\n" + newJson);
+                            json = newJson;
+
+                            try{ 
+                                dati = JObject.Parse(json);
+                                goto estraiTutti;
+                            }
+                            catch{ return false; }
+                        }
+                    }
+
                     var properties = new Dictionary<string, string> {
-                        { "Json", json}, {"School", user.school.loginUrl}
-                    };
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
                     Crashes.TrackError(e, properties);
 
                     if (Device.RuntimePlatform == Device.Android)
@@ -109,6 +135,11 @@ namespace Registro.Classes.JsonRequest
                     return false;
                 }
             }
+
+
+            estraiTutti:
+            if (dati == null)
+                return false;
 
             retry = false;
             lastRequest = DateTime.Now;
@@ -139,44 +170,12 @@ namespace Registro.Classes.JsonRequest
             if (Device.RuntimePlatform == Device.Android)
                 DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
             else
-                DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750); 
+                DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750);
 
             App.SerializeObjects();
             return true;
         }
 
-        /*
-        private static async Task<bool> controllaTempoBassoAsync()
-        {
-            if (json.Contains("Tempo basso"))
-            {
-                HttpRequest.User = user;
-                if (!await HttpRequest.RefreshAsync())
-                {
-                    if (Device.RuntimePlatform == Device.Android)
-                        DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
-                    else
-                        DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento non riuscito", 750);
-
-                    return false;
-                }
-
-                lastRequest = DateTime.Now;
-                if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
-                else
-                    DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750);
-
-                return true;
-
-
-            }
-
-            return false;
-            if (Device.RuntimePlatform == Device.Android)
-                    DependencyService.Get<INotifyAndroid>().DisplayToast("Già aggiornato");
-            return false;
-        }*/
 
         private static List<Grade> getVotiFromJson()
         {
@@ -185,11 +184,11 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                tipo = (JArray) dati["tipo"];
-                data = (JArray)dati["date"];
-                voto = (JArray)dati["voto"];
-                giudizio = (JArray)dati["giudizio"];
-                denominazione = (JArray)dati["denominazione"];
+                tipo = JArray.Parse(dati["tipo"].ToString());
+                data = JArray.Parse(dati["date"].ToString());
+                voto = JArray.Parse(dati["voto"].ToString());
+                giudizio = JArray.Parse(dati["giudizio"].ToString());
+                denominazione = JArray.Parse(dati["denominazione"].ToString());
 
                 for (int i = 0; i < voto.Count; i++)
                 {
@@ -208,6 +207,9 @@ namespace Registro.Classes.JsonRequest
                             break;
                     }
 
+                    if (voto[i].ToString() == "99")
+                        return new List<Grade>();
+
                     String votoString = Utility.votoToString(float.Parse(voto[i].ToString(), CultureInfo.InvariantCulture));
                     Subject s = Subject.getSubjectByString(denominazione[i].ToString());
                     Grade g = new Grade(data[i].ToString(), t, votoString, giudizio[i].ToString(), Subject.getSubjectByString(denominazione[i].ToString()));
@@ -217,12 +219,18 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             foreach(Grade g in voti)
-                System.Diagnostics.Debug.WriteLine(g.subject.name);
+                Debug.WriteLine(g.subject.name);
 
             return voti;
         }
@@ -235,8 +243,12 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                date = (JArray)dati["dateass"];
-                giustifiche = (JArray)dati["giustass"];
+                Debug.WriteLine("Giustass:\n" + dati["giustass"].ToString());
+                if(dati["giustass"].ToString() == "")
+                    return assenze;
+                
+                date = JArray.Parse(dati["dateass"].ToString());
+                giustifiche = JArray.Parse(dati["giustass"].ToString());
 
                 Boolean giustificata;
                 for (int i = 0; i < date.Count; i++)
@@ -249,8 +261,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return assenze;
@@ -264,10 +282,10 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                date = (JArray)dati["daterit"];
-                giustifiche = (JArray)dati["giustr"];
-                n_ore = (JArray)dati["numore"];
-                ora_ent = (JArray)dati["oraent"];
+                date = JArray.Parse(dati["daterit"].ToString());
+                giustifiche = JArray.Parse(dati["giustr"].ToString());
+                n_ore = JArray.Parse(dati["numore"].ToString());
+                ora_ent = JArray.Parse(dati["oraent"].ToString());
 
                 Boolean giustificata;
                 for (int i = 0; i < date.Count; i++)
@@ -280,8 +298,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return ritardi;
@@ -295,8 +319,8 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                date = (JArray)dati["dateusc"];
-                ora_usc = (JArray)dati["oraus"];
+                date = JArray.Parse(dati["dateusc"].ToString());
+                ora_usc = JArray.Parse(dati["oraus"].ToString());
 
                 for (int i = 0; i < date.Count; i++)
                 {
@@ -306,8 +330,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return uscite;
@@ -320,10 +350,10 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                date = (JArray)dati["data"];
-                cognomi = (JArray)dati["cognomedoc"];
-                nomi = (JArray)dati["nomedoc"];
-                descrizioni = (JArray)dati["notealunno"];
+                date = JArray.Parse(dati["data"].ToString());
+                cognomi = JArray.Parse(dati["cognomedoc"].ToString());
+                nomi = JArray.Parse(dati["nomedoc"].ToString());
+                descrizioni = JArray.Parse(dati["notealunno"].ToString());
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
@@ -331,10 +361,10 @@ namespace Registro.Classes.JsonRequest
                     note.Add(nota);
                 }
 
-                date = (JArray)dati["datac"];
-                cognomi = (JArray)dati["cognomedc"];
-                nomi = (JArray)dati["nomedc"];
-                descrizioni = (JArray)dati["noteclasse"];
+                date = JArray.Parse(dati["datac"].ToString());
+                cognomi = JArray.Parse(dati["cognomedc"].ToString());
+                nomi = JArray.Parse(dati["nomedc"].ToString());
+                descrizioni = JArray.Parse(dati["noteclasse"].ToString());
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
@@ -345,8 +375,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return note;
@@ -360,10 +396,10 @@ namespace Registro.Classes.JsonRequest
 
             try
             {
-                materie = (JArray)dati["matelez"];
-                argomenti = (JArray)dati["argolez"];
-                attivita = (JArray)dati["attilez"];
-                date = (JArray)dati["datelez"];
+                materie = JArray.Parse(dati["matelez"].ToString());
+                argomenti = JArray.Parse(dati["argolez"].ToString());
+                attivita = JArray.Parse(dati["attilez"].ToString());
+                date = JArray.Parse(dati["datelez"].ToString());
 
                 for (int i = 0; i < materie.Count; i++)
                 {
@@ -373,8 +409,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return lezioni;
@@ -385,7 +427,7 @@ namespace Registro.Classes.JsonRequest
             Dictionary<string, Subject> subjects = new Dictionary<string, Subject>();
             try
             {
-                JArray materie = (JArray)dati["denominazione"];
+                JArray materie = JArray.Parse(dati["denominazione"].ToString());
 
                 for (int i = 0; i < materie.Count; i++)
                 {
@@ -395,8 +437,14 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                Crashes.TrackError(e);
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
             }
 
             return subjects;

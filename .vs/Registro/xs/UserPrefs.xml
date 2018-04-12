@@ -1,9 +1,15 @@
 ﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.438DBC6F-33D6-45DB-898F-61C224F4D5F3" automaticSigning="False" />
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="146" Column="10" />
-      <File FileName="iOS/Renders/Notifications.cs" Line="169" Column="50" />
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="52" Column="1" />
+      <File FileName="Registro/Classes/Subject.cs" Line="99" Column="31" />
+      <File FileName="Registro/schools.json" Line="96" Column="22" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
+      <File FileName="Registro/App.xaml.cs" Line="110" Column="29" />
+      <File FileName="Registro/Pages/MarksPages/SubjectPages/SubjectPageMarks.xaml.cs" Line="271" Column="1" />
+      <File FileName="Registro/Pages/MarksPages/AveragesPage.xaml.cs" Line="174" Column="17" />
+      <File FileName="Droid/Renders/CustomButtonRenderer.cs" Line="25" Column="43" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>

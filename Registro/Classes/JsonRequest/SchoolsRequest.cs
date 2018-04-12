@@ -19,6 +19,9 @@ namespace Registro.Classes.JsonRequest
         {
             try
             {
+                if (App.isDebugMode)
+                    throw new Exception("Debug Enabled");
+                
                 String QueryLogin = "http://lampschooltest.altervista.org/";
                 json = await Utility.GetPageAsync(QueryLogin);
 

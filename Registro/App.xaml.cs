@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Registro.Classes;
 using Registro.Classes.JsonRequest;
@@ -70,6 +74,7 @@ namespace Registro
         public static int ScreenHeight { get; set; }
         public static int ScreenWidth { get; set; }
         public static DateTime periodChange { get; set; } = new DateTime();
+        public static Boolean isDebugMode = false;
 
         private static List<Grade> grades = new List<Grade>();
         private static Dictionary<String, Subject> subjects = new Dictionary<string, Subject>();
@@ -98,6 +103,15 @@ namespace Registro
 
         protected override void OnStart()
         {
+            #if DEBUG
+            isDebugMode = true;
+            #endif
+
+            if(!isDebugMode)
+                AppCenter.Start("android=09372489-f33f-4fcc-a58f-9c1a46d130c9;" +
+                                "ios={ea6a4d0a-cf70-4bc8-a309-4a85ad0422db}",
+                                typeof(Analytics), typeof(Crashes));
+
             NavigationPage navigationPage;
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&

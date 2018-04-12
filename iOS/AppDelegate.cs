@@ -59,7 +59,6 @@ namespace Registro.iOS
             }
 
 
-            AppCenter.Start("ea6a4d0a-cf70-4bc8-a309-4a85ad0422db", typeof(Analytics), typeof(Crashes));
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.iOS.Library.Init();
             ShapeRenderer.Init();

@@ -170,7 +170,9 @@ namespace Registro.Pages
         private void ItemTapped(ItemTappedEventArgs e)
         {
             GradeModel g = e.Item as GradeModel;
-            if (g.subject == "MEDIA GLOBALE" || g.subject == " ")
+            if (g.subject == "MEDIA GLOBALE" 
+                || g.subject == " " 
+                || g.subject == "NESSUN VOTO")
                 return;
 
             if(InfoList.IsVisible)
@@ -337,24 +339,13 @@ namespace Registro.Pages
 
             //Final setup and returns
             if (list.Count() > 1)
-            {
-               /* if (Device.RuntimePlatform != Device.iOS)
-                    return list;
-                
-                if (60 * list.Count() > App.ScreenHeight * 0.92 - 200
-                    && 60 * list.Count() - 100 < App.ScreenHeight * 0.92)
-                    list.Add(GradeModel.VoidCell(list.Count() + 1));*/
-
                 return list;
-            }
 
-            list.Clear();
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
                           new Subject("NESSUN VOTO")), 1, Color.FromHex("#61DDDD"));
             nope.gradeString = "N";
-            list.Add(nope);
-            return list;
+            return new List<GradeModel>() { nope };
         }
 
         private List<GradeModel> GetItems2()
@@ -392,24 +383,14 @@ namespace Registro.Pages
 
             //Final Controls and returns
             if (list.Count() > 1)
-            {
-                /*if (Device.RuntimePlatform != Device.iOS)
-                    return list;
-
-                if (60 * list.Count() > App.ScreenHeight * 0.92 - 200
-                    && 60 * list.Count() - 100 < App.ScreenHeight * 0.92)
-                    list.Add(GradeModel.VoidCell(list.Count() + 1));*/
-
                 return list;
-            }
 
-            list.Clear();
+
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
                           new Subject("NESSUN VOTO")), 1, Color.FromHex("#61DDDD"));
             nope.gradeString = "N";
-            list.Add(nope);
-            return list;
+            return new List<GradeModel>() { nope };
         }
     }
 
