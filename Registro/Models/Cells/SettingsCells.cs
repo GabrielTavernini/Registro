@@ -30,7 +30,7 @@ namespace Registro.Models
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.EndAndExpand,
                 Margin = new Thickness(0, 0, 0, 0),
-                Date = App.periodChange,
+                Date = App.Settings.periodChange,
                 Scale = 0.9,
                 Format = "dd/MM/yyyy"
             };
@@ -189,6 +189,8 @@ namespace Registro.Models
         public Boolean notifyAbsences { get; set; } = false;
         public Boolean notifyArguments { get; set; } = false;
         public Boolean startupUpdate { get; set; } = true;
+        public DateTime periodChange { get; set; } = new DateTime();
+        public Boolean customPeriodChange { get; set; } = false;
 
         public Settings(Boolean notifyMarks, Boolean notifyNotes, Boolean notifyAbsences, Boolean notifyArguments, Boolean startupUpdate)
         {

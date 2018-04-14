@@ -23,7 +23,7 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setNotesTheme();  //Android Themes
 
 
-            if(DateTime.Now.CompareTo(App.periodChange) <= 0)
+            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#F2AA52");
                 Selector1.BackgroundColor = Color.FromHex("#f18951");
@@ -309,7 +309,7 @@ namespace Registro.Pages
             List<NoteModel> list = new List<NoteModel>();
             foreach (Note n in App.Notes)
             {
-                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new NoteModel(n, 0));
             }
             list.Sort(new CustomDataTimeComparerNote());
@@ -337,7 +337,7 @@ namespace Registro.Pages
             List<NoteModel> list = new List<NoteModel>();
             foreach (Note n in App.Notes)
             {
-                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new NoteModel(n, 0));
             }
             list.Sort(new CustomDataTimeComparerNote());

@@ -2,18 +2,11 @@
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="52" Column="1" />
-      <File FileName="Registro/Classes/Subject.cs" Line="99" Column="31" />
-      <File FileName="Registro/schools.json" Line="96" Column="22" />
-      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
-      <File FileName="Registro/App.xaml.cs" Line="110" Column="29" />
-      <File FileName="Registro/Pages/MarksPages/SubjectPages/SubjectPageMarks.xaml.cs" Line="271" Column="1" />
-      <File FileName="Registro/Pages/MarksPages/AveragesPage.xaml.cs" Line="174" Column="17" />
-      <File FileName="Droid/Renders/CustomButtonRenderer.cs" Line="25" Column="43" />
+      <File FileName="Registro/App.xaml.cs" Line="130" Column="10" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
@@ -23,7 +16,7 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.1215fc5575060d04" />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
   <MonoDevelop.Ide.ItemProperties.Registro.UITest PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>

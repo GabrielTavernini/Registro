@@ -67,8 +67,9 @@ namespace Registro.Pages
         void DataChanged(object sender, System.EventArgs e)
         {
             DateChangedEventArgs args = e as DateChangedEventArgs;
-            App.periodChange = args.NewDate;
-            Application.Current.Properties["periodchange"] = JsonConvert.SerializeObject(App.periodChange, Formatting.Indented);
+            App.Settings.periodChange = args.NewDate;
+            App.Settings.customPeriodChange = true;
+            Application.Current.Properties["settings"] = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
         }
 
         void SwitchChanged(object sender, System.EventArgs e)

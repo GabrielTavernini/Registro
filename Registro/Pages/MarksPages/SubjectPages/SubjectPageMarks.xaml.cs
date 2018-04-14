@@ -270,7 +270,7 @@ namespace Registro.Pages
 
             foreach (Grade g in sub.grades)
             {
-                if (g.dateTime.CompareTo(App.periodChange) <= 0)
+                if (g.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new GradeModel(g, 1));
             }
             list.Sort(new CustomDataTimeComparer());
@@ -308,7 +308,7 @@ namespace Registro.Pages
 
             foreach (Grade g in sub.grades)
             {
-                if (g.dateTime.CompareTo(App.periodChange) > 0)
+                if (g.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new GradeModel(g, 1));
             }
             list.Sort(new CustomDataTimeComparer());

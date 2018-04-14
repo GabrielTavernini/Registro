@@ -102,7 +102,7 @@ namespace Registro.Pages
                     catch { }
 
                     App.firstPage = "";
-                    if (date.CompareTo(App.periodChange) <= 0)
+                    if (date.CompareTo(App.Settings.periodChange) <= 0)
                         Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 1));
                     else
                         Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 2));

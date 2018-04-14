@@ -219,7 +219,7 @@ namespace Registro.Pages
 
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) <= 0)
+                if (a.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new ArgsModel(a, 0));
             }
             list.Sort(new CustomDataTimeComparerArgs());
@@ -240,7 +240,7 @@ namespace Registro.Pages
             List<ArgsModel> list = new List<ArgsModel>();
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) > 0)
+                if (a.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new ArgsModel(a, 0));
             }
             list.Sort(new CustomDataTimeComparerArgs());

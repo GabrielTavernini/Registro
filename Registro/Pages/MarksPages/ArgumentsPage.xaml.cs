@@ -24,7 +24,7 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setArgumentsTheme();  //Android Themes
 
 
-            if(DateTime.Now.CompareTo(App.periodChange) <= 0)
+            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#B2D235");
                 Selector1.BackgroundColor = Color.FromHex("#51d134");
@@ -311,7 +311,7 @@ namespace Registro.Pages
             List<ArgsModel> list = new List<ArgsModel>();
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) <= 0)
+                if (a.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new ArgsModel(a, 0)); 
 
             }
@@ -338,7 +338,7 @@ namespace Registro.Pages
             List<ArgsModel> list = new List<ArgsModel>();
             foreach (Arguments a in App.Arguments)
             {
-                if (a.dateTime.CompareTo(App.periodChange) > 0)
+                if (a.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new ArgsModel(a, 0));
             }
             list.Sort(new CustomDataTimeComparerArgs());

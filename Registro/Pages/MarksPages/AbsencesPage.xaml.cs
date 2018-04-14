@@ -26,7 +26,7 @@ namespace Registro.Pages
 
 
 
-            if(DateTime.Now.CompareTo(App.periodChange) <= 0)
+            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#E15B5C");
                 Selector1.BackgroundColor = Color.FromHex("#ad3233");
@@ -302,19 +302,19 @@ namespace Registro.Pages
             List<AbsenceModel> list = new List<AbsenceModel>();
             foreach (Absence n in App.Absences)
             {
-                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new AbsenceModel(n, 0));
             }
 
             foreach (LateEntry n in App.LateEntries)
             {
-                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new AbsenceModel(n, 0));
             }
 
             foreach (EarlyExit n in App.EarlyExits)
             {
-                if (n.dateTime.CompareTo(App.periodChange) <= 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                     list.Add(new AbsenceModel(n, 0));
             }
             list.Sort(new CustomDataTimeComparerAbsence());
@@ -344,19 +344,19 @@ namespace Registro.Pages
             List<AbsenceModel> list = new List<AbsenceModel>();
             foreach (Absence n in App.Absences)
             {
-                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new AbsenceModel(n, 0));
             }
 
             foreach (LateEntry n in App.LateEntries)
             {
-                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new AbsenceModel(n, 0));
             }
 
             foreach (EarlyExit n in App.EarlyExits)
             {
-                if (n.dateTime.CompareTo(App.periodChange) > 0)
+                if (n.dateTime.CompareTo(App.Settings.periodChange) > 0)
                     list.Add(new AbsenceModel(n, 0));
             }
             list.Sort(new CustomDataTimeComparerAbsence());

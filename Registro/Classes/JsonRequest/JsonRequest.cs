@@ -22,7 +22,7 @@ namespace Registro.Classes.JsonRequest
         static private String json;
         static private JObject dati;
         static public DateTime lastRequest;
-        static private Boolean retry;
+        static private Boolean retrying;
 
         static public async Task<bool> JsonLogin()
         {
@@ -44,12 +44,9 @@ namespace Registro.Classes.JsonRequest
                                     "&password=" + Utility.hex_md5(user.password) + "&suffisso=" + user.school.suffisso;
                 json = await Utility.GetPageAsync(QueryLogin);
 
-                if (json == null || json == "")
-                    throw new Exception("Null Json");
-
                 Debug.WriteLine("\nQueryLogin:\n" + QueryLogin);
                 Debug.WriteLine("\nJson:\n" + json);
-                dati = JObject.Parse(json);
+                 dati = JObject.Parse(json);
             }
             catch (Exception e)
             {
@@ -65,7 +62,7 @@ namespace Registro.Classes.JsonRequest
                 else if (json.Contains("Tempo basso"))
                 {
                     await Task.Delay(1000);
-                    if (!retry)
+                    if (!retrying)
                     {
                         if (Device.RuntimePlatform == Device.Android)
                         {
@@ -87,7 +84,7 @@ namespace Registro.Classes.JsonRequest
                         }
                     }
 
-                    retry = true;
+                    retrying = true;
                     await JsonLogin();
                 }
                 else if (json.Contains("Alunno non trovato!"))
@@ -136,15 +133,17 @@ namespace Registro.Classes.JsonRequest
                 }
             }
 
-
+            //starting to extrack all the stuff
             estraiTutti:
+
             if (dati == null)
                 return false;
 
-            retry = false;
+            retrying = false;
             lastRequest = DateTime.Now;
             App.lastRefresh = lastRequest;
 
+            //Extract
             App.Subjects = getMaterieFromJson();
             List<Grade> voti = getVotiFromJson();
             List<Note> note = getNoteFromJson();
@@ -153,6 +152,7 @@ namespace Registro.Classes.JsonRequest
             List<EarlyExit> uscite = getUsciteFromJson();
             List<Arguments> lezioni = getLezioniFromJson();
 
+            //Check
             controllaVoti(voti);
             controllaNote(note);
             controllaAssenze(assenze);
@@ -160,19 +160,23 @@ namespace Registro.Classes.JsonRequest
             controllaUscite(uscite);
             controllaLezioni(lezioni);
 
+            //Save
             App.Grades = voti;
             App.Notes = note;
             App.Absences = assenze;
             App.LateEntries = ritardi;
             App.EarlyExits = uscite;
             App.Arguments = lezioni;
+            if(!App.Settings.customPeriodChange)
+                App.Settings.periodChange = getFinePrimo();
+            App.SerializeObjects();
 
+            //Notify
             if (Device.RuntimePlatform == Device.Android)
                 DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento completato");
             else
                 DependencyService.Get<INotifyiOS>().ShowToast("Aggiornamento completato", 750);
-
-            App.SerializeObjects();
+            
             return true;
         }
 
@@ -213,7 +217,11 @@ namespace Registro.Classes.JsonRequest
                     String votoString = Utility.votoToString(float.Parse(voto[i].ToString(), CultureInfo.InvariantCulture));
                     Subject s = Subject.getSubjectByString(denominazione[i].ToString());
                     Grade g = new Grade(data[i].ToString(), t, votoString, giudizio[i].ToString(), Subject.getSubjectByString(denominazione[i].ToString()));
-                    s.grades.Add(g);
+                    //s.grades.Add(g);
+                    //voti.Add(g);
+                    lock (s.grades)
+                        s.grades.Add(g);
+                    
                     voti.Add(g);
                 }
             }
@@ -450,6 +458,33 @@ namespace Registro.Classes.JsonRequest
             return subjects;
         }
     
+        public static DateTime getFinePrimo()
+        {
+            DateTime date = new DateTime();
+            try
+            {
+                date = DateTime.ParseExact(dati["fineprimo"].ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture);
+            }
+            catch (Exception e)
+            {
+                if (DateTime.Now.Month > 7)
+                    date = new DateTime(DateTime.Now.Year + 1, 1, 31);
+                else
+                    date = new DateTime(DateTime.Now.Year, 1, 31);
+
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
+            }
+
+            return date;
+        }
+
         private static void controllaVoti(List<Grade> voti)
         {
             if (App.Settings.notifyMarks)

@@ -67,6 +67,9 @@ namespace Registro.Pages
                 return;
             }
 
+            //Get Fine Primo Periodo
+            //App.periodChange = JsonRequest.getFinePrimo();
+
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
             LodingLabel.IsVisible = false;

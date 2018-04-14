@@ -55,7 +55,7 @@ namespace Registro
 
             foreach (Grade grade in this.grades)
             {
-                if (grade.dateTime.CompareTo(App.periodChange) <= 0)
+                if (grade.dateTime.CompareTo(App.Settings.periodChange) <= 0)
                 {
                     sum += grade.grade;
                     i++;
@@ -79,7 +79,7 @@ namespace Registro
 
             foreach (Grade grade in this.grades)
             {
-                if (grade.dateTime.CompareTo(App.periodChange) > 0)
+                if (grade.dateTime.CompareTo(App.Settings.periodChange) > 0)
                 {
                     sum += grade.grade;
                     i++;   
