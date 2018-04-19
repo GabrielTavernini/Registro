@@ -1,8 +1,8 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
+﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Default">
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/App.xaml.cs" Line="130" Column="10" />
+      <File FileName="iOS/Info.plist" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
