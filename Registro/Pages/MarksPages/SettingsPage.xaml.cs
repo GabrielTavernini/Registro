@@ -120,8 +120,6 @@ namespace Registro.Pages
 
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().StopAlarm();
-                else
-                    DependencyService.Get<INotifyiOS>().StopAlarm();
                 await Navigation.PushAsync(new FirstPage());  
             }
         }

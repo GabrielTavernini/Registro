@@ -5,7 +5,7 @@
     xmlns:this="clr-namespace:Registro.Pages"
     xmlns:local="clr-namespace:Registro.Controls"
     xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
-    x:Class="Registro.Pages.SchoolPage">
+    x:Class="Registro.Pages.SchoolUrlPage">
   
     <this:SchoolPage.Resources>
         <ResourceDictionary>
@@ -22,18 +22,20 @@
     
     <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
         <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center" Grid.Row="0">
-            <Label AutomationId="label1" Text="Slezionare la scuola al quale registro si desidera accedere!"
+            <Label AutomationId="label1" Text="Inserire il link della pagia di login, del registro LAMPSchool, al quale si vuole accedere!"
                 FontSize="Medium" XAlign="Center"/>
         </StackLayout>
     
-        <StackLayout x:Name="PickerStack" Spacing="10" Padding="24,0" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-            <Picker x:Name="SchoolPicker" HorizontalOptions="Center" HeightRequest="40" WidthRequest="250" Title="Seleziona scuola" TextColor="White"/> 
-            <Label AutomationId="label1" Text="Oppure" FontSize="Medium" XAlign="Center"/>
-            <local:SportButton x:Name="btnUrlSchool" HeightRequest="40" AutomationId="urlButton" Text="Insersci Link"
-                VerticalOptions="EndAndExpand" Style="{StaticResource optionButton}" Clicked="UrlButtonClicked" FontSize="16"/>
+        <StackLayout x:Name="PickerStack" Spacing="0" Padding="24,0" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <Entry x:Name="SchoolEntry" Placeholder="Link della Pagina di Login" FontSize="Medium" WidthRequest="250" 
+                    TextColor="White" PlaceholderColor="#ededed"/>
         </StackLayout>
     
         <StackLayout x:Name="buttonStack" Spacing="0" Grid.Row="2" VerticalOptions="End">
+            <ActivityIndicator x:Name="LoadingIndicator" IsVisible="false" IsRunning="false" Color="White" HorizontalOptions="Center"
+                    VerticalOptions="EndAndExpand" />
+            <Label x:Name="LodingLabel" Text="Salvataggio Scuola..." IsVisible="false"  FontSize="Medium"
+                    XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
             <local:SportButton x:Name="btnAuthenticate" AutomationId="authButton" Text="CONTINUA"
                 VerticalOptions="EndAndExpand" Style="{StaticResource wizardButton}"
                 Clicked="AuthButtonClicked" />

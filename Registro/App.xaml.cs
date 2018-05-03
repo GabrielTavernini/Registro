@@ -14,7 +14,7 @@ using Registro.Models;
 using Registro.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+using static Registro.Controls.Notifications;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Registro
@@ -116,14 +116,17 @@ namespace Registro
 
 		protected override void OnResume()
 		{
-            // Handle when your app resumes
+            //Reset Badge on iOS
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                DependencyService.Get<INotifyiOS>().ResetBadge();
+
+
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
                 Application.Current.Properties.ContainsKey("school") &&
                 Application.Current.Properties.ContainsKey("schoolurl"))
             {
-
                 if (firstPage != "" && firstPage != null)
                     MainPage = new NavigationPage(new HomePage());
             }

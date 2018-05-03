@@ -30,6 +30,7 @@ namespace Registro.iOS
 
             //notifications stuff
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum); //background fatch 
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
@@ -37,24 +38,14 @@ namespace Registro.iOS
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
             }
 
-            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum); //background fatch 
-
-
-            if(launchOptions != null)
+            if (launchOptions != null &&
+               launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
             {
-                // check for a local notification
-                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                if (localNotification != null)
                 {
-                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
-                    if (localNotification != null)
-                    {
-                        //UIAlertController okayAlertController = UIAlertController.Create(localNotification.AlertAction, localNotification.AlertBody, UIAlertControllerStyle.Alert);
-                        //okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-                        //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
-                        App.firstPage = localNotification.Category;
-                        // reset our badge
-                        UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
-                    }
+                    App.firstPage = localNotification.Category;
+                    UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
                 }
             }
 

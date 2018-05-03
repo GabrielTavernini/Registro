@@ -25,7 +25,7 @@ namespace Registro.Controls
                 try
                 {
                     var btn = (SportButton)sender;
-                    btn.BackgroundColor = Color.FromHex("#4FFF");
+                    btn.BackgroundColor = btn.BackgroundColor.MultiplyAlpha(1.2);
                     await btn.ScaleTo(.99, _animationTime);
                 }
                 catch { }
@@ -36,7 +36,7 @@ namespace Registro.Controls
                 try
                 {
                     var btn = (SportButton)sender;
-                    btn.BackgroundColor = Color.FromHex("#3FFF");
+                    btn.BackgroundColor = btn.BackgroundColor.MultiplyAlpha(0.833333333);
                     await btn.ScaleTo(1, _animationTime);
                 }
                 catch { }

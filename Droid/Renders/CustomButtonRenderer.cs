@@ -21,7 +21,7 @@ namespace XamarinForms.Droid.Renderes
             {
                 var roundableShape = new GradientDrawable();
                 roundableShape.SetShape(ShapeType.Rectangle);
-                roundableShape.SetStroke(1, Color.FromHex("#AFFF").ToAndroid());
+                roundableShape.SetStroke(1, Element.BorderColor.ToAndroid());
                 roundableShape.SetColor(Element.BackgroundColor.ToAndroid());
                 roundableShape.SetCornerRadius(25);
                 ViewCompat.SetBackground(Control, roundableShape);

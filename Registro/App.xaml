@@ -101,6 +101,13 @@
                     <Setter Property="BorderWidth" Value=".5" />
                 </Style>
 
+            <Style x:Key="optionButton" TargetType="controls:SportButton" BasedOn="{StaticResource buttonStyle}">
+                    <Setter Property="BackgroundColor" Value="#3777" />
+                    <Setter Property="BorderColor" Value="#A000" />
+                    <Setter Property="TextColor" Value="#C666" />
+                    <Setter Property="BorderWidth" Value=".5" />
+                </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -81,6 +81,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="schools.json" />
+    <EmbeddedResource Include="Pages\LoginPages\SchoolUrlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -157,6 +161,9 @@
     <Compile Include="Classes\EarlyExit.cs" />
     <Compile Include="Classes\HttpRequests\MD5.cs" />
     <Compile Include="Classes\JsonRequest\SchoolsRequest.cs" />
+    <Compile Include="Pages\LoginPages\SchoolUrlPage.xaml.cs">
+      <DependentUpon>SchoolUrlPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Supremes">

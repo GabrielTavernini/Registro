@@ -14,7 +14,16 @@ namespace Registro
         public String absencesUrl { get; set; }
         public String baseUrl { get; set; }
         public String name { get; set; }
-        public String suffisso { get { return loginUrl.Split(new[] { "suffisso=" }, StringSplitOptions.None).Last(); } }
+        public String suffisso
+        {
+            get
+            {
+                if (loginUrl.Contains("suffiso="))
+                    return loginUrl.Split(new[] { "suffisso=" }, StringSplitOptions.None).Last();
+                else
+                    return "";
+            }
+        }
 
         public School(String loginUrl, String name)
         {

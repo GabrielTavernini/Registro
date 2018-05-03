@@ -25,7 +25,7 @@
         <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" >
             
             <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center" Grid.Row="0">
-                <Label AutomationId="label1" Text="Inserisci le credenziali per l'acceso al registro elettronico della scuola selezionata!"
+                <Label AutomationId="label1" Text="Inserisci le credenziali per l'accesso al registro elettronico della scuola selezionata!"
                     FontSize="Medium" XAlign="Center" />
             </StackLayout>
         

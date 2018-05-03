@@ -25,8 +25,8 @@ namespace Registro.Controls
             void NotifyLateEntry(LateEntry a);
             void NotifyEarlyExit(EarlyExit a);
             void NotifyArguments(Arguments a);
-            void StopAlarm();
             void ShowToast(string text, int millis);
+            void ResetBadge();
         }
     }
 }

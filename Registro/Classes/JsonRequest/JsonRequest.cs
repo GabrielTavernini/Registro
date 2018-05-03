@@ -46,7 +46,7 @@ namespace Registro.Classes.JsonRequest
 
                 Debug.WriteLine("\nQueryLogin:\n" + QueryLogin);
                 Debug.WriteLine("\nJson:\n" + json);
-                 dati = JObject.Parse(json);
+                dati = JObject.Parse(json);
             }
             catch (Exception e)
             {

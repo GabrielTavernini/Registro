@@ -154,10 +154,6 @@ namespace Registro.iOS.Renders
             });
         }
 
-        public void StopAlarm()
-        {
-        }
-
         public void ShowToast(String message, int millis)
         {
             UIApplication.SharedApplication.InvokeOnMainThread(delegate
@@ -177,14 +173,9 @@ namespace Registro.iOS.Renders
             });
         }
 
-        private bool HideAlert(UIAlertController alert)
+        public void ResetBadge()
         {
-            try
-            {
-                alert.DismissViewController(false, null);
-            }
-            catch{}
-            return false;
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
     }
 
