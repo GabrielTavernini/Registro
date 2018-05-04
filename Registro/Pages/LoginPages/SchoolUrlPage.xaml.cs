@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Registro.Classes.HttpRequests;
+using Registro.Controls;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
+using static Registro.Controls.Mails;
 using static Registro.Controls.Notifications;
 
 namespace Registro.Pages
@@ -57,17 +59,42 @@ namespace Registro.Pages
                 LoadingIndicator.IsRunning = true;
                 LodingLabel.IsVisible = true;
 
-                await Utility.GetPageAsync("http://lampschooltest.altervista.org/newschool.php?link=" + SchoolEntry.Text);
+                String page = await Utility.GetPageAsync(SchoolEntry.Text);
+                System.Diagnostics.Debug.WriteLine(page);
 
-                LoadingIndicator.IsVisible = false;
-                LoadingIndicator.IsRunning = false;
-                LodingLabel.IsVisible = false;
+                if(page.Contains("function codifica()"))
+                {
+                    await Utility.GetPageAsync("http://lampschooltest.altervista.org/newschool.php?link=" + SchoolEntry.Text);
 
-                await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
-                await SchoolEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
-                await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+                    LoadingIndicator.IsVisible = false;
+                    LoadingIndicator.IsRunning = false;
+                    LodingLabel.IsVisible = false;
 
-                await Navigation.PushAsync(new LoginPage(new School(SchoolEntry.Text, "CustomSchool")));
+                    await label1.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+                    await SchoolEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+                    await buttonStack.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
+
+                    await Navigation.PushAsync(new LoginPage(new School(SchoolEntry.Text, "CustomSchool")));
+                }
+                else
+                {
+
+                    LoadingIndicator.IsVisible = false;
+                    LoadingIndicator.IsRunning = false;
+                    LodingLabel.IsVisible = false;
+
+                    btnAuthenticate.IsVisible = true;
+                    await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
+
+                    bool wiki = !await DisplayAlert("Link Invalido", "Il link che ha inserito non e valido oppure non è quello di una pagina di login di un registro LAMPSchool",
+                                 "Ok", "Istruzioni");
+
+                    if(wiki)
+                        Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+
+                    return;
+                }
+                    
             }
             else
             {

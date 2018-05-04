@@ -4,6 +4,9 @@
   </MonoDevelop.Ide.ItemProperties.Registro.iOS>
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
+      <File FileName="Registro/Pages/LoginPages/SchoolUrlPage.xaml.cs" Line="94" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="181" Column="31" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>

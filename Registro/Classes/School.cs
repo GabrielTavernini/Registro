@@ -18,7 +18,7 @@ namespace Registro
         {
             get
             {
-                if (loginUrl.Contains("suffiso="))
+                if (loginUrl.Contains("suffisso="))
                     return loginUrl.Split(new[] { "suffisso=" }, StringSplitOptions.None).Last();
                 else
                     return "";

@@ -355,28 +355,46 @@ namespace Registro.Classes.JsonRequest
         {
             List<Note> note = new List<Note>();
             JArray date, cognomi, nomi, descrizioni;
+            JArray provvedimenti = new JArray();
+            bool prov = false;
 
             try
             {
+                prov = dati.ContainsKey("provalunno");
+                
                 date = JArray.Parse(dati["data"].ToString());
                 cognomi = JArray.Parse(dati["cognomedoc"].ToString());
                 nomi = JArray.Parse(dati["nomedoc"].ToString());
                 descrizioni = JArray.Parse(dati["notealunno"].ToString());
+                if (prov)
+                    provvedimenti = JArray.Parse(dati["provalunno"].ToString());
+                    
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
-                    Note nota = new Note(cognomi[i].ToString() + nomi[i].ToString().ToString(), descrizioni[i].ToString(), "", date[i].ToString());
+                    Note nota = new Note(cognomi[i].ToString() + " " + nomi[i].ToString().ToString(), descrizioni[i].ToString(), "", date[i].ToString());
+                    if (prov)
+                        nota.Measures = provvedimenti[i].ToString();
                     note.Add(nota);
                 }
+
+
+                //--------------------Note classe--------------------
+                prov = dati.ContainsKey("provalunno");
 
                 date = JArray.Parse(dati["datac"].ToString());
                 cognomi = JArray.Parse(dati["cognomedc"].ToString());
                 nomi = JArray.Parse(dati["nomedc"].ToString());
                 descrizioni = JArray.Parse(dati["noteclasse"].ToString());
+                if (prov)
+                    provvedimenti = JArray.Parse(dati["provclasse"].ToString());
+
 
                 for (int i = 0; i < descrizioni.Count; i++)
                 {
-                    Note nota = new Note(cognomi[i].ToString() + nomi[i].ToString(), descrizioni[i].ToString(), "", date[i].ToString());
+                    Note nota = new Note(cognomi[i].ToString() + " " + nomi[i].ToString(), descrizioni[i].ToString(), "", date[i].ToString());
+                    if (prov)
+                        nota.Measures = provvedimenti[i].ToString();
                     note.Add(nota);
                 }
 
