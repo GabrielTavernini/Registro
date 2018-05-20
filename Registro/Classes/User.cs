@@ -6,6 +6,7 @@ namespace Registro
 {
     public class User : ContentPage
     {
+		public String nome { get; set; }
         public String username { get; set; }
         public String password { get; set; }
         public School school { get; set; }

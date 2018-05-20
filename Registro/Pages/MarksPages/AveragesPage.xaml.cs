@@ -22,8 +22,6 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<IThemes>().setAveragesTheme();  //Android Themes
 
 
             if (DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
@@ -117,6 +115,13 @@ namespace Registro.Pages
             }
         }
 
+        protected override void OnAppearing()
+        {
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setAveragesTheme();  //Android Themes
+
+            base.OnAppearing();
+        }
 
         #region setup
         public void gesturesSetup()
@@ -175,10 +180,14 @@ namespace Registro.Pages
                 || g.subject == "NESSUN VOTO")
                 return;
 
-            if(InfoList.IsVisible)
-                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 1));
-            else
-                Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(g.subject), 0));
+			Subject sub = Subject.getSubjectByString(g.subject);
+            if(sub != null)
+			{
+				if (InfoList.IsVisible)
+                    Navigation.PushAsync(new SubjectPageMarks(sub, 1));
+                else
+                    Navigation.PushAsync(new SubjectPageMarks(sub, 0));
+			}
         }
 
         private void Refresh()

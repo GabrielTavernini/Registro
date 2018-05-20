@@ -13,6 +13,7 @@ using Registro.Classes.JsonRequest;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using System.Diagnostics;
 
 namespace Registro.iOS
 {
@@ -38,14 +39,18 @@ namespace Registro.iOS
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
             }
 
-            if (launchOptions != null &&
-               launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+
+			// check for a notification         
+            if (launchOptions != null)
             {
-                var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
-                if (localNotification != null)
+                // check for a local notification
+                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
                 {
-                    App.firstPage = localNotification.Category;
-                    UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                    if (localNotification != null)
+                    {                  
+						App.firstPage = localNotification.AlertAction;
+                    }
                 }
             }
 
@@ -55,19 +60,13 @@ namespace Registro.iOS
             ShapeRenderer.Init();
             Instance = this;
 
-            try
-            {
-                LoadApplication(new App());
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-                Crashes.TrackError(e);
-            }
+            try { LoadApplication(new App()); }
+            catch (Exception e) { Crashes.TrackError(e); }
 
 
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
+      
 
         public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
@@ -112,12 +111,12 @@ namespace Registro.iOS
 /*public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
         {
             // show an alert
-            UIAlertController okayAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
-            okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-
-            //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(okayAlertController, true, null);
-
-            // reset our badge
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
-
+            Debug.WriteLine("ReceivedLocalNotification");
+            Debug.WriteLine("State: " + application.ApplicationState);
+            if (application.ApplicationState == UIApplicationState.Inactive 
+                || application.ApplicationState == UIApplicationState.Background)
+            {
+                App.firstPage = notification.AlertAction;
+                Debug.WriteLine("Action: " + notification.AlertAction);
+            }
         }*/

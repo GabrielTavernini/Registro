@@ -101,11 +101,14 @@ namespace Registro.Pages
                     try { date = DateTime.ParseExact(d, "dd/MM/yyyy", CultureInfo.InvariantCulture); }
                     catch { }
 
+					Subject subject = Subject.getSubjectByString(s);
                     App.firstPage = "";
-                    if (date.CompareTo(App.Settings.periodChange) <= 0)
-                        Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 1));
-                    else
-                        Navigation.PushAsync(new SubjectPageMarks(Subject.getSubjectByString(s), 2));
+
+					if(subject != null)                  
+                        if (date.CompareTo(App.Settings.periodChange) <= 0)
+						    Navigation.PushAsync(new SubjectPageMarks(subject, 1));
+                        else
+                            Navigation.PushAsync(new SubjectPageMarks(subject, 2));
                 }
             }
         }

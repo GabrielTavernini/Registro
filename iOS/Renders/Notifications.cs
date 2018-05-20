@@ -17,7 +17,7 @@ namespace Registro.iOS.Renders
             {
                 var notification = new UILocalNotification();
                 notification.FireDate = NSDate.FromTimeIntervalSinceNow(10);
-                notification.Category = String.Format("{0}/{1}", g.subject.name, g.date);
+				notification.AlertAction = String.Format("{0}:{1}", g.subject.name, g.date);
 
                 // configure the alert
                 notification.AlertTitle = "Nuovo Voto";

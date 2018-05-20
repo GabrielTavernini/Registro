@@ -30,8 +30,6 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<IThemes>().setSettingsTheme();  //Android Themes
             
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
@@ -44,7 +42,7 @@ namespace Registro.Pages
             creditsSetup();
 
 
-            User.Text = String.Format("Accesso effettuato come: {0}", JsonRequest.user.username);
+			User.Text = String.Format("Utente Attuale: {0}", JsonRequest.user.username); //.nome);
 
             exitCell = new CustomExitCell();
             exitCell.Tapped += (sender, e) => {TappedExitAsync();};
@@ -63,6 +61,13 @@ namespace Registro.Pages
         }
 
 
+        protected override void OnAppearing()
+        {
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setSettingsTheme();  //Android Themes
+
+            base.OnAppearing();
+        }
 
         void DataChanged(object sender, System.EventArgs e)
         {
@@ -124,7 +129,10 @@ namespace Registro.Pages
             }
         }
 
-
+		async Task TappedChangeUserAsync(object sender, EventArgs e)
+		{
+			var action = await DisplayActionSheet("Seleziona Utente", "Annulla", null, "Stella", "Gabriel");
+		}
 
 
         #region setup

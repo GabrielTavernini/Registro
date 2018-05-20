@@ -169,6 +169,7 @@ namespace Registro.Classes.JsonRequest
             App.Arguments = lezioni;
             if(!App.Settings.customPeriodChange)
                 App.Settings.periodChange = getFinePrimo();
+			//user.nome = getNomeAlunno();
             App.SerializeObjects();
 
             //Notify
@@ -380,7 +381,7 @@ namespace Registro.Classes.JsonRequest
 
 
                 //--------------------Note classe--------------------
-                prov = dati.ContainsKey("provalunno");
+                prov = dati.ContainsKey("provclasse");
 
                 date = JArray.Parse(dati["datac"].ToString());
                 cognomi = JArray.Parse(dati["cognomedc"].ToString());
@@ -448,60 +449,33 @@ namespace Registro.Classes.JsonRequest
             return lezioni;
         }
 
-        private static Dictionary<string, Subject> getMaterieFromJson()
-        {
-            Dictionary<string, Subject> subjects = new Dictionary<string, Subject>();
-            try
-            {
-                JArray materie = JArray.Parse(dati["denominazione"].ToString());
+		private static Dictionary<string, Subject> getMaterieFromJson()
+		{
+			Dictionary<string, Subject> subjects = new Dictionary<string, Subject>();
+			try
+			{
+				JArray materie = JArray.Parse(dati["denominazione"].ToString());
 
-                for (int i = 0; i < materie.Count; i++)
-                {
-                    if(!subjects.ContainsKey(materie[i].ToString()))
-                        subjects.Add(materie[i].ToString(), new Subject(materie[i].ToString()));
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.StackTrace);
-                var properties = new Dictionary<string, string> {
-                        { "School", user.school.loginUrl },
-                        { "Suffisso", user.school.suffisso },
-                        { "JsonStart", json },
-                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+				for (int i = 0; i < materie.Count; i++)
+				{
+					if (!subjects.ContainsKey(materie[i].ToString()))
+						subjects.Add(materie[i].ToString(), new Subject(materie[i].ToString()));
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.StackTrace);
+				var properties = new Dictionary<string, string> {
+						{ "School", user.school.loginUrl },
+						{ "Suffisso", user.school.suffisso },
+						{ "JsonStart", json },
+						{ "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
 
-                Crashes.TrackError(e, properties);
-            }
+				Crashes.TrackError(e, properties);
+			}
 
-            return subjects;
-        }
-    
-        public static DateTime getFinePrimo()
-        {
-            DateTime date = new DateTime();
-            try
-            {
-                date = DateTime.ParseExact(dati["fineprimo"].ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture);
-            }
-            catch (Exception e)
-            {
-                if (DateTime.Now.Month > 7)
-                    date = new DateTime(DateTime.Now.Year + 1, 1, 31);
-                else
-                    date = new DateTime(DateTime.Now.Year, 1, 31);
-
-                Debug.WriteLine(e.StackTrace);
-                var properties = new Dictionary<string, string> {
-                        { "School", user.school.loginUrl },
-                        { "Suffisso", user.school.suffisso },
-                        { "JsonStart", json },
-                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
-
-                Crashes.TrackError(e, properties);
-            }
-
-            return date;
-        }
+			return subjects;
+		}
 
         private static void controllaVoti(List<Grade> voti)
         {
@@ -604,5 +578,56 @@ namespace Registro.Classes.JsonRequest
                 }
             }
         }
-    }
+    
+		public static DateTime getFinePrimo()
+        {
+            DateTime date = new DateTime();
+            try
+            {
+                date = DateTime.ParseExact(dati["fineprimo"].ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture);
+            }
+            catch (Exception e)
+            {
+                if (DateTime.Now.Month > 7)
+                    date = new DateTime(DateTime.Now.Year + 1, 1, 31);
+                else
+                    date = new DateTime(DateTime.Now.Year, 1, 31);
+
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
+            }
+
+            return date;
+        }
+	
+		public static String getNomeAlunno()
+        {
+			String nome = "";
+            try
+            {
+				nome += dati["cognome"];
+				nome += " ";
+				nome += dati["nome"];          
+            }
+            catch (Exception e)
+            {            
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
+            }
+
+            return nome;
+        }
+	}
 }

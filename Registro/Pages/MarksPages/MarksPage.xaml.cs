@@ -18,9 +18,6 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);       //Page saetup
-            if(Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
-
 
 
             if (DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
@@ -114,10 +111,16 @@ namespace Registro.Pages
             }
         }
 
+		protected override void OnAppearing()
+		{
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
+            
+            base.OnAppearing();
+		}
 
-
-        #region setup
-        public void gesturesSetup()
+		#region setup
+		public void gesturesSetup()
         { 
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += (sender, e) => { Refresh(); };

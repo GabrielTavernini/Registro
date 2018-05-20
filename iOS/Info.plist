@@ -8,10 +8,6 @@
 	<string>Registro Lampschool</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.gabriel.RegistroLampSchool</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.9</string>
-	<key>CFBundleVersion</key>
-	<string>1.9</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -49,5 +45,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
+	<key>CFBundleVersion</key>
+	<string>2.0</string>
 </dict>
 </plist>

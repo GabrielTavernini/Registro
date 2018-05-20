@@ -25,8 +25,6 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
 
 
             if (period == 1)
@@ -74,7 +72,13 @@ namespace Registro.Pages
 
         }
 
+        protected override void OnAppearing()
+        {
+            if (Device.RuntimePlatform == Device.Android)
+                DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
 
+            base.OnAppearing();
+        }
 
 
         #region setup

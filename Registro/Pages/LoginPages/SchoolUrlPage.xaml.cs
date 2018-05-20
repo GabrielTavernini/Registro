@@ -29,6 +29,11 @@ namespace Registro.Pages
             label1.Scale = 0;
             PickerStack.Scale = 0;
             buttonStack.Scale = 0;
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                SchoolEntry.BackgroundColor = Color.FromHex("#3FFF");
+            }
         }
 
 
@@ -50,7 +55,7 @@ namespace Registro.Pages
             }
                 
 
-            if((string)SchoolEntry.Text != null)
+			if((string)SchoolEntry.Text != null && (string)SchoolEntry.Text != "")
             {
                 await btnAuthenticate.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
                 btnAuthenticate.IsVisible = false;
@@ -86,11 +91,11 @@ namespace Registro.Pages
                     btnAuthenticate.IsVisible = true;
                     await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
 
-                    bool wiki = !await DisplayAlert("Link Invalido", "Il link che ha inserito non e valido oppure non è quello di una pagina di login di un registro LAMPSchool",
+                    bool wiki = !await DisplayAlert("Link Invalido", "Il link che hai inserito non è valido oppure non è quello di una pagina di login di un registro LAMPSchool",
                                  "Ok", "Istruzioni");
 
                     if(wiki)
-                        Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+                        Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki/Accesso-tramite-link"));
 
                     return;
                 }

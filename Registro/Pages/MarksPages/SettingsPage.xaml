@@ -42,6 +42,8 @@
                     
                     <TableSection x:Name="LoginSection" Title="Login">
                         <TextCell x:Name="User" TextColor="Black"/>
+                        <!--<TextCell x:Name="ChangeUser" TextColor="Black" Text="Cambia Utente" Tapped="TappedChangeUserAsync"/>
+                        <TextCell x:Name="AddUser" TextColor="Black" Text="Aggiungi Utente"/>-->
                     </TableSection>
                 </TableRoot>
             </TableView>
