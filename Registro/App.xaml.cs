@@ -67,6 +67,7 @@ namespace Registro
                 isDebugMode = true;
             #endif
 
+            
             if(!isDebugMode)
                 AppCenter.Start("android=09372489-f33f-4fcc-a58f-9c1a46d130c9;" +
                                 "ios=ea6a4d0a-cf70-4bc8-a309-4a85ad0422db;",

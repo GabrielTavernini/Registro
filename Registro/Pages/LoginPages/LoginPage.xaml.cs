@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Analytics;
 using Registro.Classes.JsonRequest;
@@ -83,7 +84,13 @@ namespace Registro.Pages
             await UserEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             await PassEntry.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
 
-            Analytics.TrackEvent("Logged in");
+
+
+			Dictionary<String, String> dictionary = new Dictionary<String, String>() { { "School Name", school.name } };
+
+			Analytics.TrackEvent("Logged in");
+			Analytics.TrackEvent("School Info", dictionary);
+
             await Application.Current.SavePropertiesAsync();
             await Navigation.PushAsync(new HomePage());
         }

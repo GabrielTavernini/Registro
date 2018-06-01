@@ -171,27 +171,37 @@ namespace Registro.Pages
             Navigation.PopAsync();
         }
 
-        private void ItemTapped(ItemTappedEventArgs e)
-        {
-            ArgsModel g = e.Item as ArgsModel;
-            if (g.Argument == null || g.Argument == "")
-                DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
-            else
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(g.Argument);
-                if(g.Activity != null && g.Activity != "")
-                {
-                    sb.AppendLine(" ");
-                    sb.AppendLine(" ");
-                    sb.AppendLine("Attività:");
-                    sb.Append(g.Activity);
-                }
+		private void ItemTapped(ItemTappedEventArgs e)
+		{
+			ArgsModel g = e.Item as ArgsModel;
+			if ((g.Argument == null || g.Argument == "")
+				&& (g.Activity == null || g.Activity == ""))
+				DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
+			else
+			{
+				StringBuilder sb = new StringBuilder();            
+				if (g.Argument != null && g.Argument != "")
+				{
+					sb.Append(g.Argument);
 
-                DisplayAlert("Argomento", sb.ToString(), "Ok");  
-            }
-                
-        }
+					if (g.Activity != null && g.Activity != "")
+					{
+						sb.AppendLine(" ");
+						sb.AppendLine(" ");
+						sb.AppendLine("Attività:");
+						sb.Append(g.Activity);
+					}
+
+					DisplayAlert("Argomento", sb.ToString(), "Ok");
+				}
+				else
+				{
+					sb.Append(g.Activity);
+
+					DisplayAlert("Attività", sb.ToString(), "Ok");
+				}
+			}         
+		}
 
         private void Refresh()
         {

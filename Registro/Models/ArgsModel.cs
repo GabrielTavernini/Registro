@@ -22,10 +22,7 @@ namespace Registro.Models
             this.subject = a.subject;
             this.Argument = a.Argument;
             this.Activity = a.Activity;
-            if (Argument.Length >= 23)
-                this.Preview = Argument.Substring(0, 22) + "...";
-            else
-                this.Preview = Argument;
+            this.Preview = getPreview();         
             this.FirstLetter = a.subject.Substring(0, 1);
             this.dateTime = a.dateTime;
             this.Id = Id;
@@ -37,15 +34,28 @@ namespace Registro.Models
             this.subject = a.subject;
             this.Argument = a.Argument;
             this.Activity = a.Activity;
-            if (Argument.Length >= 23)
-                this.Preview = Argument.Substring(0, 22) + "...";
-            else
-                this.Preview = Argument;
+			this.Preview = getPreview();
             this.FirstLetter = a.subject.Substring(0, 1);
             this.dateTime = a.dateTime;
             this.Id = Id;
             this.color = color;
         }
+
+		private string getPreview()
+		{
+			if (Argument != "")
+				if (Argument.Length >= 23)
+					return Argument.Substring(0, 22) + "...";
+				else
+					return Argument;
+			else if (Activity != "")
+				if (Activity.Length >= 23)
+					return Activity.Substring(0, 22) + "...";
+				else
+					return Activity;
+			else
+				return "Nessuna Descrizione";
+		}
 
         public static ArgsModel VoidCell(int Id)
         {

@@ -1,9 +1,15 @@
-﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.59856E19-3DE7-48F2-82C9-26B7A36C7B12" automaticSigning="False" />
+﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.782D78A9-17D8-4858-A18D-4A5B296A3959" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro Status" />
       <File FileName="iOS/Info.plist" />
+      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="49" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
+      <File FileName="Registro/Pages/LoginPages/SchoolUrlPage.xaml.cs" Line="66" Column="5" />
+      <File FileName="Registro/Pages/MarksPages/ArgumentsPage.xaml.cs" Line="193" Column="7" />
+      <File FileName="Registro/Models/ArgsModel.cs" Line="58" Column="4" />
+      <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

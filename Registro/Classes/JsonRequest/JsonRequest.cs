@@ -96,7 +96,14 @@ namespace Registro.Classes.JsonRequest
 
                     return false;
                 }
-                else
+				else if(json.Contains("error log.</p>") || json.Contains("Errore nella query:"))
+				{
+					if (Device.RuntimePlatform == Device.Android)
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Errore del Server");
+                    else
+                        DependencyService.Get<INotifyiOS>().ShowToast("Errore del Server", 750);
+				}
+				else
                 {
                     int start = json.IndexOf('{');
                     int end = json.LastIndexOf('}');
@@ -116,13 +123,21 @@ namespace Registro.Classes.JsonRequest
                         }
                     }
 
-                    var properties = new Dictionary<string, string> {
+
+
+                    //Useless Error Messages
+					if(e.GetType() != typeof(System.Net.WebException)
+					   || e.GetType() != typeof(TaskCanceledException))
+					{
+						var properties = new Dictionary<string, string> {
                         { "School", user.school.loginUrl },
                         { "Suffisso", user.school.suffisso },
                         { "JsonStart", json },
                         { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
 
-                    Crashes.TrackError(e, properties);
+                        Crashes.TrackError(e, properties);
+					}               
+                    
 
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
@@ -199,21 +214,18 @@ namespace Registro.Classes.JsonRequest
                 {
                     String t = tipo[i].ToString();
 
-                    switch (t)
-                    {
-                        case "O":
-                            t = "Orale";
-                            break;
-                        case "P":
-                            t = "Pratico";
-                            break;
-                        case "S":
-                            t = "Scritto";
-                            break;
-                    }
-
-                    if (voto[i].ToString() == "99")
-                        return new List<Grade>();
+					switch (t)
+					{
+						case "O":
+							t = "Orale";
+							break;
+						case "P":
+							t = "Pratico";
+							break;
+						case "S":
+							t = "Scritto";
+							break;
+					}
 
                     String votoString = Utility.votoToString(float.Parse(voto[i].ToString(), CultureInfo.InvariantCulture));
                     Subject s = Subject.getSubjectByString(denominazione[i].ToString());

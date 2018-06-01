@@ -320,7 +320,8 @@ namespace Registro.Pages
 
             foreach (Grade g in App.Grades)
             {
-                if (g.dateTime.CompareTo(App.Settings.periodChange) <= 0)
+                if (g.dateTime.CompareTo(App.Settings.periodChange) <= 0
+				    && g.gradeString != "")
                     baseList.Add(new GradeModel(g, 1));
             }
             baseList.Sort(new CustomDataTimeComparer());
@@ -357,16 +358,17 @@ namespace Registro.Pages
             return new List<GradeModel>() { nope };
         }
 
-        private List<GradeModel> GetItems2()
-        {
-            List<GradeModel> baseList = new List<GradeModel>();
-            List<GradeModel> list = new List<GradeModel>();
+		private List<GradeModel> GetItems2()
+		{
+			List<GradeModel> baseList = new List<GradeModel>();
+			List<GradeModel> list = new List<GradeModel>();
 
-            foreach (Grade g in App.Grades)
-            {
-                if (g.dateTime.CompareTo(App.Settings.periodChange) > 0)
-                    baseList.Add(new GradeModel(g, 1));
-            }
+			foreach (Grade g in App.Grades)
+			{
+				if (g.dateTime.CompareTo(App.Settings.periodChange) > 0
+					&& g.gradeString != "")
+					baseList.Add(new GradeModel(g, 1));
+			}
             baseList.Sort(new CustomDataTimeComparer());
 
 
