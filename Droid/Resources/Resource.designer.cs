@@ -7731,6 +7731,9 @@ namespace Registro.Droid
 			// aapt resource value: 0x7f08000f
 			public const int common_signin_button_text_long = 2131230735;
 			
+			// aapt resource value: 0x7f080052
+			public const int google_app_id = 2131230802;
+			
 			// aapt resource value: 0x7f080013
 			public const int library_name = 2131230739;
 			

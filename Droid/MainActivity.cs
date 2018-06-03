@@ -21,6 +21,8 @@ using Registro.Classes.HttpRequests;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Android.Gms.Gcm;
+using Firebase.JobDispatcher;
 
 namespace Registro.Droid
 {
@@ -30,9 +32,7 @@ namespace Registro.Droid
     {
         internal static MainActivity Instance { get; private set; }
         internal static bool IsForeground { get; private set; } = true;
-        private static AlarmManager manager;
-        private static PendingIntent pendingIntent;
-
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,7 +48,7 @@ namespace Registro.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App());  
-
+            
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.Droid.Library.Init(this, savedInstanceState);
         }
@@ -57,8 +57,7 @@ namespace Registro.Droid
         {
             base.OnPause();
             IsForeground = false;
-            if (manager == null)
-                StartAlarm(this);
+			StartBackgroundDataRefreshService();
         }
 
 		protected override void OnResume()
@@ -70,8 +69,6 @@ namespace Registro.Droid
 		protected override void OnDestroy()
         {
             base.OnDestroy();
-            if (manager != null)
-                manager.Cancel(pendingIntent);
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -80,20 +77,25 @@ namespace Registro.Droid
             App.firstPage = intent.Action;//intent.GetStringExtra("page");
         }
 
-        internal static void StartAlarm(Context context)
+		private void StartBackgroundDataRefreshService()
         {
-            manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
-            Intent myIntent;
-            myIntent = new Intent(context, typeof(AlarmRefreshReceiver));
-            pendingIntent = PendingIntent.GetBroadcast(context, 0, myIntent, 0);
+			System.Diagnostics.Debug.WriteLine("StartBackgroundDataRefreshService");
+            
+			IDriver driver = new GooglePlayDriver(this);
+            FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
 
-            manager.SetInexactRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, 60 * 30 * 1000, pendingIntent);
-        }
+			JobTrigger myTrigger = Firebase.JobDispatcher.Trigger.ExecutionWindow(15, 30);
+			Job myJob = dispatcher.NewJobBuilder()
+                      .SetService<RefreshJob>("refresh-job-tag")
+                      .SetConstraints(Firebase.JobDispatcher.Constraint.OnAnyNetwork)
+			          .SetRecurring(true)
+                      .SetTrigger(myTrigger)
+                      .SetLifetime(Lifetime.Forever)
+                      .Build();
 
-        internal static void StopAlarm()
-        {
-            if (manager != null)
-                manager.Cancel(pendingIntent);
+            // This method will not throw an exception; an integer result value is returned
+            int scheduleResult = dispatcher.Schedule(myJob);
+			System.Diagnostics.Debug.WriteLine(scheduleResult);
         }
     }
 }

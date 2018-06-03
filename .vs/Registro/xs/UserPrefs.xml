@@ -1,14 +1,13 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default">
+﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.782D78A9-17D8-4858-A18D-4A5B296A3959" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="iOS/Info.plist" />
-      <File FileName="Registro/Pages/LoginPages/LoginPage.xaml.cs" Line="1" Column="1" />
-      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="49" Column="1" />
-      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
-      <File FileName="Registro/Pages/LoginPages/SchoolUrlPage.xaml.cs" Line="66" Column="5" />
-      <File FileName="Registro/Pages/MarksPages/ArgumentsPage.xaml.cs" Line="193" Column="7" />
-      <File FileName="Registro/Models/ArgsModel.cs" Line="58" Column="4" />
+      <File FileName="Droid/Renders/Notifications.cs" Line="236" Column="41" />
+      <File FileName="Droid/MainActivity.cs" Line="97" Column="61" />
+      <File FileName="Droid/Properties/AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="Droid/Resources/values/strings.xml" Line="4" Column="1" />
+      <File FileName="Registro/Classes/HttpRequests/Utility.cs" Line="30" Column="3" />
+      <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="45" Column="1" />
       <File FileName="Registro Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
