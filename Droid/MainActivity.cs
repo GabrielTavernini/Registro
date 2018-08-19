@@ -10,7 +10,6 @@ using Android.OS;
 using XFShapeView.Droid;
 using Java.Lang;
 using Android.App.Job;
-using Android.Gms.Common;
 using Registro.Pages;
 using Xamarin.Forms;
 using static Android.Content.Res.Resources;

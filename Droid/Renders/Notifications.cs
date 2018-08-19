@@ -9,7 +9,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
-using Android.Gms.Common;
 using Android.Widget;
 using Registro.Droid;
 using static Registro.Controls.Notifications;
