@@ -1,14 +1,34 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
+﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch" NuGet.AddPackagesDialog.IncludePrerelease="True">
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="143" Column="60" />
+      <File FileName="Registro/Pages/MarksPages/ArgumentsPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="Registro/Pages/MarksPages/AbsencesPage.xaml.cs" Line="57" Column="17" />
+      <File FileName="Registro/Pages/MarksPages/AveragesPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml.cs" Line="347" Column="26" />
+      <File FileName="Registro/Pages/MarksPages/NotesPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
       <File FileName="Registro Status" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Registro" expanded="True">
+            <Node name="Registro.Droid" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+      <Breakpoint file="/Users/Gabriel/Projects/Registro/Registro/Pages/MarksPages/SettingsPage.xaml" relfile="Registro/Pages/MarksPages/SettingsPage.xaml" line="46" column="49" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Pixel_2_Marshmallow" />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
   <MultiItemStartupConfigurations />
 </Properties>

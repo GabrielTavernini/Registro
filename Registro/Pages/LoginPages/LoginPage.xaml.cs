@@ -43,6 +43,15 @@ namespace Registro.Pages
 
         async void AuthButtonClicked(object sender, EventArgs e)
         {
+            if(String.IsNullOrWhiteSpace(UserEntry.Text) || String.IsNullOrWhiteSpace(PassEntry.Text)){
+                if (Device.RuntimePlatform == Device.Android)
+                    DependencyService.Get<INotifyAndroid>().DisplayToast("Specificare tutti i campi");
+                else
+                    DependencyService.Get<INotifyiOS>().ShowToast("Specificare tutti i campi", 750);
+
+                return;
+            }
+
 
             await btnAuthenticate.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
             btnAuthenticate.IsVisible = false;
@@ -75,6 +84,7 @@ namespace Registro.Pages
             LoadingIndicator.IsRunning = false;
             LodingLabel.IsVisible = false;
 
+            Application.Current.Properties["name"] = JsonRequest.user.nome;
             Application.Current.Properties["username"] = UserEntry.Text;
             Application.Current.Properties["password"] = PassEntry.Text;
             Application.Current.Properties["school"] = school.name;

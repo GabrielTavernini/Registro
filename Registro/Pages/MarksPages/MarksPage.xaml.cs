@@ -318,7 +318,7 @@ namespace Registro.Pages
                 j++;
             }
 
-            if (list.Count > 1)
+            if (list.Count > 0)
                 return list;
 
             list.Clear();
@@ -349,7 +349,7 @@ namespace Registro.Pages
                 j++;
             }
 
-            if (list.Count > 1)
+            if (list.Count > 0)
                 return list;
 
             list.Clear();

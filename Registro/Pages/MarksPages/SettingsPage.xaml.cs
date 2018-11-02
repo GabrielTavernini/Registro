@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
 using Xamarin.Forms;
+using XFGloss;
 using static Registro.Controls.AndroidThemes;
 using static Registro.Controls.Mails;
 using static Registro.Controls.Notifications;
@@ -101,16 +103,66 @@ namespace Registro.Pages
             Application.Current.Properties["settings"] = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
         }
 
-        async void TappedExitAsync()
+        async Task TappedExitAsync()
         {
             var answer = await DisplayAlert(
-                "Logout",
-                "Sei sicuro di voler uscire dall'applicazione? Se uscirai per poter riaccedere dovrai reinserire i tuoi dati d'accesso.",
-                "Esci",
-                "Annulla");
-            
-            if(answer)
+                            "Logout",
+                            "Sei sicuro di voler uscire dall'applicazione? Se uscirai per poter riaccedere dovrai reinserire i tuoi dati d'accesso.",
+                            "Esci",
+                            "Annulla");
+
+            if (answer)
             {
+                if (Application.Current.Properties.ContainsKey("userbackups"))
+                {
+                    String str = Application.Current.Properties["userbackups"] as String;
+                    Dictionary<String, UserBackUp>  userBackUps = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str);
+
+                    if(userBackUps.Count > 1){
+                        userBackUps.Remove(Application.Current.Properties["name"].ToString());
+                        JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+                        Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
+
+                        //Set the current user as the first of the dictionary
+                        UserBackUp newUser = userBackUps.First().Value;
+                        Application.Current.Properties["name"] = newUser.name;
+                        Application.Current.Properties["username"] = newUser.username;
+                        Application.Current.Properties["password"] = newUser.password;
+                        Application.Current.Properties["schoolurl"] = newUser.schoolUrl;
+                        Application.Current.Properties["school"] = newUser.schoolName;
+
+                        JsonRequest.user.username = newUser.username;
+                        JsonRequest.user.password = newUser.password;
+                        JsonRequest.user.school = new School(newUser.schoolUrl, newUser.schoolName);
+
+                        //Loading View
+                        Frame f = new Frame
+                        {
+                            BackgroundColor = Color.Transparent,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                            VerticalOptions = LayoutOptions.FillAndExpand,
+                            Content = new ActivityIndicator { IsRunning = true, Color = Color.White, Scale = 0.30 }
+                        };
+
+                        var bkgrndGradient = new Gradient()
+                        {
+                            Rotation = 150,
+                            Steps = new GradientStepCollection()
+                            {
+                                new GradientStep(Color.FromHex("#ed80ce"), 0),
+                                new GradientStep(Color.FromHex("#7e5be1"), 1)
+                            }
+                        };
+                        ContentPageGloss.SetBackgroundGradient(this, bkgrndGradient);
+
+                        this.Content = f;
+                        await JsonRequest.JsonLogin();
+                        await Navigation.PopAsync();
+                        return; //Exit the method
+                    }
+                }
+
+                //If no multipleUsers or just one... delete and login
                 Application.Current.Properties["username"] = null;
                 Application.Current.Properties.Clear();
                 App.Arguments.Clear();
@@ -125,15 +177,135 @@ namespace Registro.Pages
 
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().StopAlarm();
-                await Navigation.PushAsync(new FirstPage());  
+                await Navigation.PushAsync(new FirstPage());
             }
+                
         }
 
-		async Task TappedChangeUserAsync(object sender, EventArgs e)
-		{
-			var action = await DisplayActionSheet("Seleziona Utente", "Annulla", null, "Stella", "Gabriel");
-		}
 
+        //------------------------------------------------------------------------------------------
+        //---------------------Multiple Users-------------------
+        //------------------------------------------------------------------------------------------
+
+        async void TappedChangeUserAsync(object sender, EventArgs e)
+        {
+            Dictionary<String, UserBackUp> userBackUps = new Dictionary<String, UserBackUp>();
+            List<String> array = new List<String>();
+
+            if (Application.Current.Properties.ContainsKey("userbackups"))
+            {
+                String str = Application.Current.Properties["userbackups"] as String;
+                userBackUps = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str);
+
+                foreach (String k in userBackUps.Keys)
+                    if (k != Application.Current.Properties["name"].ToString())
+                        array.Add(k);
+            }
+
+            var action = await DisplayActionSheet("Seleziona Utente", "Annulla", null, array.ToArray());
+            if (action == "Annulla" || action == null)
+                return;
+
+
+            UserBackUp userBackUp = new UserBackUp();
+            userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.username = Application.Current.Properties["username"].ToString();
+            userBackUp.password = Application.Current.Properties["password"].ToString();
+            userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
+            userBackUp.schoolName = Application.Current.Properties["school"].ToString();
+            userBackUp.grades = App.Grades;
+            userBackUp.absences = App.Absences;
+            userBackUp.arguments = App.Arguments;
+            userBackUp.earlyExits = App.EarlyExits;
+            userBackUp.lateEntries = App.LateEntries;
+            userBackUp.notes = App.Notes;
+            userBackUp.settings = App.Settings;
+            //userBackUp.subjects = App.Subjects;
+
+
+
+            if (!userBackUps.ContainsKey(userBackUp.name))
+                userBackUps.Add(userBackUp.name, userBackUp);
+            else
+                userBackUps[userBackUp.name] = userBackUp;
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
+
+
+            UserBackUp newUser = userBackUps[action];
+            Application.Current.Properties["name"] = newUser.name;
+            Application.Current.Properties["username"] = newUser.username;
+            Application.Current.Properties["password"] = newUser.password;
+            Application.Current.Properties["schoolurl"] = newUser.schoolUrl;
+            Application.Current.Properties["school"] = newUser.schoolName;
+
+            JsonRequest.user.username = newUser.username;
+            JsonRequest.user.password = newUser.password;
+            JsonRequest.user.school = new School(newUser.schoolUrl, newUser.schoolName);
+
+            //Loading View
+            Frame f = new Frame
+            {
+                BackgroundColor = Color.Transparent,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Content = new ActivityIndicator { IsRunning = true, Color = Color.White, Scale = 0.30 }
+            };
+
+            var bkgrndGradient = new Gradient()
+            {
+                Rotation = 150,
+                Steps = new GradientStepCollection()
+                {
+                    new GradientStep(Color.FromHex("#ed80ce"), 0),
+                    new GradientStep(Color.FromHex("#7e5be1"), 1)
+                }
+            };
+            ContentPageGloss.SetBackgroundGradient(this, bkgrndGradient);
+
+            this.Content = f;
+            await JsonRequest.JsonLogin();
+            await Navigation.PopAsync();
+        }
+
+        void TappedAddUser(object sender, EventArgs e)
+        {
+            Dictionary<String, UserBackUp> userBackUps = new Dictionary<String, UserBackUp>();
+
+            if (Application.Current.Properties.ContainsKey("userbackups"))
+            {
+                String str = Application.Current.Properties["userbackups"] as String;
+                userBackUps = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str);
+            }
+
+            UserBackUp userBackUp = new UserBackUp();
+            userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.username = Application.Current.Properties["username"].ToString();
+            userBackUp.password = Application.Current.Properties["password"].ToString();
+            userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
+            userBackUp.schoolName = Application.Current.Properties["school"].ToString();
+            userBackUp.grades = App.Grades;
+            userBackUp.absences = App.Absences;
+            userBackUp.arguments = App.Arguments;
+            userBackUp.earlyExits = App.EarlyExits;
+            userBackUp.lateEntries = App.LateEntries;
+            userBackUp.notes = App.Notes;
+            userBackUp.settings = App.Settings;
+            //userBackUp.subjects = App.Subjects;
+
+
+
+            if (!userBackUps.ContainsKey(userBackUp.name))
+                userBackUps.Add(userBackUp.name, userBackUp);
+            else
+                userBackUps[userBackUp.name] = userBackUp;
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
+
+            Navigation.PushAsync(new FirstPage(true)); //With back button
+        }
 
         #region setup
         public void gesturesSetup()

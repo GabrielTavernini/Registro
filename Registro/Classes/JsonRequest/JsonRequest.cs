@@ -184,7 +184,7 @@ namespace Registro.Classes.JsonRequest
             App.Arguments = lezioni;
             if(!App.Settings.customPeriodChange)
                 App.Settings.periodChange = getFinePrimo();
-			//user.nome = getNomeAlunno();
+			user.nome = getNomeAlunno();
             App.SerializeObjects();
 
             //Notify

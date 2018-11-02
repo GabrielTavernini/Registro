@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gabriel.Registro" android:versionCode="23" android:versionName="2.3">
-	<uses-sdk android:minSdkVersion="15" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gabriel.Registro" android:versionCode="27" android:versionName="2.7">
+	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
-	<application android:label="Registro" android:screenOrientation="portrait">
-		<!--<receiver android:name=".BootReciver">
-			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-			</intent-filter>
-		</receiver>-->
-	</application>
+	<application android:label="Registro" android:screenOrientation="portrait"></application>
 </manifest>

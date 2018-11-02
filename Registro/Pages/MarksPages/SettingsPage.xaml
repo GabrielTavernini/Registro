@@ -42,13 +42,16 @@
                     
                     <TableSection x:Name="LoginSection" Title="Login">
                         <TextCell x:Name="User" TextColor="Black"/>
-                        <!--<TextCell x:Name="ChangeUser" TextColor="Black" Text="Cambia Utente" Tapped="TappedChangeUserAsync"/>
-                        <TextCell x:Name="AddUser" TextColor="Black" Text="Aggiungi Utente"/>-->
+                        <TextCell x:Name="ChangeUser" TextColor="Black" Text="Cambia Utente" Tapped="TappedChangeUserAsync"/>
+                        <TextCell x:Name="AddUser" TextColor="Black" Text="Aggiungi Utente" Tapped="TappedAddUser"/>
                     </TableSection>
                 </TableRoot>
             </TableView>
         </StackLayout>
 
         <!--<Label Text="Sviluppata da Gabriel Tavernini" VerticalOptions="End" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" FontSize="14"/>-->
-  </controls:LayoutTouchListner>
+    </controls:LayoutTouchListner>
+    
+   
+    
 </ContentPage>

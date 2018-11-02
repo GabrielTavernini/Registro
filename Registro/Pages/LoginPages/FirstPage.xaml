@@ -21,6 +21,8 @@
     </xfg:ContentPageGloss.BackgroundGradient>
     
     <Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
+            <Image x:Name="Back" Source="back_margin.png" IsVisible="true" Aspect="Fill" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="32" WidthRequest="64" Margin="-15, 15, 0, 0"/>  
+
             <StackLayout x:Name="label1" Padding="24,0" VerticalOptions="Center">
                 <Label AutomationId="label1" Text="Benvenuti nell'app registro, questa applicazione consente di accedere al registo OpenSource, Lampschool!"
                     FontSize="Medium" XAlign="Center" />

@@ -13,20 +13,34 @@ namespace Registro.Pages
 {
     public partial class FirstPage : ContentPage
     {
+        bool newUser = false;
+
         public FirstPage()
         {
             Initialize();
         }
 
+        public FirstPage(bool newUser)
+        {
+            this.newUser = newUser;
+            Initialize();
+        }
+
+
         protected void Initialize()
         {
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-            Title = "Welcome!";
+
+            var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
+            Back.GestureRecognizers.Add(backTapGesture);
 
             label1.Scale = 0;
             label2.Scale = 0;
             buttonStack.Scale = 0;
+            if (!newUser || Device.RuntimePlatform == Device.Android)
+                Back.Scale = 0;
         }
 
         async void AuthButtonClicked(object sender, EventArgs e)
@@ -81,10 +95,14 @@ namespace Registro.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if(newUser)
+                Navigation.PopAsync();
+            else if (Device.RuntimePlatform == Device.Android)
                 return DependencyService.Get<IClose>().CloseApp();
+            else
+                return base.OnBackButtonPressed();
 
-            return base.OnBackButtonPressed();
+            return true;
         }
     }
 }
