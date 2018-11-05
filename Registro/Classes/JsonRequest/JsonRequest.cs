@@ -50,7 +50,7 @@ namespace Registro.Classes.JsonRequest
             }
             catch (Exception e)
             {
-                if (json == null || json == "")
+                if (string.IsNullOrEmpty(json))
                 {
                     if (Device.RuntimePlatform == Device.Android)
                         DependencyService.Get<INotifyAndroid>().DisplayToast("Aggiornamento non riuscito");
@@ -184,8 +184,12 @@ namespace Registro.Classes.JsonRequest
             App.Arguments = lezioni;
             if(!App.Settings.customPeriodChange)
                 App.Settings.periodChange = getFinePrimo();
-			user.nome = getNomeAlunno();
             App.SerializeObjects();
+
+            //Update the name of the user and the application properties
+            //user.nome = getNomeAlunno();
+            //Application.Current.Properties["name"] = user.nome;
+
 
             //Notify
             if (Device.RuntimePlatform == Device.Android)

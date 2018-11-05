@@ -84,7 +84,7 @@ namespace Registro.Pages
             LoadingIndicator.IsRunning = false;
             LodingLabel.IsVisible = false;
 
-            Application.Current.Properties["name"] = JsonRequest.user.nome;
+            //Application.Current.Properties["name"] = JsonRequest.user.nome;
             Application.Current.Properties["username"] = UserEntry.Text;
             Application.Current.Properties["password"] = PassEntry.Text;
             Application.Current.Properties["school"] = school.name;

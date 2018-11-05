@@ -46,8 +46,8 @@
 		<true/>
 	</dict>
 	<key>CFBundleShortVersionString</key>
-	<string>2.7</string>
+	<string>2.9</string>
 	<key>CFBundleVersion</key>
-	<string>27</string>
+	<string>29</string>
 </dict>
 </plist>

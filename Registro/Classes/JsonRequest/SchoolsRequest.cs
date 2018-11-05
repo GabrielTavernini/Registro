@@ -25,7 +25,7 @@ namespace Registro.Classes.JsonRequest
                 String QueryLogin = "http://lampschooltest.altervista.org/";
                 json = await Utility.GetPageAsync(QueryLogin);
 
-                if (json == null || json == "")
+                if (string.IsNullOrEmpty(json))
                     throw new Exception("Null Json");
 
                 System.Diagnostics.Debug.WriteLine(json);

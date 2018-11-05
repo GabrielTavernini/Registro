@@ -119,13 +119,12 @@ namespace Registro.Pages
                     Dictionary<String, UserBackUp>  userBackUps = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str);
 
                     if(userBackUps.Count > 1){
-                        userBackUps.Remove(Application.Current.Properties["name"].ToString());
+                        userBackUps.Remove(Application.Current.Properties["username"].ToString());
                         JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
                         Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
 
                         //Set the current user as the first of the dictionary
                         UserBackUp newUser = userBackUps.First().Value;
-                        Application.Current.Properties["name"] = newUser.name;
                         Application.Current.Properties["username"] = newUser.username;
                         Application.Current.Properties["password"] = newUser.password;
                         Application.Current.Properties["schoolurl"] = newUser.schoolUrl;
@@ -184,7 +183,7 @@ namespace Registro.Pages
 
 
         //------------------------------------------------------------------------------------------
-        //---------------------Multiple Users-------------------
+        //-------------------------------------Multiple Users---------------------------------------
         //------------------------------------------------------------------------------------------
 
         async void TappedChangeUserAsync(object sender, EventArgs e)
@@ -198,7 +197,7 @@ namespace Registro.Pages
                 userBackUps = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str);
 
                 foreach (String k in userBackUps.Keys)
-                    if (k != Application.Current.Properties["name"].ToString())
+                    if (k != Application.Current.Properties["username"].ToString())
                         array.Add(k);
             }
 
@@ -208,8 +207,8 @@ namespace Registro.Pages
 
 
             UserBackUp userBackUp = new UserBackUp();
-            userBackUp.name = Application.Current.Properties["name"].ToString();
-            userBackUp.username = Application.Current.Properties["username"].ToString();
+            //userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.username = Application.Current.Properties["username"].ToString(); 
             userBackUp.password = Application.Current.Properties["password"].ToString();
             userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
             userBackUp.schoolName = Application.Current.Properties["school"].ToString();
@@ -224,17 +223,17 @@ namespace Registro.Pages
 
 
 
-            if (!userBackUps.ContainsKey(userBackUp.name))
-                userBackUps.Add(userBackUp.name, userBackUp);
+            if (!userBackUps.ContainsKey(userBackUp.username))
+                userBackUps.Add(userBackUp.username, userBackUp);
             else
-                userBackUps[userBackUp.name] = userBackUp;
+                userBackUps[userBackUp.username] = userBackUp;
 
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
             Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
 
 
             UserBackUp newUser = userBackUps[action];
-            Application.Current.Properties["name"] = newUser.name;
+            //Application.Current.Properties["name"] = newUser.name;
             Application.Current.Properties["username"] = newUser.username;
             Application.Current.Properties["password"] = newUser.password;
             Application.Current.Properties["schoolurl"] = newUser.schoolUrl;
@@ -280,7 +279,7 @@ namespace Registro.Pages
             }
 
             UserBackUp userBackUp = new UserBackUp();
-            userBackUp.name = Application.Current.Properties["name"].ToString();
+            //userBackUp.name = Application.Current.Properties["name"].ToString();
             userBackUp.username = Application.Current.Properties["username"].ToString();
             userBackUp.password = Application.Current.Properties["password"].ToString();
             userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
@@ -296,10 +295,10 @@ namespace Registro.Pages
 
 
 
-            if (!userBackUps.ContainsKey(userBackUp.name))
-                userBackUps.Add(userBackUp.name, userBackUp);
+            if (!userBackUps.ContainsKey(userBackUp.username))//.name))
+                userBackUps.Add(userBackUp.username, userBackUp);
             else
-                userBackUps[userBackUp.name] = userBackUp;
+                userBackUps[userBackUp.username] = userBackUp;
 
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
             Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
