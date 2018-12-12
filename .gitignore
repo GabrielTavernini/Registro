@@ -5,6 +5,7 @@
 [Oo]bj/
 [Bb]in/
 packages/
+AppFiles/
 TestResults/
 
 # globs
