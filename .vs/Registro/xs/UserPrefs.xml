@@ -1,14 +1,18 @@
 ﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.ItemProperties.Registro.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
+  <MonoDevelop.Ide.ItemProperties.Registro.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
+    <Files>
+      <File FileName="Registro Status" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
-      <Breakpoint file="/Users/Gabriel/Projects/Registro/Registro/Pages/MarksPages/SettingsPage.xaml" relfile="Registro/Pages/MarksPages/SettingsPage.xaml" line="46" column="49" />
+      <Breakpoint file="/Users/Gabriel/Projects/Xamarin/Registro/Registro/Pages/MarksPages/SettingsPage.xaml" relfile="Registro/Pages/MarksPages/SettingsPage.xaml" line="46" column="49" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
   <MultiItemStartupConfigurations />
 </Properties>

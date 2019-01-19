@@ -188,6 +188,7 @@ namespace Registro.Pages
 
         async void TappedChangeUserAsync(object sender, EventArgs e)
         {
+            JsonRequest.lastRequest = new DateTime();
             Dictionary<String, UserBackUp> userBackUps = new Dictionary<String, UserBackUp>();
             List<String> array = new List<String>();
 
@@ -270,6 +271,7 @@ namespace Registro.Pages
 
         void TappedAddUser(object sender, EventArgs e)
         {
+            JsonRequest.lastRequest = new DateTime();
             Dictionary<String, UserBackUp> userBackUps = new Dictionary<String, UserBackUp>();
 
             if (Application.Current.Properties.ContainsKey("userbackups"))
