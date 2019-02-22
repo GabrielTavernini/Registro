@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ModernHttpClient;
 
 namespace Registro.Classes.HttpRequests
 {
@@ -17,7 +18,7 @@ namespace Registro.Classes.HttpRequests
             getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
             getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-            HttpResponseMessage getResponse = await new HttpClient().SendAsync(getRequest); //new NativeMessageHandler()
+            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest); //new NativeMessageHandler()
 
             pageSource = await getResponse.Content.ReadAsStringAsync();
 
@@ -43,7 +44,7 @@ namespace Registro.Classes.HttpRequests
             req.Headers.TryAddWithoutValidation("Content-Length", bytes.Length.ToString());
             req.Content = new StringContent(parms, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            HttpResponseMessage resp = await new HttpClient().SendAsync(req); //new NativeMessageHandler()
+            HttpResponseMessage resp = await new HttpClient(new NativeMessageHandler()).SendAsync(req); //new NativeMessageHandler()
             String pageSource = await resp.Content.ReadAsStringAsync();
 
             resp.Dispose();

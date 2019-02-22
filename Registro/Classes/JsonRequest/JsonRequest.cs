@@ -103,7 +103,28 @@ namespace Registro.Classes.JsonRequest
                     else
                         DependencyService.Get<INotifyiOS>().ShowToast("Errore del Server", 750);
 				}
-				else
+                else if(json.Contains("404 Not Found"))
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                    {
+                        DependencyService.Get<INotifyAndroid>().DisplayToast("Impossibile Connettersi");
+                        Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+                        {
+                            DependencyService.Get<INotifyAndroid>().DisplayToast("Riesegui il login tramite link");
+                            return false;
+                        });
+                    }
+                    else
+                    {
+                        DependencyService.Get<INotifyiOS>().ShowToast("Impossibile Connettersi", 1000);
+                        Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+                        {
+                            DependencyService.Get<INotifyiOS>().ShowToast("Riesegui il login tramite link", 1500);
+                            return false;
+                        });
+                    }
+                }
+                else
                 {
                     int start = json.IndexOf('{');
                     int end = json.LastIndexOf('}');
