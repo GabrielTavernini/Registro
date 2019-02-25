@@ -190,7 +190,7 @@
       <HintPath>..\packages\Xamarin.Forms.3.5.0.169047\lib\netstandard1.0\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="ModernHttpClient">
-      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
+      <HintPath>..\packages\modernhttpclient-updated.2.6.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+Xamarin.iOS10\ModernHttpClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

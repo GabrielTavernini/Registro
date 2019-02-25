@@ -26,7 +26,6 @@ namespace Registro.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::ModernHttpClient.Resource.String.library_name = global::Registro.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_in = global::Registro.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_out = global::Registro.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_grow_fade_in_from_bottom = global::Registro.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -3190,7 +3189,6 @@ namespace Registro.Droid
 			global::XFGloss.Droid.Resource.String.appbar_scrolling_view_behavior = global::Registro.Droid.Resource.String.appbar_scrolling_view_behavior;
 			global::XFGloss.Droid.Resource.String.bottom_sheet_behavior = global::Registro.Droid.Resource.String.bottom_sheet_behavior;
 			global::XFGloss.Droid.Resource.String.character_counter_pattern = global::Registro.Droid.Resource.String.character_counter_pattern;
-			global::XFGloss.Droid.Resource.String.library_name = global::Registro.Droid.Resource.String.library_name;
 			global::XFGloss.Droid.Resource.String.mr_button_content_description = global::Registro.Droid.Resource.String.mr_button_content_description;
 			global::XFGloss.Droid.Resource.String.mr_cast_button_connected = global::Registro.Droid.Resource.String.mr_cast_button_connected;
 			global::XFGloss.Droid.Resource.String.mr_cast_button_connecting = global::Registro.Droid.Resource.String.mr_cast_button_connecting;
@@ -9851,9 +9849,6 @@ namespace Registro.Droid
 			
 			// aapt resource value: 0x7f070037
 			public const int character_counter_pattern = 2131165239;
-			
-			// aapt resource value: 0x7f07003e
-			public const int library_name = 2131165246;
 			
 			// aapt resource value: 0x7f070002
 			public const int mr_button_content_description = 2131165186;
