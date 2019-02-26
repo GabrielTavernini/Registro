@@ -1,20 +1,18 @@
-﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
+﻿<Properties StartupConfiguration="{497748EB-545D-46A2-A376-740990698563}|Background Fetch" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.1215fc5575060d04" />
   <MonoDevelop.Ide.ItemProperties.Registro.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
+  <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="Registro/Classes/JsonRequest/JsonRequest.cs" Line="85" Column="22" />
       <File FileName="Registro/schools.json" Line="63" Column="2" />
-      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="36" Column="56" />
       <File FileName="Registro/Classes/HttpRequests/Utility.cs" Line="25" Column="34" />
-      <File FileName="Registro/Pages/LoginPages/SchoolUrlPage.xaml.cs" Line="67" Column="1" />
-      <File FileName="iOS/Info.plist" />
-      <File FileName="Registro Status" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Registro" expanded="True">
+            <Node name="Registro.iOS" selected="True" />
             <Node name="Registro.UITest" expanded="True" />
           </Node>
         </State>
@@ -22,7 +20,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
