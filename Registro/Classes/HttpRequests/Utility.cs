@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ModernHttpClient;
@@ -14,11 +15,11 @@ namespace Registro.Classes.HttpRequests
             string pageSource;
             HttpRequestMessage getRequest = new HttpRequestMessage();
             getRequest.RequestUri = new Uri(url);
-            //getRequest.Headers.Add("Cookie", HttpRequest.cookies);
-            getRequest.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            getRequest.Headers.Add("UserAgent", "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 63.0.3239.84 Safari / 537.36");
 
-            HttpResponseMessage getResponse = await new HttpClient(new NativeMessageHandler()).SendAsync(getRequest); //new NativeMessageHandler()
+            HttpClient client = new HttpClient(new NativeMessageHandler());
+            client.DefaultRequestHeaders.Add("Accept", "*/*");
+            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; Rigor/1.0.0; http://rigor.com)");
+            HttpResponseMessage getResponse = await client.SendAsync(getRequest);
 
             pageSource = await getResponse.Content.ReadAsStringAsync();
 
