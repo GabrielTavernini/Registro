@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
 using static Registro.Controls.AndroidThemes;
@@ -119,6 +120,18 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setArgumentsTheme();  //Android Themes
 
             base.OnAppearing();
+
+
+            //Hide add if there is no internet
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
+            {
+                AdView.Scale = 0;
+                AdView.IsVisible = false;
+            }
+                else {
+            AdView.Scale = 1;
+                AdView.IsVisible = true;
+            }
         }
 
 

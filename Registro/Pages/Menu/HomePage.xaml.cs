@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidClosing;
 using static Registro.Controls.AndroidThemes;
@@ -24,7 +25,7 @@ namespace Registro.Pages
             InitializeComponent();
 
             InfoList.ItemsSource = GetItems();
-            InfoList.Footer = new StackLayout() { HeightRequest = 10 }; 
+            InfoList.Footer = new StackLayout() { HeightRequest = 10 };
             NavigationPage.SetHasNavigationBar(this, false);
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
@@ -101,15 +102,28 @@ namespace Registro.Pages
                     try { date = DateTime.ParseExact(d, "dd/MM/yyyy", CultureInfo.InvariantCulture); }
                     catch { }
 
-					Subject subject = Subject.getSubjectByString(s);
+                    Subject subject = Subject.getSubjectByString(s);
                     App.firstPage = "";
 
-					if(subject != null)                  
+                    if (subject != null)
                         if (date.CompareTo(App.Settings.periodChange) <= 0)
-						    Navigation.PushAsync(new SubjectPageMarks(subject, 1));
+                            Navigation.PushAsync(new SubjectPageMarks(subject, 1));
                         else
                             Navigation.PushAsync(new SubjectPageMarks(subject, 2));
                 }
+            }
+
+
+            //Hide add if there is no internet
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
+            {
+                AdView.Scale = 0;
+                AdView.IsVisible = false;
+            }
+            else
+            {
+                AdView.Scale = 1;
+                AdView.IsVisible = true;
             }
         }
 
@@ -149,10 +163,10 @@ namespace Registro.Pages
         }
 
         protected override bool OnBackButtonPressed()
-        {            
-            if(Device.RuntimePlatform == Device.Android)
+        {
+            if (Device.RuntimePlatform == Device.Android)
                 return DependencyService.Get<IClose>().CloseApp();
-            
+
             return base.OnBackButtonPressed();
         }
 

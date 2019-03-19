@@ -26,6 +26,7 @@ namespace Registro
 
 
         public static string firstPage = "";
+        public static Boolean AdsAvailable = false;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
         public static DateTime lastRefresh = new DateTime(0);

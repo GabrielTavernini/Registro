@@ -1,25 +1,9 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using XFShapeView.Droid;
-using Java.Lang;
-using Android.App.Job;
-using Registro.Pages;
-using Xamarin.Forms;
-using static Android.Content.Res.Resources;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Registro.Classes.HttpRequests;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using Android.Gms.Ads;
 
 namespace Registro.Droid
 {
@@ -42,6 +26,8 @@ namespace Registro.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+            MobileAds.Initialize(ApplicationContext, "ca-app-pub-4070857653436842~9011900106");
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
