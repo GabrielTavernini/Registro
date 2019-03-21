@@ -78,9 +78,19 @@ namespace Registro
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
                 Application.Current.Properties.ContainsKey("password") &&
-                Application.Current.Properties.ContainsKey("school") && 
-                Application.Current.Properties.ContainsKey("schoolurl")) 
+                Application.Current.Properties.ContainsKey("school") &&
+                Application.Current.Properties.ContainsKey("schoolurl"))
             {
+                //Startup counter
+                if (!Application.Current.Properties.ContainsKey("startCounter")) { 
+                    Application.Current.Properties["startCounter"] = "0";
+                } else {
+                    int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String) + 1;
+                    Application.Current.Properties["startCounter"] = startCounter.ToString();
+                }
+
+
+
                 DeserializeObjects();
 
                 School school = new School(Application.Current.Properties["schoolurl"] as string, Application.Current.Properties["school"] as string);
@@ -129,6 +139,8 @@ namespace Registro
                 Application.Current.Properties.ContainsKey("school") &&
                 Application.Current.Properties.ContainsKey("schoolurl"))
             {
+
+
                 if (firstPage != "" && firstPage != null)
                     MainPage = new NavigationPage(new HomePage());
             }

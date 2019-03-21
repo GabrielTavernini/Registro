@@ -63,7 +63,7 @@ namespace Registro.Pages
             {
                 Setting.Margin = new Thickness(0, 32, 0, 0);
                 Back.Margin = new Thickness(0, 32, 0, 0);
-                MenuGrid.Margin = new Thickness(50, 24, 50, 0); 
+                MenuGrid.Margin = new Thickness(50, 24, 50, 0);
             }
 
         }
@@ -130,8 +130,9 @@ namespace Registro.Pages
                 AdView.Scale = 0;
                 AdView.IsVisible = false;
             }
-                else {
-            AdView.Scale = 1;
+            else
+            {
+                AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
         }
@@ -188,19 +189,19 @@ namespace Registro.Pages
         private void ItemTapped(ItemTappedEventArgs e)
         {
             GradeModel g = e.Item as GradeModel;
-            if (g.subject == "MEDIA GLOBALE" 
-                || g.subject == " " 
+            if (g.subject == "MEDIA GLOBALE"
+                || g.subject == " "
                 || g.subject == "NESSUN VOTO")
                 return;
 
-			Subject sub = Subject.getSubjectByString(g.subject);
-            if(sub != null)
-			{
-				if (InfoList.IsVisible)
+            Subject sub = Subject.getSubjectByString(g.subject);
+            if (sub != null)
+            {
+                if (InfoList.IsVisible)
                     Navigation.PushAsync(new SubjectPageMarks(sub, 1));
                 else
                     Navigation.PushAsync(new SubjectPageMarks(sub, 0));
-			}
+            }
         }
 
         private void Refresh()
@@ -334,28 +335,28 @@ namespace Registro.Pages
             foreach (Grade g in App.Grades)
             {
                 if (g.dateTime.CompareTo(App.Settings.periodChange) <= 0
-				    && g.gradeString != "")
+                    && g.gradeString != "")
                     baseList.Add(new GradeModel(g, 1));
             }
             baseList.Sort(new CustomDataTimeComparer());
 
 
             float sum = 0;
-            foreach(GradeModel g in baseList)
+            foreach (GradeModel g in baseList)
             {
                 sum += g.grade;
             }
 
             Grade globalAverage = new Grade("", "Media globale dell'alunno", (sum / baseList.Count()).ToString("0.00"), "", new Subject("MEDIA GLOBALE"));
-            list.Add(new GradeModel(globalAverage, list.Count() + 1,  Color.FromHex("#61DDDD")));
+            list.Add(new GradeModel(globalAverage, list.Count() + 1, Color.FromHex("#61DDDD")));
 
             foreach (Subject s in App.Subjects.Values.ToList())
             {
                 Grade g = s.getMedia1();
-                if(g.grade > 0)
+                if (g.grade > 0)
                 {
                     g.type = "Media della materia";
-                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));   
+                    list.Add(new GradeModel(g, list.Count() + 1, Color.FromHex("#61DDDD")));
                 }
             }
 
@@ -371,17 +372,17 @@ namespace Registro.Pages
             return new List<GradeModel>() { nope };
         }
 
-		private List<GradeModel> GetItems2()
-		{
-			List<GradeModel> baseList = new List<GradeModel>();
-			List<GradeModel> list = new List<GradeModel>();
+        private List<GradeModel> GetItems2()
+        {
+            List<GradeModel> baseList = new List<GradeModel>();
+            List<GradeModel> list = new List<GradeModel>();
 
-			foreach (Grade g in App.Grades)
-			{
-				if (g.dateTime.CompareTo(App.Settings.periodChange) > 0
-					&& g.gradeString != "")
-					baseList.Add(new GradeModel(g, 1));
-			}
+            foreach (Grade g in App.Grades)
+            {
+                if (g.dateTime.CompareTo(App.Settings.periodChange) > 0
+                    && g.gradeString != "")
+                    baseList.Add(new GradeModel(g, 1));
+            }
             baseList.Sort(new CustomDataTimeComparer());
 
 

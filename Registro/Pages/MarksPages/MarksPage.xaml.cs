@@ -12,7 +12,7 @@ namespace Registro.Pages
 {
     public partial class MarksPage : ContentPage
     {
-        
+
         public MarksPage()
         {
             GC.Collect();
@@ -112,11 +112,11 @@ namespace Registro.Pages
             }
         }
 
-		protected override void OnAppearing()
-		{
+        protected override void OnAppearing()
+        {
             if (Device.RuntimePlatform == Device.Android)
                 DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
-            
+
             base.OnAppearing();
 
 
@@ -126,15 +126,16 @@ namespace Registro.Pages
                 AdView.Scale = 0;
                 AdView.IsVisible = false;
             }
-                else {
-            AdView.Scale = 1;
+            else
+            {
+                AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
         }
 
-		#region setup
-		public void gesturesSetup()
-        { 
+        #region setup
+        public void gesturesSetup()
+        {
             InfoList.ItemSelected += (sender, e) => { ((ListView)sender).SelectedItem = null; };
             InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += (sender, e) => { ItemTapped(e); };
@@ -206,7 +207,7 @@ namespace Registro.Pages
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
 
-                        if(success)
+                        if (success)
                         {
                             ContentPage page;
                             if (InfoList2.IsVisible)
@@ -215,10 +216,10 @@ namespace Registro.Pages
                                 page = new MarksPage(1);
 
                             Navigation.InsertPageBefore(page, this);
-                            Navigation.PopAsync(false); 
+                            Navigation.PopAsync(false);
                         }
                     }
-                    catch{}
+                    catch { }
 
                 });
             });

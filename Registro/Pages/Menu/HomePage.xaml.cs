@@ -50,7 +50,8 @@ namespace Registro.Pages
                 MenuGrid.Margin = new Thickness(50, 24, 50, 0);
         }
 
-        protected override void OnAppearing()
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -125,7 +126,24 @@ namespace Registro.Pages
                 AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
+
+            //Share the app
+            int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String);
+            if (startCounter == 10 || startCounter % 100 == 0) {
+                Boolean result = await DisplayAlert("Condividi", "Ti piace l'app? La trovi utile? Consigliala a compagi e genitori!", "Condividi", "No");
+                Application.Current.Properties["startCounter"] = (startCounter + 1).ToString();
+
+                if(result)
+                    await Share.RequestAsync(new ShareTextRequest
+                    {
+                        Uri = "https://play.google.com/store/apps/details?id=com.gabriel.Registro",
+                        Title = "Condividi l'app"
+                    });
+            }
+
         }
+#pragma warning restore CS4014
+
 
         public void settings()
         {

@@ -23,7 +23,7 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
 
 
-            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
+            if (DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#B2D235");
                 Selector1.BackgroundColor = Color.FromHex("#51d134");
@@ -31,8 +31,9 @@ namespace Registro.Pages
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
-                InfoList2.ItemsSource = GetItems2();                
-            }else
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
             {
                 Selector1.BackgroundColor = Color.FromHex("#B2D235");
                 Selector2.BackgroundColor = Color.FromHex("#51d134");
@@ -128,8 +129,9 @@ namespace Registro.Pages
                 AdView.Scale = 0;
                 AdView.IsVisible = false;
             }
-                else {
-            AdView.Scale = 1;
+            else
+            {
+                AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
         }
@@ -184,37 +186,37 @@ namespace Registro.Pages
             Navigation.PopAsync();
         }
 
-		private void ItemTapped(ItemTappedEventArgs e)
-		{
-			ArgsModel g = e.Item as ArgsModel;
-			if ((g.Argument == null || g.Argument == "")
-				&& (g.Activity == null || g.Activity == ""))
-				DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
-			else
-			{
-				StringBuilder sb = new StringBuilder();            
-				if (g.Argument != null && g.Argument != "")
-				{
-					sb.Append(g.Argument);
+        private void ItemTapped(ItemTappedEventArgs e)
+        {
+            ArgsModel g = e.Item as ArgsModel;
+            if ((g.Argument == null || g.Argument == "")
+                && (g.Activity == null || g.Activity == ""))
+                DisplayAlert("Argomento", "Nessuna Descrizione", "Ok");
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                if (g.Argument != null && g.Argument != "")
+                {
+                    sb.Append(g.Argument);
 
-					if (g.Activity != null && g.Activity != "")
-					{
-						sb.AppendLine(" ");
-						sb.AppendLine(" ");
-						sb.AppendLine("Attività:");
-						sb.Append(g.Activity);
-					}
+                    if (g.Activity != null && g.Activity != "")
+                    {
+                        sb.AppendLine(" ");
+                        sb.AppendLine(" ");
+                        sb.AppendLine("Attività:");
+                        sb.Append(g.Activity);
+                    }
 
-					DisplayAlert("Argomento", sb.ToString(), "Ok");
-				}
-				else
-				{
-					sb.Append(g.Activity);
+                    DisplayAlert("Argomento", sb.ToString(), "Ok");
+                }
+                else
+                {
+                    sb.Append(g.Activity);
 
-					DisplayAlert("Attività", sb.ToString(), "Ok");
-				}
-			}         
-		}
+                    DisplayAlert("Attività", sb.ToString(), "Ok");
+                }
+            }
+        }
 
         private void Refresh()
         {
@@ -340,7 +342,7 @@ namespace Registro.Pages
             foreach (Arguments a in App.Arguments)
             {
                 if (a.dateTime.CompareTo(App.Settings.periodChange) <= 0)
-                    list.Add(new ArgsModel(a, 0)); 
+                    list.Add(new ArgsModel(a, 0));
 
             }
             list.Sort(new CustomDataTimeComparerArgs());

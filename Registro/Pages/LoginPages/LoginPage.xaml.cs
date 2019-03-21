@@ -24,8 +24,8 @@ namespace Registro.Pages
         {
             NavigationPage.SetHasNavigationBar(this, false);
             if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<IThemes>().setSettingsTheme(); 
-            
+                DependencyService.Get<IThemes>().setSettingsTheme();
+
             InitializeComponent();
             Title = "Login";
 
@@ -43,7 +43,8 @@ namespace Registro.Pages
 
         async void AuthButtonClicked(object sender, EventArgs e)
         {
-            if(String.IsNullOrWhiteSpace(UserEntry.Text) || String.IsNullOrWhiteSpace(PassEntry.Text)){
+            if (String.IsNullOrWhiteSpace(UserEntry.Text) || String.IsNullOrWhiteSpace(PassEntry.Text))
+            {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Specificare tutti i campi");
                 else
@@ -96,10 +97,10 @@ namespace Registro.Pages
 
 
 
-			Dictionary<String, String> dictionary = new Dictionary<String, String>() { { "School Name", school.name } };
+            Dictionary<String, String> dictionary = new Dictionary<String, String>() { { "School Name", school.name } };
 
-			Analytics.TrackEvent("Logged in");
-			Analytics.TrackEvent("School Info", dictionary);
+            Analytics.TrackEvent("Logged in");
+            Analytics.TrackEvent("School Info", dictionary);
 
             await Application.Current.SavePropertiesAsync();
             await Navigation.PushAsync(new HomePage());

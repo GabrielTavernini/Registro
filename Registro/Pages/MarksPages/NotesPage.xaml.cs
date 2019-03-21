@@ -22,7 +22,7 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
 
 
-            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
+            if (DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#F2AA52");
                 Selector1.BackgroundColor = Color.FromHex("#f18951");
@@ -30,8 +30,9 @@ namespace Registro.Pages
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
-                InfoList2.ItemsSource = GetItems2();                
-            }else
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
             {
                 Selector1.BackgroundColor = Color.FromHex("#F2AA52");
                 Selector2.BackgroundColor = Color.FromHex("#f18951");
@@ -127,8 +128,9 @@ namespace Registro.Pages
                 AdView.Scale = 0;
                 AdView.IsVisible = false;
             }
-                else {
-            AdView.Scale = 1;
+            else
+            {
+                AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
         }
@@ -191,7 +193,7 @@ namespace Registro.Pages
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(g.Text);
-                if(g.Measures != null && g.Measures != "")
+                if (g.Measures != null && g.Measures != "")
                 {
                     sb.AppendLine(" ");
                     sb.AppendLine(" ");
@@ -199,9 +201,9 @@ namespace Registro.Pages
                     sb.Append(g.Measures);
                 }
 
-                DisplayAlert("Nota", sb.ToString(), "Ok");  
+                DisplayAlert("Nota", sb.ToString(), "Ok");
             }
-                
+
         }
 
         private void Refresh()
@@ -220,7 +222,7 @@ namespace Registro.Pages
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
 
-                        if(success)
+                        if (success)
                         {
                             ContentPage page;
                             if (InfoList.IsVisible)
@@ -229,10 +231,10 @@ namespace Registro.Pages
                                 page = new NotesPage(2);
 
                             Navigation.InsertPageBefore(page, this);
-                            Navigation.PopAsync(false);   
+                            Navigation.PopAsync(false);
                         }
                     }
-                    catch{}
+                    catch { }
 
                 });
             });

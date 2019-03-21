@@ -24,7 +24,7 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
 
 
-            if(DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
+            if (DateTime.Now.CompareTo(App.Settings.periodChange) <= 0)
             {
                 Selector2.BackgroundColor = Color.FromHex("#E15B5C");
                 Selector1.BackgroundColor = Color.FromHex("#ad3233");
@@ -32,8 +32,9 @@ namespace Registro.Pages
                 InfoList2.Scale = 0;
                 InfoList2.IsVisible = false;
                 InfoList.ItemsSource = GetItems1();
-                InfoList2.ItemsSource = GetItems2();                
-            }else
+                InfoList2.ItemsSource = GetItems2();
+            }
+            else
             {
                 Selector1.BackgroundColor = Color.FromHex("#E15B5C");
                 Selector2.BackgroundColor = Color.FromHex("#ad3233");
@@ -129,8 +130,9 @@ namespace Registro.Pages
                 AdView.Scale = 0;
                 AdView.IsVisible = false;
             }
-                else {
-            AdView.Scale = 1;
+            else
+            {
+                AdView.Scale = 1;
                 AdView.IsVisible = true;
             }
         }
@@ -192,7 +194,7 @@ namespace Registro.Pages
             {
                 DisplayAlert(g.Type, g.Preview, "Ok");
             }
-                
+
         }
 
         private void Refresh()

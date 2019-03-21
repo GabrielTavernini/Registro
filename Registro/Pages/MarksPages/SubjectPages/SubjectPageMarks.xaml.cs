@@ -158,7 +158,7 @@ namespace Registro.Pages
                         InfoList.IsRefreshing = false;
                         InfoList2.IsRefreshing = false;
 
-                        if(success)
+                        if (success)
                         {
                             ContentPage page;
                             if (InfoList2.IsVisible)
@@ -235,20 +235,20 @@ namespace Registro.Pages
         {
             DoubleUp.IsVisible = true;
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
-                DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
-                TitleLabel.ScaleTo(2, 250, Easing.Linear);
+            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
+            TitleLabel.ScaleTo(2, 250, Easing.Linear);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
             await Body.TranslateTo(0, 200, 250, Easing.Linear);
 
-            if(Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.iOS)
                 Body.HeightRequest = App.ScreenHeight - (200 + (App.ScreenHeight * 0.08));
         }
 
         private void MoveUp()
         {
-            if(Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.iOS)
                 Body.HeightRequest = App.ScreenHeight - (App.ScreenHeight * 0.08);
             Body.TranslateTo(0, 0, 250, Easing.Linear);
             MenuGrid.TranslateTo(0, 0, 250, Easing.Linear);
@@ -289,7 +289,7 @@ namespace Registro.Pages
 
             if (returnList.Count() > 0)
                 return returnList;
-                
+
 
             GradeModel nope = new GradeModel(
                 new Grade("", "Non ci sono voti per questo periodo", "0", "Non ci sono voti per questo periodo",
@@ -330,7 +330,7 @@ namespace Registro.Pages
 
 
             GradeModel nope = new GradeModel(
-                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo", 
+                new Grade("", "Non ci sono voti per questo periodo", "", "Non ci sono voti per questo periodo",
                           new Subject("NESSUN VOTO")), 1, Color.FromHex("#00B1D4"));
             nope.gradeString = "N";
             return new List<GradeModel>() { nope };

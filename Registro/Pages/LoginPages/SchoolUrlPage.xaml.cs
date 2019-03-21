@@ -22,7 +22,7 @@ namespace Registro.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             if (Device.RuntimePlatform == Device.Android)
                 DependencyService.Get<IThemes>().setArgumentsTheme();  //Android Themes
-            
+
             InitializeComponent();
             Title = "Scuola";
 
@@ -44,7 +44,7 @@ namespace Registro.Pages
             try { new Uri(SchoolEntry.Text); validUrl = true; }
             catch { validUrl = false; }
 
-            if(!validUrl)
+            if (!validUrl)
             {
                 if (Device.RuntimePlatform == Device.Android)
                     DependencyService.Get<INotifyAndroid>().DisplayToast("Link non valido");
@@ -53,9 +53,9 @@ namespace Registro.Pages
 
                 return;
             }
-                
 
-			if((string)SchoolEntry.Text != null && (string)SchoolEntry.Text != "")
+
+            if ((string)SchoolEntry.Text != null && (string)SchoolEntry.Text != "")
             {
                 await btnAuthenticate.FadeTo(0, App.AnimationSpeed, Easing.SinIn);
                 btnAuthenticate.IsVisible = false;
@@ -67,7 +67,7 @@ namespace Registro.Pages
                 String page = await Utility.GetPageAsync(SchoolEntry.Text);
                 System.Diagnostics.Debug.WriteLine(page);
 
-                if(page.Contains("function codifica()"))
+                if (page.Contains("function codifica()"))
                 {
                     await Utility.GetPageAsync("http://lampschooltest.altervista.org/newschool.php?link=" + SchoolEntry.Text);
 
@@ -94,12 +94,12 @@ namespace Registro.Pages
                     bool wiki = !await DisplayAlert("Link Invalido", "Il link che hai inserito non è valido oppure non è quello di una pagina di login di un registro LAMPSchool",
                                  "Ok", "Istruzioni");
 
-                    if(wiki)
+                    if (wiki)
                         Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki/Accesso-tramite-link"));
 
                     return;
                 }
-                    
+
             }
             else
             {

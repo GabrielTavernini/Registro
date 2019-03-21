@@ -200,6 +200,7 @@ namespace Registro.Droid
         public override void OnReceive(Context context, Intent intent)
         {
             Task.Run(async () => await JsonRequest.JsonLogin());//await HttpRequest.RefreshAsync());
+            //Xamarin.Forms.DependencyService.Get<INotifyAndroid>().NotifyMark(new Grade("01/01/2000", "Test Grade", "10", "This is a test!", new Subject("Test Subject")), 1707);
         }
     }
 }
