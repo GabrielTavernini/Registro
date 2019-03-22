@@ -5,6 +5,9 @@
     <Files>
       <File FileName="Registro/Pages/Menu/HomePage.xaml.cs" Line="141" Column="24" />
       <File FileName="Droid/Renders/Notifications.cs" Line="203" Column="15" />
+      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml.cs" Line="164" Column="15" />
+      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml" Line="32" Column="11" />
+      <File FileName="Registro/Pages/MarksPages/ArgumentsPage.xaml" Line="47" Column="15" />
       <File FileName="Registro Status" />
     </Files>
     <Pads>
@@ -18,9 +21,8 @@
               <Node name="Pages" expanded="True">
                 <Node name="LoginPages" expanded="True" />
                 <Node name="MarksPages" expanded="True">
-                  <Node name="AveragesPage.xaml" expanded="True">
-                    <Node name="AveragesPage.xaml.cs" selected="True" />
-                  </Node>
+                  <Node name="ArgumentsPage.xaml" selected="True" />
+                  <Node name="AveragesPage.xaml" expanded="True" />
                   <Node name="MarksPage.xaml" expanded="True" />
                   <Node name="NotesPage.xaml" expanded="True" />
                   <Node name="SettingsPage.xaml" expanded="True" />

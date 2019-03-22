@@ -41,7 +41,7 @@
                 </ListView>
             </StackLayout>
         </controls:LayoutTouchListner>
-        <controls:AdControlView x:Name="AdView" BackgroundColor="White" Grid.Row="1">
+        <controls:AdControlView x:Name="AdView" BackgroundColor="Transparent" Grid.Row="1">
         </controls:AdControlView>
     </Grid>
 </ContentPage>

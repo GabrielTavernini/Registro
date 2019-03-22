@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro" xmlns:models="clr-namespace:Registro.Models;assembly=Registro" xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView" x:Class="Registro.Pages.MarksPage">
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -41,7 +41,7 @@
                 </ListView>
             </StackLayout>
         </controls:LayoutTouchListner>
-        <controls:AdControlView x:Name="AdView" BackgroundColor="White" Grid.Row="1">
+        <controls:AdControlView x:Name="AdView" BackgroundColor="Transparent" Grid.Row="1">
         </controls:AdControlView>
     </Grid>
 </ContentPage>
