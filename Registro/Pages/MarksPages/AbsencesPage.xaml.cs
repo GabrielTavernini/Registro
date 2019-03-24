@@ -21,6 +21,7 @@ namespace Registro.Pages
             GC.Collect();
             InitializeComponent();
 
+
             NavigationPage.SetHasNavigationBar(this, false);
 
 

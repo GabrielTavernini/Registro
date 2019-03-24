@@ -1,48 +1,30 @@
 ﻿<Properties StartupConfiguration="{8299E2CD-2D72-4981-A625-ED37913D0468}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.1215fc5575060d04" />
+  <MonoDevelop.Ide.ItemProperties.Registro.Droid PreferredExecutionTarget="Android.Nexus_5X_Lollipop" />
   <MonoDevelop.Ide.ItemProperties.Registro.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Registro Status">
     <Files>
-      <File FileName="Registro/Pages/Menu/HomePage.xaml.cs" Line="141" Column="24" />
-      <File FileName="Droid/Renders/Notifications.cs" Line="203" Column="15" />
-      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml.cs" Line="164" Column="15" />
-      <File FileName="Registro/Pages/MarksPages/MarksPage.xaml" Line="32" Column="11" />
-      <File FileName="Registro/Pages/MarksPages/ArgumentsPage.xaml" Line="47" Column="15" />
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml.cs" Line="187" Column="114" />
+      <File FileName="Registro/Pages/Menu/HomePage.xaml.cs" Line="137" Column="18" />
+      <File FileName="Registro/Pages/MarksPages/SettingsPage.xaml" Line="30" Column="72" />
+      <File FileName="Droid/MainActivity.cs" Line="6" Column="23" />
+      <File FileName="Registro/App.xaml.cs" Line="77" Column="13" />
+      <File FileName="Registro/Pages/MarksPages/AbsencesPage.xaml.cs" Line="22" Column="35" />
+      <File FileName="Droid/Renders/AdViewRenderer.cs" Line="52" Column="1" />
+      <File FileName="Registro/Classes/JsonRequest/SchoolsRequest.cs" Line="23" Column="1" />
       <File FileName="Registro Status" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Registro" expanded="True">
-            <Node name="Registro" expanded="True">
-              <Node name="Classes" expanded="True">
-                <Node name="JsonRequest" expanded="True" />
-              </Node>
-              <Node name="Pages" expanded="True">
-                <Node name="LoginPages" expanded="True" />
-                <Node name="MarksPages" expanded="True">
-                  <Node name="ArgumentsPage.xaml" selected="True" />
-                  <Node name="AveragesPage.xaml" expanded="True" />
-                  <Node name="MarksPage.xaml" expanded="True" />
-                  <Node name="NotesPage.xaml" expanded="True" />
-                  <Node name="SettingsPage.xaml" expanded="True" />
-                </Node>
-                <Node name="Menu" expanded="True">
-                  <Node name="HomePage.xaml" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="App.xaml" expanded="True" />
-            </Node>
-            <Node name="Registro.Droid" expanded="True">
-              <Node name="Renders" expanded="True" />
-            </Node>
+            <Node name="Registro.Droid" selected="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />

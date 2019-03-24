@@ -43,11 +43,14 @@ namespace Registro.Droid.Renders
         protected override void OnElementChanged(ElementChangedEventArgs<Controls.AdControlView> e)
         {
             base.OnElementChanged(e);
-            if (Control == null)
+
+            bool NoAds = Application.Current.Properties.ContainsKey("noAds") && (Application.Current.Properties["noAds"] as string).Equals("true");
+            App.AdsAvailable = !NoAds;
+            if (Control == null && !NoAds)
             {
                 CreateAdView();
                 SetNativeControl(adView);
-            }
+            } 
         }
     }
 #pragma warning restore CS0618 // Type or member is obsolete

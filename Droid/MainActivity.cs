@@ -4,6 +4,8 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Gms.Ads;
+using Plugin.InAppBilling;
+using Plugin.CurrentActivity;
 
 namespace Registro.Droid
 {
@@ -36,6 +38,7 @@ namespace Registro.Droid
 
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.Droid.Library.Init(this, savedInstanceState);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
         }
 
         protected override void OnPause()
@@ -57,6 +60,12 @@ namespace Registro.Droid
             base.OnDestroy();
             if (manager != null)
                 manager.Cancel(pendingIntent);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            InAppBillingImplementation.HandleActivityResult(requestCode, resultCode, data);
         }
 
         protected override void OnNewIntent(Intent intent)

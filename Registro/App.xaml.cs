@@ -74,6 +74,22 @@ namespace Registro
                                 "ios=ea6a4d0a-cf70-4bc8-a309-4a85ad0422db;",
                                 typeof(Analytics), typeof(Crashes));
 
+
+
+            //Startup counter
+            if (!Application.Current.Properties.ContainsKey("startCounter"))
+            {
+                Application.Current.Properties["startCounter"] = "1";
+            }
+            else
+            {
+                int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String) + 1;
+                Application.Current.Properties["startCounter"] = startCounter.ToString();
+            }
+
+
+
+
             NavigationPage navigationPage;
             //Search for login data
             if (Application.Current.Properties.ContainsKey("username") &&
@@ -81,16 +97,6 @@ namespace Registro
                 Application.Current.Properties.ContainsKey("school") &&
                 Application.Current.Properties.ContainsKey("schoolurl"))
             {
-                //Startup counter
-                if (!Application.Current.Properties.ContainsKey("startCounter")) { 
-                    Application.Current.Properties["startCounter"] = "0";
-                } else {
-                    int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String) + 1;
-                    Application.Current.Properties["startCounter"] = startCounter.ToString();
-                }
-
-
-
                 DeserializeObjects();
 
                 School school = new School(Application.Current.Properties["schoolurl"] as string, Application.Current.Properties["school"] as string);

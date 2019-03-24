@@ -26,6 +26,14 @@
     <StackLayout x:Name="Body" VerticalOptions="Fill" BackgroundColor="White" Spacing="0" Padding="0" Margin="0">
             <TableView x:Name="TableView" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
                 <TableRoot>
+                    <TableSection x:Name="DonationSection" Title="Donazioni">
+                        <TextCell x:Name="Donation1" Text="☺️ Dona 0.99€" TextColor="Black" Tapped="Purchase1"/>
+                        <TextCell x:Name="Donation2" Text="😀 Dona 1.99€" TextColor="Black" Tapped="Purchase2"/>
+                        <TextCell x:Name="Donation3" Text="😆 Dona 4.99€" TextColor="Black" Tapped="Purchase3"/>
+                        <TextCell x:Name="Donation4" Text="😍 Dona 9.99€" TextColor="Black" Tapped="Purchase4"/>
+                        <TextCell x:Name="DonationInfo" Text="Ulteriori informazioni" TextColor="Black" Tapped="DonationInfoTapped"/>
+                    </TableSection>
+                    
                     <TableSection x:Name="NotificationSection" Title="Notifiche">
                     </TableSection>
 

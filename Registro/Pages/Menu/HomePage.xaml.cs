@@ -129,16 +129,14 @@ namespace Registro.Pages
 
             //Share the app
             int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String);
-            if (startCounter == 10 || startCounter % 100 == 0) {
-                Boolean result = await DisplayAlert("Condividi", "Ti piace l'app? La trovi utile? Consigliala a compagi e genitori!", "Condividi", "No");
+            if (startCounter == 15 || startCounter % 100 == 0) {
+                Boolean result = await DisplayAlert("Condividi", "Ti piace l'app? La trovi utile? Consigliala a compagi e genitori, e lascia una recensione sul PlayStore!", "Recensisci", "No Grazie");
                 Application.Current.Properties["startCounter"] = (startCounter + 1).ToString();
 
                 if(result)
-                    await Share.RequestAsync(new ShareTextRequest
-                    {
-                        Uri = "https://play.google.com/store/apps/details?id=com.gabriel.Registro",
-                        Title = "Condividi l'app"
-                    });
+                {
+                    Device.OpenUri(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
+                }
             }
 
         }

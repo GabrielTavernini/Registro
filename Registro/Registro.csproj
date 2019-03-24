@@ -202,6 +202,12 @@
     <Reference Include="Xamarin.Essentials">
       <HintPath>..\packages\Xamarin.Essentials.1.1.0\lib\netstandard1.0\Xamarin.Essentials.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.InAppBilling.Abstractions">
+      <HintPath>..\packages\Plugin.InAppBilling.2.1.0.187-beta\lib\netstandard1.0\Plugin.InAppBilling.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.InAppBilling">
+      <HintPath>..\packages\Plugin.InAppBilling.2.1.0.187-beta\lib\netstandard1.0\Plugin.InAppBilling.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

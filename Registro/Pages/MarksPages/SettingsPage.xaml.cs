@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Plugin.InAppBilling;
+using Plugin.InAppBilling.Abstractions;
 using Registro.Classes.HttpRequests;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
@@ -32,7 +35,6 @@ namespace Registro.Pages
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-            
 
             MenuGrid.HeightRequest = App.ScreenHeight * 0.08;
             Head.HeightRequest = App.ScreenHeight * 0.08;
@@ -47,7 +49,7 @@ namespace Registro.Pages
 			User.Text = String.Format("Utente Attuale: {0}", JsonRequest.user.username); //.nome);
 
             exitCell = new CustomExitCell();
-            exitCell.Tapped += (sender, e) => {TappedExitAsync();};
+            exitCell.Tapped += async (sender, e) => { await TappedExitAsync(); };
             LoginSection.Add(exitCell);
 
             if (Device.RuntimePlatform == Device.iOS)
@@ -182,9 +184,58 @@ namespace Registro.Pages
         }
 
 
-        //------------------------------------------------------------------------------------------
-        //-------------------------------------Multiple Users---------------------------------------
-        //------------------------------------------------------------------------------------------
+        public async void Purchase1(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation1", "subscribeToPewDiePie"); }
+        public async void Purchase2(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation2", "subscribeToPewDiePie"); }
+        public async void Purchase3(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation3", "subscribeToPewDiePie"); }
+        public async void Purchase4(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation4", "subscribeToPewDiePie"); }
+        public async void DonationInfoTapped(object sender, EventArgs e) { await DisplayAlert("Informazioni sulle Donazioni", "Donando una qualsiasi quota, oltre a consentirmi di continuare ad aggiornare e mantenere disponibile l'app, tutti i banner pubblicitari presenti verranno rimossi!", "OK"); }
+
+        public async Task<bool> PurchaseItem(string productId, string payload)
+        {
+            var billing = CrossInAppBilling.Current;
+            try
+            {
+                var connected = await billing.ConnectAsync(ItemType.InAppPurchase);
+                if (!connected) //we are offline or can't connect, don't try to purchase
+                    return false;
+
+                //check purchases
+                var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase, payload);
+
+                //possibility that a null came through.
+                if (purchase == null)
+                    return false;
+                else if (purchase.State == PurchaseState.Purchased)
+                {
+                    await DisplayAlert("Operazione Completata", "Grazie mille per la sua donazione, è grazie ad esse che posso continuare a mantenere l'app aggiornata e disponibile. Da adesso le pubblicità non la disturberanno più!", "OK");
+                    Application.Current.Properties["noAds"] = "true";
+                    App.AdsAvailable = false;
+                    return true;
+                }
+            }
+            catch (InAppBillingPurchaseException purchaseEx)
+            {
+                //Billing Exception handle this based on the type
+                Debug.WriteLine("Error: " + purchaseEx);
+            }
+            catch (Exception ex)
+            {
+                //Something else has gone wrong, log it
+                Debug.WriteLine("Issue connecting: " + ex);
+            }
+            finally
+            {
+                await billing.DisconnectAsync();
+            }
+            return false;
+        }
+
+
+
+
+            //------------------------------------------------------------------------------------------
+            //-------------------------------------Multiple Users---------------------------------------
+            //------------------------------------------------------------------------------------------
 
         async void TappedChangeUserAsync(object sender, EventArgs e)
         {
