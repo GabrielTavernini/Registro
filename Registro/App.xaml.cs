@@ -157,7 +157,7 @@ namespace Registro
             if(Application.Current.Properties.ContainsKey("settings"))
             {
                 String str = Application.Current.Properties["settings"] as String;
-                settings = JsonConvert.DeserializeObject<Settings>(str); 
+                settings = JsonConvert.DeserializeObject<Settings>(str);
             }
 
             if (Application.Current.Properties.ContainsKey("grades"))

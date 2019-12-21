@@ -128,15 +128,22 @@ namespace Registro.Pages
             }
 
             //Share the app
-            int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String);
-            if (startCounter == 15 || startCounter % 100 == 0) {
-                Boolean result = await DisplayAlert("Condividi", "Ti piace l'app? La trovi utile? Consigliala a compagi e genitori, e lascia una recensione sul PlayStore!", "Recensisci", "No Grazie");
-                Application.Current.Properties["startCounter"] = (startCounter + 1).ToString();
-
-                if(result)
+            if (Application.Current.Properties.ContainsKey("startCounter"))
+            {
+                int startCounter = int.Parse(Application.Current.Properties["startCounter"] as String);
+                if (startCounter == 15 || startCounter % 100 == 0)
                 {
-                    Device.OpenUri(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
+                    Boolean result = await DisplayAlert("Condividi", "Ti piace l'app? La trovi utile? Consigliala a compagi e genitori, e lascia una recensione sul PlayStore!", "Recensisci", "No Grazie");
+                    Application.Current.Properties["startCounter"] = (startCounter + 1).ToString();
+
+                    if (result)
+                    {
+                        Device.OpenUri(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
+                    }
                 }
+            } else
+            {
+                Application.Current.Properties["startCounter"] = "1";
             }
 
         }

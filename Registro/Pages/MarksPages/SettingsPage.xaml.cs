@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Plugin.InAppBilling;
 using Plugin.InAppBilling.Abstractions;
-using Registro.Classes.HttpRequests;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
@@ -27,6 +25,7 @@ namespace Registro.Pages
         CustomSwitchCell notifyAbsences;
         CustomSwitchCell notifyArguments;
         CustomSwitchCell startupUpdate;
+        CustomSwitchCell coloredMarks;
         CustomExitCell exitCell;
 
         public SettingsPage()
@@ -100,7 +99,10 @@ namespace Registro.Pages
             
             if (sender == startupUpdate)
                 App.Settings.startupUpdate = args.Value;
-                
+
+            if (sender == coloredMarks)
+                App.Settings.coloredMarks = args.Value;
+
 
             Application.Current.Properties["settings"] = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
         }
@@ -377,6 +379,7 @@ namespace Registro.Pages
             notifyAbsences = new CustomSwitchCell("Notifiche per nuovi assenze", App.Settings.notifyAbsences);
             notifyArguments = new CustomSwitchCell("Notifiche per nuovi argomenti", App.Settings.notifyArguments);
             startupUpdate = new CustomSwitchCell("Aggiorna all'avvio", App.Settings.startupUpdate);
+            coloredMarks = new CustomSwitchCell("Colore dinamico dei voti", App.Settings.coloredMarks);
 
             notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             notifyMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
@@ -384,6 +387,7 @@ namespace Registro.Pages
             notifyAbsences.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             notifyArguments.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
             startupUpdate.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
+            coloredMarks.SwitchChanged += (sender, e) => { SwitchChanged(sender, e); };
 
             NotificationSection.Add(notifyMarks);
             NotificationSection.Add(notifyNotes);
@@ -391,6 +395,7 @@ namespace Registro.Pages
             NotificationSection.Add(notifyArguments);
 
             GeneralSection.Add(startupUpdate);
+            GeneralSection.Add(coloredMarks);
         }
 
         public void creditsSetup()

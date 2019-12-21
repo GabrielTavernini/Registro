@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -191,14 +192,16 @@ namespace Registro.Models
         public Boolean startupUpdate { get; set; } = true;
         public DateTime periodChange { get; set; } = new DateTime();
         public Boolean customPeriodChange { get; set; } = false;
+        public Boolean coloredMarks { get; set; } = false;
 
-        public Settings(Boolean notifyMarks, Boolean notifyNotes, Boolean notifyAbsences, Boolean notifyArguments, Boolean startupUpdate)
+        public Settings(Boolean notifyMarks, Boolean notifyNotes, Boolean notifyAbsences, Boolean notifyArguments, Boolean startupUpdate, Boolean coloredMarks)
         {
             this.notifyMarks = notifyMarks;
             this.notifyNotes = notifyNotes;
             this.notifyAbsences = notifyAbsences;
             this.notifyArguments = notifyArguments;
             this.startupUpdate = startupUpdate;
+            this.coloredMarks = coloredMarks;
         }
 
         public Settings(){}

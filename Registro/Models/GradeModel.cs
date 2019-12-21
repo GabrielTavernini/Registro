@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace Registro.Models
@@ -14,7 +15,8 @@ namespace Registro.Models
         public float grade { get; set; } = 0.0f;
         public Boolean ShapeVisible { get; set; } = true;
         public int Id { get; set; } = 0;
-        public Color color { get; set; } = Color.DarkBlue;
+        private Color _color = Color.DarkBlue;
+        public Color color { get { return _color; } set { SetColor(value); } }
 
         public GradeModel(Grade g, int Id)
         {
@@ -26,6 +28,7 @@ namespace Registro.Models
             this.dateTime = g.dateTime;
             this.grade = g.grade;
             this.Id = Id;
+            SetColor(color);
         }
 
         public GradeModel(Grade g, int Id, Color color)
@@ -38,7 +41,26 @@ namespace Registro.Models
             this.dateTime = g.dateTime;
             this.grade = g.grade;
             this.Id = Id;
-            this.color = color;
+            SetColor(color);
+        }
+
+        private void SetColor(Color setColor)
+        {
+            Debug.WriteLine(gradeString);
+            if (!App.Settings.coloredMarks || subject == "NESSUN VOTO")
+            {
+                this._color = setColor;
+            }
+            else
+            {
+                Debug.WriteLine(grade.GetType());
+                if (grade >= 6.0)
+                    this._color = Color.Green;
+                else if (grade >= 5.0)
+                    this._color = Color.Orange;
+                else
+                    this._color = Color.Red;
+            }
         }
 
         public static GradeModel VoidCell(int Id)
