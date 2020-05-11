@@ -1,11 +1,11 @@
 # Autosave files
 *~
-
+.vs/
 # build
 [Oo]bj/
 [Bb]in/
 packages/
-AppFiles/
+AppFiles
 TestResults/
 
 # globs
