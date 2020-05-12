@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gabriel.Registro" android:versionCode="40" android:versionName="4.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gabriel.Registro" android:versionCode="900043" android:versionName="4.3">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="28" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -8,14 +8,14 @@ namespace Registro
 {
     public class User
     {
-		//public String nome { get; set; }
+		public String name { get; set; }
+        public String surname { get; set; }
         public String username { get; set; }
         public String password { get; set; }
         public School school { get; set; }
          
         public User(String username, String password, School school)
         {
-            //this.nome = nome;
             this.username = username;
             this.password = password;
             this.school = school;
@@ -24,7 +24,8 @@ namespace Registro
 
     public class UserBackUp
     {
-        //public String name { get; set; }
+        public String name { get; set; }
+        public String surname { get; set; }
         public String username { get; set; }
         public String password { get; set; }
         public String schoolName { get; set; }

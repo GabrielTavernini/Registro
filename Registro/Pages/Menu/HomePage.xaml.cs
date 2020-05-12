@@ -37,13 +37,6 @@ namespace Registro.Pages
             InfoList.Refreshing += (sender, e) => { Refresh(); };
             InfoList.ItemTapped += async (sender, e) => { await ItemTappedAsync(e); };
 
-            /*var settingTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            settingTapGesture.Tapped += (sender, args) => { settings(); };
-            Setting.GestureRecognizers.Add(settingTapGesture);
-
-            if (Device.RuntimePlatform == Device.iOS)
-                Setting.Margin = new Thickness(0, 20, 0, 0); */
-
             if (Device.RuntimePlatform == Device.iOS)
                 MenuGrid.Margin = new Thickness(50, 10, 50, 0);
             else
@@ -54,6 +47,18 @@ namespace Registro.Pages
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            if (App.multipleUsers)
+            {
+                String nameText = JsonRequest.user.username;
+                if (!String.IsNullOrWhiteSpace(JsonRequest.user.name))
+                    nameText = JsonRequest.user.name + (String.IsNullOrWhiteSpace(JsonRequest.user.surname) ? "" : " " + JsonRequest.user.surname.Substring(0, 1) + ".");
+                NameLabel.Text = nameText;
+                NameLabel.IsVisible = true;
+            } else
+            {
+                NameLabel.IsVisible = false;
+            }
 
             if (((DateTime.Now - App.lastRefresh).Minutes > 15 || App.lastRefresh.Ticks == 0))
             {
@@ -259,9 +264,15 @@ namespace Registro.Pages
         {
             DoubleUp.IsVisible = true;
             Body.TranslateTo(0, 200, 200, Easing.Linear);
-            MenuGrid.TranslateTo(0, 100, 200, Easing.Linear);
+            MenuGrid.TranslateTo(0, App.multipleUsers ? 85 : 95, 200, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 200, Easing.Linear);
             TitleLabel.ScaleTo(2, 125, Easing.Linear);
+
+            if(App.multipleUsers)
+            {
+                NameLabel.IsVisible = true;
+                NameLabel.TranslateTo(0, 110, 200, Easing.Linear);
+            }
         }
 
         private void MoveUp()
@@ -272,6 +283,8 @@ namespace Registro.Pages
             TitleLabel.ScaleTo(1, 200, Easing.Linear);
             DoubleUp.IsVisible = false;
 
+            NameLabel.TranslateTo(0, 25, 200, Easing.Linear);
+            NameLabel.IsVisible = false;
         }
 
         #endregion

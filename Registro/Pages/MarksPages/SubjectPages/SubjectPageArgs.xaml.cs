@@ -189,7 +189,7 @@ namespace Registro.Pages
         {
             DoubleUp.IsVisible = true;
             Body.TranslateTo(0, 200, 250, Easing.Linear);
-            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            MenuGrid.TranslateTo(0, App.multipleUsers ? 85 : 100, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
         }

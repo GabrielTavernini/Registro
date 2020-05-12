@@ -52,6 +52,14 @@ namespace Registro.Pages
             MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
+            if (App.multipleUsers)
+            {
+                String nameText = JsonRequest.user.username;
+                if (!String.IsNullOrWhiteSpace(JsonRequest.user.name))
+                    nameText = JsonRequest.user.name + (String.IsNullOrWhiteSpace(JsonRequest.user.surname) ? "" : " " + JsonRequest.user.surname.Substring(0, 1) + ".");
+                NameLabel.Text = nameText;
+            }
+
             gesturesSetup();
 
             if (Device.RuntimePlatform == Device.iOS)
@@ -100,6 +108,14 @@ namespace Registro.Pages
             Head.HeightRequest = App.ScreenHeight * 0.08;
             MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
+
+            if (App.multipleUsers)
+            {
+                String nameText = JsonRequest.user.username;
+                if (!String.IsNullOrWhiteSpace(JsonRequest.user.name))
+                    nameText = JsonRequest.user.name + (String.IsNullOrWhiteSpace(JsonRequest.user.surname) ? "" : " " + JsonRequest.user.surname.Substring(0, 1) + ".");
+                NameLabel.Text = nameText;
+            }
 
             gesturesSetup();
 
@@ -288,20 +304,26 @@ namespace Registro.Pages
             MoveUp();
         }
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         private async void MoveDown()
         {
             DoubleUp.IsVisible = true;
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            MenuGrid.TranslateTo(0, App.multipleUsers ? 85 : 100, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            if (App.multipleUsers)
+            {
+                NameLabel.IsVisible = true;
+                NameLabel.TranslateTo(0, 110, 250, Easing.Linear);
+            }
 
             await Body.TranslateTo(0, 200, 250, Easing.Linear);
 
             if (Device.RuntimePlatform == Device.iOS)
                 Body.HeightRequest = App.ScreenHeight - (200 + (App.ScreenHeight * 0.08));
         }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         private void MoveUp()
         {
@@ -312,6 +334,9 @@ namespace Registro.Pages
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
             DoubleUp.IsVisible = false;
+
+            NameLabel.TranslateTo(0, 25, 250, Easing.Linear);
+            NameLabel.IsVisible = false;
         }
 
         #endregion

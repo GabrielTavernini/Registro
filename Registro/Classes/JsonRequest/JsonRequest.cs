@@ -208,9 +208,10 @@ namespace Registro.Classes.JsonRequest
             App.SerializeObjects();
 
             //Update the name of the user and the application properties
-            //user.nome = getNomeAlunno();
-            //Application.Current.Properties["name"] = user.nome;
-
+            user.name = getName();
+            user.surname = getSurname();
+            Application.Current.Properties["name"] = user.name.ToString();
+            Application.Current.Properties["surname"] = user.surname.ToString();
 
             //Notify
             if (Device.RuntimePlatform == Device.Android)
@@ -643,13 +644,11 @@ namespace Registro.Classes.JsonRequest
             return date;
         }
 	
-		public static String getNomeAlunno()
+		public static String getName()
         {
 			String nome = "";
             try
             {
-				nome += dati["cognome"];
-				nome += " ";
 				nome += dati["nome"];          
             }
             catch (Exception e)
@@ -666,5 +665,27 @@ namespace Registro.Classes.JsonRequest
 
             return nome;
         }
-	}
+
+        public static String getSurname()
+        {
+            String surname = "";
+            try
+            {
+                surname += dati["cognome"];
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                var properties = new Dictionary<string, string> {
+                        { "School", user.school.loginUrl },
+                        { "Suffisso", user.school.suffisso },
+                        { "JsonStart", json },
+                        { "JsonEnd", json.Substring(Math.Max(0, json.Length - 64)) }};
+
+                Crashes.TrackError(e, properties);
+            }
+
+            return surname;
+        }
+    }
 }

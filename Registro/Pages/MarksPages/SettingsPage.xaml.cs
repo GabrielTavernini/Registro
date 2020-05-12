@@ -40,6 +40,14 @@ namespace Registro.Pages
             MainImage.HeightRequest = App.ScreenWidth;
             Body.HeightRequest = App.ScreenHeight - Head.HeightRequest;
 
+            if (App.multipleUsers)
+            {
+                String nameText = JsonRequest.user.username;
+                if (!String.IsNullOrWhiteSpace(JsonRequest.user.name))
+                    nameText = JsonRequest.user.name + (String.IsNullOrWhiteSpace(JsonRequest.user.surname) ? "" : " " + JsonRequest.user.surname.Substring(0, 1) + ".");
+                NameLabel.Text = nameText;
+            }
+
             gesturesSetup();
             switchesSetup();
             creditsSetup();
@@ -126,6 +134,7 @@ namespace Registro.Pages
                         userBackUps.Remove(Application.Current.Properties["username"].ToString());
                         JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
                         Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
+                        App.multipleUsers = userBackUps.Count > 1;
 
                         //Set the current user as the first of the dictionary
                         UserBackUp newUser = userBackUps.First().Value;
@@ -186,10 +195,10 @@ namespace Registro.Pages
         }
 
 
-        public async void Purchase1(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation1", "subscribeToPewDiePie"); }
-        public async void Purchase2(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation2", "subscribeToPewDiePie"); }
-        public async void Purchase3(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation3", "subscribeToPewDiePie"); }
-        public async void Purchase4(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation4", "subscribeToPewDiePie"); }
+        public async void Purchase1(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation1", "registrolampschooldonation1"); }
+        public async void Purchase2(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation2", "registrolampschooldonation2"); }
+        public async void Purchase3(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation3", "registrolampschooldonation3"); }
+        public async void Purchase4(object sender, EventArgs e) { await PurchaseItem("registrolampschooldonation4", "registrolampschooldonation4"); }
         public async void DonationInfoTapped(object sender, EventArgs e) { await DisplayAlert("Informazioni sulle Donazioni", "Donando una qualsiasi quota, oltre a consentirmi di continuare ad aggiornare e mantenere disponibile l'app, tutti i banner pubblicitari presenti verranno rimossi!", "OK"); }
 
         public async Task<bool> PurchaseItem(string productId, string payload)
@@ -252,7 +261,10 @@ namespace Registro.Pages
 
                 foreach (String k in userBackUps.Keys)
                     if (k != Application.Current.Properties["username"].ToString())
-                        array.Add(k);
+                        if(!String.IsNullOrWhiteSpace(userBackUps[k].name) && !String.IsNullOrWhiteSpace(userBackUps[k].surname))
+                            array.Add(k + " - " + userBackUps[k].name + " " + userBackUps[k].surname.Substring(0, 1) + ".");
+                        else
+                            array.Add(k);
             }
 
             var action = await DisplayActionSheet("Seleziona Utente", "Annulla", null, array.ToArray());
@@ -261,7 +273,8 @@ namespace Registro.Pages
 
 
             UserBackUp userBackUp = new UserBackUp();
-            //userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.surname = Application.Current.Properties["surname"].ToString();
             userBackUp.username = Application.Current.Properties["username"].ToString(); 
             userBackUp.password = Application.Current.Properties["password"].ToString();
             userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
@@ -286,8 +299,9 @@ namespace Registro.Pages
             Application.Current.Properties["userbackups"] = JsonConvert.SerializeObject(userBackUps, Formatting.Indented, jsonSettings);
 
 
-            UserBackUp newUser = userBackUps[action];
-            //Application.Current.Properties["name"] = newUser.name;
+            UserBackUp newUser = userBackUps[action.Split(" -".ToCharArray())[0]];
+            Application.Current.Properties["name"] = newUser.name;
+            Application.Current.Properties["surname"] = newUser.surname;
             Application.Current.Properties["username"] = newUser.username;
             Application.Current.Properties["password"] = newUser.password;
             Application.Current.Properties["schoolurl"] = newUser.schoolUrl;
@@ -334,7 +348,8 @@ namespace Registro.Pages
             }
 
             UserBackUp userBackUp = new UserBackUp();
-            //userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.name = Application.Current.Properties["name"].ToString();
+            userBackUp.surname = Application.Current.Properties["surname"].ToString();
             userBackUp.username = Application.Current.Properties["username"].ToString();
             userBackUp.password = Application.Current.Properties["password"].ToString();
             userBackUp.schoolUrl = Application.Current.Properties["schoolurl"].ToString();
@@ -486,20 +501,26 @@ namespace Registro.Pages
             MoveUp();
         }
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         private async void MoveDown()
         {
             DoubleUp.IsVisible = true;
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            MenuGrid.TranslateTo(0, 100, 250, Easing.Linear);
+            MenuGrid.TranslateTo(0, App.multipleUsers ? 85 : 100, 250, Easing.Linear);
             DoubleUp.TranslateTo(0, 180, 250, Easing.Linear);
             TitleLabel.ScaleTo(2, 250, Easing.Linear);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            if (App.multipleUsers)
+            {
+                NameLabel.IsVisible = true;
+                NameLabel.TranslateTo(0, 110, 250, Easing.Linear);
+            }
 
             await Body.TranslateTo(0, 200, 250, Easing.Linear);
 
             if (Device.RuntimePlatform == Device.iOS)
                 Body.HeightRequest = App.ScreenHeight - (200 + (App.ScreenHeight * 0.08));
         }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         private void MoveUp()
         {
@@ -510,6 +531,9 @@ namespace Registro.Pages
             DoubleUp.TranslateTo(0, 0, 250, Easing.Linear);
             TitleLabel.ScaleTo(1, 250, Easing.Linear);
             DoubleUp.IsVisible = false;
+
+            NameLabel.TranslateTo(0, 25, 250, Easing.Linear);
+            NameLabel.IsVisible = false;
         }
 
         #endregion

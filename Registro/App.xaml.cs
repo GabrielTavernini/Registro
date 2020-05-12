@@ -36,6 +36,7 @@ namespace Registro
         //public static DateTime periodChange { get; set; } = new DateTime();
         //public static Boolean customPeriodChange { get; set; } = false;
         public static Boolean isDebugMode = false;
+        public static Boolean multipleUsers = false;
 
         private static List<Grade> grades = new List<Grade>();
         private static Dictionary<String, Subject> subjects = new Dictionary<string, Subject>();
@@ -104,9 +105,18 @@ namespace Registro
                 string password = Application.Current.Properties["password"] as string;
 
                 User user = new User(username, password, school);
+                if (Application.Current.Properties.ContainsKey("name") && Application.Current.Properties.ContainsKey("surname")) {
+                    user.name = Application.Current.Properties["name"] as string;
+                    user.surname = Application.Current.Properties["surname"] as string;
+                }
+
+                if (Application.Current.Properties.ContainsKey("userbackups")) {
+                    String str = Application.Current.Properties["userbackups"] as String;
+                    multipleUsers = JsonConvert.DeserializeObject<Dictionary<String, UserBackUp>>(str).Count > 1;
+                }
 
 
-                if(username != null && password != null && school.loginUrl != null)
+                if (username != null && password != null && school.loginUrl != null)
                 {
                     JsonRequest.user = user;
                     navigationPage = new NavigationPage(new HomePage());
@@ -217,7 +227,6 @@ namespace Registro
             Application.Current.Properties["lateentries"] = JsonConvert.SerializeObject(lateEntries, Formatting.Indented, jsonSettings);
             Application.Current.Properties["earlyexits"] = JsonConvert.SerializeObject(earlyExits, Formatting.Indented, jsonSettings);
             Application.Current.Properties["settings"] = JsonConvert.SerializeObject(settings, Formatting.Indented, jsonSettings);
-
         }
     }
 }
