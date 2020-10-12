@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Registro.App" 
     xmlns:local="clr-namespace:Registro"
-    xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro" 
+    xmlns:controls="clr-namespace:Registro.Controls;assembly=Registro"
     xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
     <Application.Resources>
             <ResourceDictionary>

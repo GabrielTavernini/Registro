@@ -7,7 +7,7 @@
              xmlns:this="clr-namespace:Registro.Pages"
              x:Class="Registro.Pages.HomePage">
     
-    <Grid RowSpacing="0">
+    <Grid RowSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -40,7 +40,6 @@
                 </ListView>
             </StackLayout>
         </controls:LayoutTouchListner>
-        <controls:AdControlView x:Name="AdView" BackgroundColor="Transparent" Grid.Row="1"></controls:AdControlView>
     </Grid>
     
 </ContentPage>

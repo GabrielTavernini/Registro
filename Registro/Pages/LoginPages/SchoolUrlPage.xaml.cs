@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Registro.Classes.HttpRequests;
 using Registro.Controls;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static Registro.Controls.AndroidThemes;
 using static Registro.Controls.Mails;
@@ -95,7 +96,7 @@ namespace Registro.Pages
                                  "Ok", "Istruzioni");
 
                     if (wiki)
-                        Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki/Accesso-tramite-link"));
+                        Launcher.OpenAsync(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki/Accesso-tramite-link"));
 
                     return;
                 }
@@ -113,8 +114,6 @@ namespace Registro.Pages
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            Initialize();
 
             await Task.Delay(App.DelaySpeed);
             await label1.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);

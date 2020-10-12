@@ -67,8 +67,6 @@ namespace Registro.Pages
         {
             base.OnAppearing();
 
-            Initialize();
-
             await Task.Delay(App.DelaySpeed);
             await label1.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);
             await PickerStack.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);

@@ -26,7 +26,7 @@ namespace Registro
 
 
         public static string firstPage = "";
-        public static Boolean AdsAvailable = false;
+        public static Boolean AdsAvailable = true;
         public static uint AnimationSpeed = 75;
         public static int DelaySpeed = 150;
         public static DateTime lastRefresh = new DateTime(0);
@@ -164,7 +164,12 @@ namespace Registro
 
         public void DeserializeObjects()
         {
-            if(Application.Current.Properties.ContainsKey("settings"))
+            if(Application.Current.Properties.ContainsKey("noAds"))
+            {
+                AdsAvailable = !(Application.Current.Properties["noAds"] as string).Equals("true");
+            }
+
+            if (Application.Current.Properties.ContainsKey("settings"))
             {
                 String str = Application.Current.Properties["settings"] as String;
                 settings = JsonConvert.DeserializeObject<Settings>(str);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MarcTron.Plugin.Controls;
 using Registro.Classes.HttpRequests;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
@@ -14,10 +15,27 @@ namespace Registro.Pages
 {
     public partial class NotesPage : ContentPage
     {
+        void CreateAd()
+        {
+            if (App.AdsAvailable)
+            {
+                MTAdView adView = new MTAdView();
+                adView.AdsId = "ca-app-pub-4070857653436842/8157920997";
+                adView.PersonalizedAds = true;
+                adView.BackgroundColor = Color.LightGray;
+                adView.HeightRequest = 50;
+                adView.AdsFailedToLoad += (s, e) => {
+                    adView.ScaleTo(0);
+                };
+                MainGrid.Children.Add(adView, 0, 1);
+            }
+        }
+
         public NotesPage()
         {
             GC.Collect();
             InitializeComponent();
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);
 
@@ -77,6 +95,7 @@ namespace Registro.Pages
         {
             GC.Collect();
             InitializeComponent();
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);
             if (period == 1)
@@ -136,19 +155,6 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setNotesTheme();  //Android Themes
 
             base.OnAppearing();
-
-
-            //Hide add if there is no internet
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
-            {
-                AdView.Scale = 0;
-                AdView.IsVisible = false;
-            }
-            else
-            {
-                AdView.Scale = 1;
-                AdView.IsVisible = true;
-            }
         }
 
         #region setup

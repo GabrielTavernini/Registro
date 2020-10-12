@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using MarcTron.Plugin.Controls;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
@@ -15,6 +16,22 @@ namespace Registro.Pages
 {
     public partial class HomePage : ContentPage
     {
+        void CreateAd()
+        {
+            if (App.AdsAvailable)
+            {
+                MTAdView adView = new MTAdView();
+                adView.AdsId = "ca-app-pub-4070857653436842/7938242493";
+                adView.PersonalizedAds = true;
+                adView.BackgroundColor = Color.LightGray;
+                adView.HeightRequest = 50;
+                adView.AdsFailedToLoad += (s, e) => {
+                    adView.ScaleTo(0);
+                };
+                MainGrid.Children.Add(adView, 0, 1);
+            }
+        }
+
         public HomePage()
         {
             initialize();
@@ -23,6 +40,7 @@ namespace Registro.Pages
         public void initialize()
         {
             InitializeComponent();
+            CreateAd();
 
             InfoList.ItemsSource = GetItems();
             InfoList.Footer = new StackLayout() { HeightRequest = 10 };
@@ -119,19 +137,6 @@ namespace Registro.Pages
                 }
             }
 
-
-            //Hide add if there is no internet
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
-            {
-                AdView.Scale = 0;
-                AdView.IsVisible = false;
-            }
-            else
-            {
-                AdView.Scale = 1;
-                AdView.IsVisible = true;
-            }
-
             //Share the app
             if (Application.Current.Properties.ContainsKey("startCounter"))
             {
@@ -143,7 +148,7 @@ namespace Registro.Pages
 
                     if (result)
                     {
-                        Device.OpenUri(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
+                        Launcher.OpenAsync(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
                     }
                 }
             } else
@@ -180,7 +185,7 @@ namespace Registro.Pages
             if (mo.title == "Assenze")
                 await Navigation.PushAsync(new AbsencesPage());
 
-            if (mo.title == "Impostazioni")
+            if (mo.title == "Opzioni")
                 await Navigation.PushAsync(new SettingsPage());
         }
 
@@ -306,7 +311,7 @@ namespace Registro.Pages
             list.Add(new MenuOption("Argomenti", ImageSource.FromFile("ArgomentiIcon.png"), Color.FromHex("#B2D235"), list.Count + 1));
             list.Add(new MenuOption("Note", ImageSource.FromFile("NoteIcon.png"), Color.FromHex("#F2AA52"), list.Count + 1));
             list.Add(new MenuOption("Assenze", ImageSource.FromFile("AssenzeIcon.png"), Color.FromHex("#E15B5C"), list.Count + 1));
-            list.Add(new MenuOption("Impostazioni", ImageSource.FromFile("PasswordIcon.png"), Color.FromHex("#E15BBB"), list.Count + 1));
+            list.Add(new MenuOption("Opzioni", ImageSource.FromFile("PasswordIcon.png"), Color.FromHex("#E15BBB"), list.Count + 1));
 
 
             return list;

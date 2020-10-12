@@ -27,9 +27,9 @@
         </StackLayout>
     
         <StackLayout x:Name="PickerStack" Spacing="10" Padding="24,0" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-            <Picker x:Name="SchoolPicker" HorizontalOptions="Center" HeightRequest="40" WidthRequest="250" Title="Seleziona scuola" TextColor="White"/> 
+            <Picker x:Name="SchoolPicker" HorizontalOptions="Center" HeightRequest="50" WidthRequest="250" Title="Seleziona scuola" TextColor="White"/> 
             <Label AutomationId="label1" Text="Oppure" FontSize="Medium" XAlign="Center"/>
-            <local:SportButton x:Name="btnUrlSchool" HeightRequest="40" AutomationId="urlButton" Text="Insersci Link"
+            <local:SportButton x:Name="btnUrlSchool" HeightRequest="40" AutomationId="urlButton" Text="Inserisci Link"
                 VerticalOptions="EndAndExpand" Style="{StaticResource optionButton}" Clicked="UrlButtonClicked" FontSize="16"/>
         </StackLayout>
     

@@ -9,6 +9,7 @@ using Plugin.InAppBilling.Abstractions;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using XFGloss;
 using static Registro.Controls.AndroidThemes;
@@ -430,12 +431,12 @@ namespace Registro.Pages
 
             Info.Tapped += (sender, e) =>
             {
-                Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+                Launcher.OpenAsync(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
             };
 
             Me.Tapped += (sender, e) =>
             {
-                Device.OpenUri(new Uri("http://gabrieltavernini.github.io/"));
+                Launcher.OpenAsync(new Uri("http://gabrieltavernini.github.io/"));
             };
         }
 

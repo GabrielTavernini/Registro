@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using MarcTron.Plugin.Controls;
 using Registro.Classes.JsonRequest;
 using Registro.Controls;
 using Registro.Models;
@@ -13,11 +14,27 @@ namespace Registro.Pages
 {
     public partial class MarksPage : ContentPage
     {
+        void CreateAd()
+        {
+            if (App.AdsAvailable)
+            {
+                MTAdView adView = new MTAdView();
+                adView.AdsId = "ca-app-pub-4070857653436842/8461173324";
+                adView.PersonalizedAds = true;
+                adView.BackgroundColor = Color.LightGray;
+                adView.HeightRequest = 50;
+                adView.AdsFailedToLoad += (s, e) => {
+                    adView.ScaleTo(0);
+                };
+                MainGrid.Children.Add(adView, 0, 1);
+            }
+        }
 
         public MarksPage()
         {
             GC.Collect();
             InitializeComponent();
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);       //Page saetup
 
@@ -76,6 +93,7 @@ namespace Registro.Pages
         {
             GC.Collect();
             InitializeComponent();
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);
 
@@ -135,19 +153,6 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setMarksTheme();  //Android Themes
 
             base.OnAppearing();
-
-
-            //Hide add if there is no internet
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
-            {
-                AdView.Scale = 0;
-                AdView.IsVisible = false;
-            }
-            else
-            {
-                AdView.Scale = 1;
-                AdView.IsVisible = true;
-            }
         }
 
         #region setup

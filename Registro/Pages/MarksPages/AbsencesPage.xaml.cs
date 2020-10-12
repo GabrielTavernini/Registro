@@ -11,16 +11,33 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using static Registro.Controls.AndroidClosing;
 using static Registro.Controls.AndroidThemes;
+using MarcTron.Plugin.Controls;
 
 namespace Registro.Pages
 {
     public partial class AbsencesPage : ContentPage
     {
+        void CreateAd()
+        {
+            if (App.AdsAvailable)
+            {
+                MTAdView adView = new MTAdView();
+                adView.AdsId = "ca-app-pub-4070857653436842/7886458251";
+                adView.PersonalizedAds = true;
+                adView.BackgroundColor = Color.LightGray;
+                adView.HeightRequest = 50;
+                adView.AdsFailedToLoad += (s, e) => {
+                    adView.ScaleTo(0);
+                };
+                MainGrid.Children.Add(adView, 0, 1);
+            }
+        }
+
         public AbsencesPage()
         {
             GC.Collect();
             InitializeComponent();
-
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);
 
@@ -80,6 +97,7 @@ namespace Registro.Pages
         {
             GC.Collect();
             InitializeComponent();
+            CreateAd();
 
             NavigationPage.SetHasNavigationBar(this, false);
             if (period == 1)
@@ -139,19 +157,6 @@ namespace Registro.Pages
                 DependencyService.Get<IThemes>().setAbsencesTheme();  //Android Themes
 
             base.OnAppearing();
-
-
-            //Hide add if there is no internet
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet || !App.AdsAvailable)
-            {
-                AdView.Scale = 0;
-                AdView.IsVisible = false;
-            }
-            else
-            {
-                AdView.Scale = 1;
-                AdView.IsVisible = true;
-            }
         }
 
 

@@ -34,13 +34,13 @@ namespace Registro.Pages
 
             var backTapGesture = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             backTapGesture.Tapped += (sender, args) => { Navigation.PopAsync(); };
-            Back.GestureRecognizers.Add(backTapGesture);
+            BackBtn.GestureRecognizers.Add(backTapGesture);
 
             label1.Scale = 0;
             label2.Scale = 0;
             buttonStack.Scale = 0;
             if (!newUser || Device.RuntimePlatform == Device.Android)
-                Back.Scale = 0;
+                BackBtn.Scale = 0;
         }
 
         async void AuthButtonClicked(object sender, EventArgs e)
@@ -54,20 +54,7 @@ namespace Registro.Pages
 
             if (App.Schools.Count < 1)
             {
-                /*if (!await SchoolRequests.extractAllSchoolsAsync())
-                {
-                    System.Diagnostics.Debug.WriteLine("Connection Error!");
-                    LoadingIndicator.IsVisible = false;
-                    LoadingIndicator.IsRunning = false;
-                    LodingLabel.IsVisible = false;
-
-                    btnAuthenticate.IsVisible = true;
-                    await btnAuthenticate.FadeTo(1, App.AnimationSpeed, Easing.SinIn);
-                    return;
-                }
-                System.Diagnostics.Debug.WriteLine(App.Schools.Count);*/
                 await SchoolsRequest.RequestSchools();
-
                 System.Diagnostics.Debug.WriteLine(App.Schools.Count);
             }
 
@@ -85,7 +72,6 @@ namespace Registro.Pages
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            Initialize();
 
             await Task.Delay(App.DelaySpeed);
             await label1.ScaleTo(1, App.AnimationSpeed, Easing.SinIn);
