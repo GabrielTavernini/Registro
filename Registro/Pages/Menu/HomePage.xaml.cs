@@ -148,7 +148,7 @@ namespace Registro.Pages
 
                     if (result)
                     {
-                        Launcher.OpenAsync(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
+                        Device.OpenUri(new Uri("https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.gabriel.Registro"));
                     }
                 }
             } else

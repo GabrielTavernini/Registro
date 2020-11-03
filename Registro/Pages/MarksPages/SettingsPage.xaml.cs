@@ -431,12 +431,12 @@ namespace Registro.Pages
 
             Info.Tapped += (sender, e) =>
             {
-                Launcher.OpenAsync(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
+                Device.OpenUri(new Uri("https://github.com/GabrielTavernini/XFRegistro/wiki"));
             };
 
             Me.Tapped += (sender, e) =>
             {
-                Launcher.OpenAsync(new Uri("http://gabrieltavernini.github.io/"));
+                Device.OpenUri(new Uri("http://gabrieltavernini.github.io/"));
             };
         }
 
